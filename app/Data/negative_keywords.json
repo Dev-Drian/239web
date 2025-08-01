@@ -1,0 +1,61 @@
+{
+    "competitors": {
+        "transportation_services": [
+            "uber", "lyft", "ubereats", "lyfts", "ubereat", "lyftes", "uberes", "lyftes",
+            "taxis", "taxi", "shuttle", "shuttles", "van", "vans", "shared", "lowcost",
+            "lowcosts", "alamo", "alamos", "hertz", "hertzs", "avis", "turo", "enterprise",
+            "easirent", "easirents", "turos", "exotic", "exotics", "sixt", "sixts", "qeeq",
+            "ace", "payless", "dollar", "thrifty", "fox", "blue", "hoppa", "goport",
+            "brightline", "trains", "train", "dial", "777", "groome", "groomes", "dot",
+            "skyhop", "cab", "cabs", "embassy", "alpha", "carey", "backstage", "blacklane",
+            "careys"
+        ],
+        "hotels": [
+            "loews", "holidayinn", "marriott", "hyatt", "ramada", "wyndham", "sheraton"
+        ],
+        "car_rental": [
+            "advantage", "advantages", "lynx", "golynx", "flyer", "helicopter", "blade",
+            "wallypark", "ace", "carwiz", "easy", "europcar", "cheap", "cheaper", "flexdrive",
+            "galaxy", "genie", "green", "happie", "greenmotion", "limofly", "meares", "mers",
+            "mex", "miles", "minnie", "monorail", "nucar", "oto", "priceless", "routes",
+            "shared", "sunrail", "tiffany", "towing", "tram", "usave", "avanti", "wheego",
+            "zezgo"
+        ],
+        "ride_sharing": [
+            "uber", "lyft", "zipcar", "enterprise", "national", "hertz", "avis", "budget",
+            "alamo", "turo", "sixt", "dollar", "getaround", "silvercar", "gocar", "greenmotion",
+            "ez", "relayrides", "maven", "flexcar", "car2go", "reachnow", "hyrecar", "avis",
+            "carshare", "rentawreck", "uhaul", "drivenow", "flightcar", "fair", "samsara",
+            "nextcar", "kayak", "carmel", "silverride", "carvi", "envoy", "bee", "supershuttle",
+            "via", "wingz", "blacklane", "addisonlee", "flywheel", "zum", "moovn", "goluxe",
+            "juno", "chariot", "lecab", "slide", "ztrip", "getme", "fasten", "ola", "taxi7",
+            "bolt", "blablacar", "scoop", "veyo", "drivr", "summon", "hopskipdrive", "4less",
+            "careem", "jayride", "rider", "cabify", "chuxing", "rappi", "beat", "lecab",
+            "mydriver", "shofer", "opoli", "shuddle", "tripda", "carpooling", "goopti", "orix",
+            "allcar", "economy", "apollo", "bandago", "zoomcar", "autoslash", "movéo",
+            "rentcarla", "silverfleet", "nabobil", "cityscoot", "commuter", "sixt"
+        ]
+    },
+    "negative_terms": {
+        "pricing": [
+            "cheap", "cheaper", "cheapest", "discount", "discounts", "budget", "free",
+            "lowcost", "lowcosts"
+        ],
+        "quality": [
+            "used", "old", "repair", "repairs"
+        ],
+        "employment": [
+            "career", "careers", "employer", "employment", "fulltimes", "fulltime",
+            "intern", "interns", "internship", "internships", "job", "jobs", "occupation",
+            "openings", "opening", "parttime", "postings", "recruiter", "recruiters",
+            "recruiting", "recruitment", "recruitor", "recruitors", "resume", "resumes",
+            "salary", "work"
+        ],
+        "public_transport": [
+            "amtrak", "greyhound", "express", "777", "airporter", "precision", "easiest",
+            "a1a", "lanier", "cortrans", "daves", "5guys", "giddyup", "ztrip", "groundlink",
+            "humana", "medicare", "angel", "angels", "gowake", "ambulance", "ambulancia",
+            "navettes", "navette", "carriage", "gardella"
+        ]
+    }
+} 
