@@ -51,23 +51,19 @@ class GoogleAdsCampaignController extends Controller
             return view('clients.client_404');
         }
 
-        $customer_ids[] = [
-            'customer_id' => '1234567890',
-            'refresh_token' => '1234567890',
-            'is_mcc' => false
-        ];
+        $customer_ids = $client->googleAdsAccounts;
 
-        // if ($customer_ids->isEmpty()) {
-        //     return redirect()->route('campaigns.login', ['id' => $id])
-        //         ->with('error', 'You don\'t have any associated Google Ads accounts. Please connect one first.');
-        // }
+        if ($customer_ids->isEmpty()) {
+            return redirect()->route('campaigns.login', ['id' => $id])
+                ->with('error', 'You don\'t have any associated Google Ads accounts. Please connect one first.');
+        }
 
-        // if (!$client) {
-        //     return response()->json([
-        //         'success' => false,
-        //         'error' => 'Client not found'
-        //     ], 404);
-        // }
+        if (!$client) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Client not found'
+            ], 404);
+        }
 
         $templates = [
             'Corporate Limo / Black Car',
