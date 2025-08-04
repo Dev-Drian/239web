@@ -6,7 +6,7 @@
     toggleMobile() { this.mobileOpen = !this.mobileOpen },
     todoDropdown: {{ in_array(request()->route()->getName(), ['board.index', 'board.all']) ? 'true' : 'false' }},
     generateDropdown: {{ in_array(request()->route()->getName(), ['imagesUser.index', 'generate.index']) ? 'true' : 'false' }}
-}" class="relative">
+}" class="relative h-screen flex">
     <!-- Mobile Menu Trigger - Más compacto -->
     <div class="fixed top-4 left-4 z-50 md:hidden">
         <button @click="toggleMobile"

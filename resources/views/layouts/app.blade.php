@@ -116,44 +116,33 @@
 
 <body class="font-sans antialiased main-bg min-h-screen text-slate-100">
 
-
     <x-banner />
     
-    <div class="min-h-screen flex flex-col">
+    <div class="min-h-screen flex">
         @livewire('navigation-menu')
         
         <meta name="csrf-token" content="{{ csrf_token() }}">
         
-        <!-- Clean Page Heading -->
-        @if (isset($header))
-            <header class="glass-dark shadow-lg border-b border-white/10">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <div class="flex items-center space-x-4">
-                        <!-- Simple 239 Web Logo -->
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-md">
-                                <span class="text-white font-bold text-sm">239</span>
+        <!-- Main content area -->
+        <div class="flex-1 flex flex-col ml-0 md:ml-64">
+            <!-- Header adaptado al sidebar -->
+            @if (isset($header))
+                <header class="glass-dark shadow-lg border-b border-white/10 sticky top-0 z-40">
+                    <div class="py-6 px-4 sm:px-6 lg:px-8">
+                        <div class="flex items-center space-x-4">
+                            <!-- Header content -->
+                            <div class="flex-1 text-white">
+                                {{ $header }}
                             </div>
-                            <div class="hidden sm:block">
-                                <h1 class="text-xl font-semibold text-white">
-                                    239 <span class="text-blue-400">WEB</span>
-                                </h1>
-                            </div>
-                        </div>
-                        
-                        <!-- Header content -->
-                        <div class="flex-1 text-white">
-                            {{ $header }}
                         </div>
                     </div>
-                </div>
-            </header>
-        @endif
-        
-        <!-- Clean Page Content -->
-        <main class="flex-1">
-            {{ $slot }}
-        </main>
+                </header>
+            @endif
+            
+            <!-- Clean Page Content -->
+            <main class="flex-1 p-6">
+                {{ $slot }}
+            </main>
         
         <!-- Simple Footer -->
         <footer class="glass-dark border-t border-white/10 mt-auto">
