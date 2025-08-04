@@ -1,18 +1,18 @@
 <div class="hidden tab-content" id="citation-tab">
     <div class="max-w-6xl mx-auto p-6">
-        <div class="bg-white rounded-lg border shadow-sm">
+        <div class="glass-dark rounded-lg border border-white/15 shadow-sm">
             <!-- Header -->
-            <div class="p-6 border-b bg-gradient-to-r from-amber-50 to-orange-50">
+            <div class="p-6 border-b border-white/15 bg-gradient-to-r from-amber-500/10 to-orange-500/10">
                 <div class="flex items-center gap-3">
-                    <div class="p-2 bg-amber-100 rounded-lg">
-                        <svg class="h-6 w-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="p-2 bg-amber-500/20 rounded-lg">
+                        <svg class="h-6 w-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-xl font-bold text-gray-900">Citation Information</h3>
-                        <p class="text-sm text-gray-600 mt-1">Business directory and local citation details</p>
+                        <h3 class="text-xl font-bold text-white">Citation Information</h3>
+                        <p class="text-sm text-slate-300 mt-1">Business directory and local citation details</p>
                     </div>
                 </div>
             </div>
@@ -22,8 +22,8 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     
                     <!-- Business Owner Section -->
-                    <div class="bg-blue-50 rounded-lg p-5 border border-blue-200">
-                        <h4 class="flex items-center gap-2 text-lg font-semibold text-blue-800 mb-4">
+                    <div class="glass rounded-lg p-5 border border-white/20">
+                        <h4 class="flex items-center gap-2 text-lg font-semibold text-indigo-300 mb-4">
                             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                             </svg>
@@ -31,20 +31,20 @@
                         </h4>
                         <div class="space-y-4">
                             <div>
-                                <label for="owner_name" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <label for="owner_name" class="block text-sm font-semibold text-slate-300 mb-2">
                                     Owner Full Name
                                 </label>
                                 <input type="text" id="owner_name" name="citation[owner_name]" 
                                     value="{{ $client->clientExtra->owner_name ?? '' }}"
                                     placeholder="Enter business owner's full name"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200">
+                                    class="w-full px-4 py-3 glass border border-white/20 rounded-lg bg-transparent text-white placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all duration-200">
                             </div>
                         </div>
                     </div>
 
                     <!-- Location Details Section -->
-                    <div class="bg-green-50 rounded-lg p-5 border border-green-200">
-                        <h4 class="flex items-center gap-2 text-lg font-semibold text-green-800 mb-4">
+                    <div class="glass rounded-lg p-5 border border-white/20">
+                        <h4 class="flex items-center gap-2 text-lg font-semibold text-green-300 mb-4">
                             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -53,51 +53,51 @@
                         </h4>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label for="address_line2" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <label for="address_line2" class="block text-sm font-semibold text-slate-300 mb-2">
                                     Address Line 2
                                 </label>
                                 <input type="text" id="address_line2" name="citation[address_line2]"
                                     value="{{ $client->clientExtra->address_line2 ?? '' }}"
                                     placeholder="Suite, Unit, Building, etc."
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all duration-200">
+                                    class="w-full px-4 py-3 glass border border-white/20 rounded-lg bg-transparent text-white placeholder-slate-400 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-200">
                             </div>
                             <div>
-                                <label for="state" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <label for="state" class="block text-sm font-semibold text-slate-300 mb-2">
                                     State/Province
                                 </label>
                                 <input type="text" id="state" name="citation[state]" 
                                     value="{{ $client->clientExtra->state ?? '' }}"
                                     placeholder="Enter state or province"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all duration-200">
+                                    class="w-full px-4 py-3 glass border border-white/20 rounded-lg bg-transparent text-white placeholder-slate-400 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-200">
                             </div>
                             <div class="sm:col-span-2">
-                                <label for="zip_code" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <label for="zip_code" class="block text-sm font-semibold text-slate-300 mb-2">
                                     ZIP/Postal Code
                                 </label>
                                 <input type="text" id="zip_code" name="citation[zip]" 
                                     value="{{ $client->clientExtra->zip ?? '' }}"
                                     placeholder="Enter ZIP or postal code"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all duration-200">
+                                    class="w-full px-4 py-3 glass border border-white/20 rounded-lg bg-transparent text-white placeholder-slate-400 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-200">
                             </div>
                         </div>
                     </div>
 
                     <!-- Contact Information Section -->
-                    <div class="bg-purple-50 rounded-lg p-5 border border-purple-200">
-                        <h4 class="flex items-center gap-2 text-lg font-semibold text-purple-800 mb-4">
+                    <div class="glass rounded-lg p-5 border border-white/20">
+                        <h4 class="flex items-center gap-2 text-lg font-semibold text-purple-300 mb-4">
                             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                             </svg>
                             Contact Information
                         </h4>
                         <div>
-                            <label for="business_fax" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <label for="business_fax" class="block text-sm font-semibold text-slate-300 mb-2">
                                 Business Fax Number
                             </label>
                             <input type="text" id="business_fax" name="citation[business_fax]"
                                 value="{{ $client->clientExtra->business_fax ?? '' }}"
                                 placeholder="Enter fax number (optional)"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-200">
+                                class="w-full px-4 py-3 glass border border-white/20 rounded-lg bg-transparent text-white placeholder-slate-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200">
                         </div>
                     </div>
 

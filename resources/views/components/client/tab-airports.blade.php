@@ -1,11 +1,25 @@
-<div class="hidden tab-content" id="airports-tab">
-    <div class="mb-8 bg-white shadow-lg rounded-lg p-6">
-        
+<div id="airports-tab" class="tab-content hidden">
+    <div class="p-6 space-y-6">
+        <!-- Airports Header -->
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-3 h-8 bg-gradient-to-b from-indigo-500 to-purple-500 rounded-full"></div>
+                <h3 class="text-2xl font-bold text-white">Airport Information</h3>
+            </div>
+            <button type="button" id="add-airport"
+                class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl hover:from-indigo-600 hover:to-purple-600 transition-all duration-300 text-sm font-medium shadow-lg">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+                Add Airport
+            </button>
+        </div>
+
         <!-- Manual Airport Entry Form -->
-        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6">
+        <div class="glass-dark p-4 rounded-xl border border-white/15 mb-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label for="iata-code" class="block text-sm font-medium text-gray-700 mb-2">
+                    <label for="iata-code" class="block text-sm font-medium text-slate-300 mb-2">
                         IATA Code
                     </label>
                     <input 
@@ -13,7 +27,7 @@
                         id="iata-code" 
                         placeholder="3-Letter IATA Code" 
                         maxlength="3"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all uppercase"
+                        class="w-full px-3 py-2 glass border border-white/20 rounded-lg bg-transparent text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all uppercase"
                     >
                 </div>
                 
@@ -21,14 +35,14 @@
                     <button 
                         type="button"
                         id="add-airport-btn"
-                        class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center space-x-2"
+                        class="w-full px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-lg hover:from-indigo-600 hover:to-purple-600 transition-all flex items-center justify-center space-x-2"
                     >
                         <i class="fas fa-plus-circle"></i>
                         <span>Add Airport</span>
                     </button>
                 </div>
             </div>
-            <p id="validation-message" class="text-red-500 text-sm mt-2 hidden"></p>
+            <p id="validation-message" class="text-red-400 text-sm mt-2 hidden"></p>
         </div>
     
         <!-- Lista de aeropuertos -->
@@ -38,17 +52,17 @@
             @endphp
         
             @foreach($selectedAirports as $iata_code)
-                <label class="airport-label flex items-center p-4 border border-gray-200 rounded-lg 
-                             hover:bg-blue-50 hover:border-blue-300 transition-all cursor-pointer group">
+                <label class="airport-label flex items-center p-4 glass border border-white/20 rounded-xl 
+                             hover:bg-white/5 hover:border-indigo-500/50 transition-all cursor-pointer group">
                     <input type="checkbox" name="airports[]" value="{{ $iata_code }}"
-                        class="airport-checkbox w-5 h-5 text-blue-600 rounded focus:ring-blue-500 mr-3"
+                        class="airport-checkbox w-5 h-5 text-indigo-500 rounded focus:ring-indigo-500 mr-3"
                         checked>
                     <div class="flex flex-col flex-grow">
-                        <span class="text-gray-800 font-medium group-hover:text-blue-700">
+                        <span class="text-white font-medium group-hover:text-indigo-300">
                             {{ $iata_code }}
                         </span>
                     </div>
-                    <span class="ml-auto text-xl text-blue-600">
+                    <span class="ml-auto text-xl text-indigo-400">
                         <i class="fas fa-plane-departure"></i>
                     </span>
                 </label>
@@ -58,7 +72,7 @@
         <!-- Campo oculto para enviar todos los aeropuertos seleccionados -->
         <input type="hidden" name="selected_airports" id="selected-airports">
         
-        <p id="no-airports-message" class="text-gray-500 text-sm mt-4 text-center hidden">No airports available.</p>
+        <p id="no-airports-message" class="text-slate-400 text-sm mt-4 text-center hidden">No airports available.</p>
     </div>
 
     <script>
@@ -103,15 +117,15 @@
 
             // Crear nuevo elemento
             const newAirportLabel = document.createElement('label');
-            newAirportLabel.className = 'airport-label flex items-center p-4 border border-gray-200 rounded-lg hover:bg-blue-50 hover:border-blue-300 transition-all cursor-pointer group';
+            newAirportLabel.className = 'airport-label flex items-center p-4 glass border border-white/20 rounded-xl hover:bg-white/5 hover:border-indigo-500/50 transition-all cursor-pointer group';
             
             newAirportLabel.innerHTML = `
                 <input type="checkbox" name="airports[]" value="${iataCode}"
-                    class="airport-checkbox w-5 h-5 text-blue-600 rounded focus:ring-blue-500 mr-3" checked>
+                    class="airport-checkbox w-5 h-5 text-indigo-500 rounded focus:ring-indigo-500 mr-3" checked>
                 <div class="flex flex-col flex-grow">
-                    <span class="text-gray-800 font-medium group-hover:text-blue-700">${iataCode}</span>
+                    <span class="text-white font-medium group-hover:text-indigo-300">${iataCode}</span>
                 </div>
-                <span class="ml-auto text-xl text-blue-600">
+                <span class="ml-auto text-xl text-indigo-400">
                     <i class="fas fa-plane-departure"></i>
                 </span>
             `;

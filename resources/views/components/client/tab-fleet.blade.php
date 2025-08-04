@@ -1,19 +1,19 @@
-<div class="fleet-container max-w-6xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden tab-content hidden"
+<div class="fleet-container max-w-6xl mx-auto glass-dark rounded-xl shadow-lg overflow-hidden tab-content hidden"
     id="fleet-tab">
     <!-- Header -->
-    <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4 flex flex-col">
+    <div class="bg-gradient-to-r from-indigo-500 to-purple-500 px-6 py-4 flex flex-col">
         <h2 class="text-2xl font-bold text-white flex items-center">
             <i class="fas fa-car mr-3"></i> Fleet Management
         </h2>
-        <p class="text-blue-100 mt-1">Manage your fleet vehicles and add new ones</p>
+        <p class="text-indigo-100 mt-1">Manage your fleet vehicles and add new ones</p>
     </div>
 
     <!-- Content -->
     <div class="p-6">
         <!-- Selected Vehicles Section -->
         <div id="selected-vehicles-container" class="mb-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
-                <i class="fas fa-check-circle mr-2 text-green-600"></i>Selected Vehicles
+            <h3 class="text-lg font-semibold text-white mb-3 flex items-center">
+                <i class="fas fa-check-circle mr-2 text-green-400"></i>Selected Vehicles
             </h3>
             <div id="selected-vehicles-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 <!-- Selected vehicles will appear here -->
@@ -22,9 +22,9 @@
         <input type="hidden" name="cars" id="cars-data" value="{{ is_string($client->cars) ? $client->cars : json_encode($client->cars) }}">
     
         <!-- Vehicle Selection Section -->
-        <div class="mb-6 border-t pt-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                <i class="fas fa-list mr-2 text-blue-600"></i>Select Your Fleet Vehicles
+        <div class="mb-6 border-t border-white/15 pt-6">
+            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                <i class="fas fa-list mr-2 text-indigo-400"></i>Select Your Fleet Vehicles
             </h3>
 
             <!-- Vehicle Selection Grid -->
@@ -34,35 +34,35 @@
         </div>
 
         <!-- Custom Vehicle Section -->
-        <div class="mb-6 border-t pt-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
-                <i class="fas fa-plus-circle mr-2 text-green-600"></i>Add Custom Vehicle
+        <div class="mb-6 border-t border-white/15 pt-6">
+            <h3 class="text-lg font-semibold text-white mb-3 flex items-center">
+                <i class="fas fa-plus-circle mr-2 text-green-400"></i>Add Custom Vehicle
             </h3>
-            <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+            <div class="glass rounded-lg p-4 border border-white/20">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                     <div>
-                        <label class="block text-sm font-medium text-gray-600 mb-1">Brand</label>
+                        <label class="block text-sm font-medium text-slate-300 mb-1">Brand</label>
                         <input type="text" id="custom-brand"
-                            class="w-full p-2 border rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                            class="w-full p-2 glass border border-white/20 rounded text-sm bg-transparent text-white placeholder-slate-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                             placeholder="Enter brand">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-600 mb-1">Model</label>
+                        <label class="block text-sm font-medium text-slate-300 mb-1">Model</label>
                         <input type="text" id="custom-model"
-                            class="w-full p-2 border rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                            class="w-full p-2 glass border border-white/20 rounded text-sm bg-transparent text-white placeholder-slate-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                             placeholder="Enter model">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-600 mb-1">Year</label>
+                        <label class="block text-sm font-medium text-slate-300 mb-1">Year</label>
                         <select id="custom-year"
-                            class="w-full p-2 border rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                            class="w-full p-2 glass border border-white/20 rounded text-sm bg-transparent text-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
                             <option value="">Select Year</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-600 mb-1">Color</label>
+                        <label class="block text-sm font-medium text-slate-300 mb-1">Color</label>
                         <select id="custom-color"
-                            class="w-full p-2 border rounded text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                            class="w-full p-2 glass border border-white/20 rounded text-sm bg-transparent text-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
                             <option value="">Select Color</option>
                             <option value="black">Black</option>
                             <option value="white">White</option>
@@ -74,11 +74,11 @@
                         </select>
                     </div>
                     <div class="col-span-2 md:col-span-4 hidden" id="custom-color-other-container">
-                        <input type="text" id="custom-color-other" class="w-full p-2 border rounded text-sm" placeholder="Specify color">
+                        <input type="text" id="custom-color-other" class="w-full p-2 glass border border-white/20 rounded text-sm bg-transparent text-white placeholder-slate-400" placeholder="Specify color">
                     </div>
                 </div>
                 <button id="add-custom-vehicle-btn" type="button"
-                    class="mt-3 bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition text-sm font-medium">
+                    class="mt-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white py-2 px-4 rounded hover:from-green-600 hover:to-emerald-600 transition text-sm font-medium">
                     Add Custom Vehicle
                 </button>
             </div>
@@ -87,7 +87,7 @@
         <!-- Save Button -->
         <div class="flex justify-end mt-6">
             <button id="save-fleet-btn" type="button"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition duration-200 shadow-md flex items-center">
+                class="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white px-6 py-3 rounded-lg font-medium transition duration-200 shadow-md flex items-center">
                 <i class="fas fa-save mr-2"></i> Save Fleet
             </button>
         </div>
@@ -183,26 +183,26 @@
                 
                 Object.entries(fleetData).forEach(([brand, models]) => {
                     const brandSection = document.createElement('div');
-                    brandSection.className = 'bg-white border border-gray-200 rounded-lg p-4 shadow-sm mb-4';
+                    brandSection.className = 'glass-dark border border-white/15 rounded-lg p-4 shadow-sm mb-4';
                     
                     brandSection.innerHTML = `
-                        <h4 class="font-semibold text-lg text-gray-800 mb-3 flex items-center">
-                            <i class="fas fa-car mr-2 text-blue-600"></i>${brand}
+                        <h4 class="font-semibold text-lg text-white mb-3 flex items-center">
+                            <i class="fas fa-car mr-2 text-indigo-400"></i>${brand}
                         </h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                             ${models.map(model => `
-                                <div class="vehicle-option border border-gray-200 rounded-lg p-3 transition-all duration-300"
+                                <div class="vehicle-option glass border border-white/20 rounded-lg p-3 transition-all duration-300"
                                      data-brand="${brand}" data-model="${model}">
                                     <div class="flex items-center justify-between mb-2">
-                                        <span class="text-sm font-medium text-gray-700">${model}</span>
+                                        <span class="text-sm font-medium text-white">${model}</span>
                                         <input type="checkbox" class="vehicle-checkbox ml-2" 
                                                data-brand="${brand}" data-model="${model}">
                                     </div>
                                     <div class="vehicle-details hidden opacity-0 transform translate-y-2 transition-all duration-300 ease-out">
                                         <div class="grid grid-cols-2 gap-2">
                                             <div>
-                                                <label class="block text-xs font-medium text-gray-600 mb-1">Year</label>
-                                                <select class="vehicle-year w-full p-1 border rounded text-xs focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                                <label class="block text-xs font-medium text-slate-300 mb-1">Year</label>
+                                                <select class="vehicle-year w-full p-1 glass border border-white/20 rounded text-xs bg-transparent text-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                                                         data-brand="${brand}" data-model="${model}">
                                                     ${Array.from({length: 16}, (_, i) => currentYear - i).map(year => 
                                                         `<option value="${year}" ${year === currentYear ? 'selected' : ''}>${year}</option>`
@@ -210,8 +210,8 @@
                                                 </select>
                                             </div>
                                             <div>
-                                                <label class="block text-xs font-medium text-gray-600 mb-1">Color</label>
-                                                <select class="vehicle-color w-full p-1 border rounded text-xs focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                                <label class="block text-xs font-medium text-slate-300 mb-1">Color</label>
+                                                <select class="vehicle-color w-full p-1 glass border border-white/20 rounded text-xs bg-transparent text-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                                                         data-brand="${brand}" data-model="${model}">
                                                     <option value="black" selected>Black</option>
                                                     <option value="white">White</option>
@@ -224,7 +224,7 @@
                                             </div>
                                         </div>
                                         <div class="vehicle-color-other hidden mt-2">
-                                            <input type="text" class="vehicle-color-other-input w-full p-1 border rounded text-xs focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                            <input type="text" class="vehicle-color-other-input w-full p-1 glass border border-white/20 rounded text-xs bg-transparent text-white placeholder-slate-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                                                    placeholder="Specify color" data-brand="${brand}" data-model="${model}">
                                         </div>
                                     </div>
@@ -243,7 +243,7 @@
                     
                     checkbox.addEventListener('change', function() {
                         if (this.checked) {
-                            option.classList.add('border-blue-500', 'bg-blue-50');
+                            option.classList.add('border-indigo-500', 'bg-indigo-500/10');
                             details.classList.remove('hidden');
                             // Trigger animation after a small delay
                             setTimeout(() => {
@@ -252,7 +252,7 @@
                             addVehicleFromSelectors(this.dataset.brand, this.dataset.model);
                         } else {
                             // Remove all selection styles completely
-                            option.classList.remove('border-blue-500', 'bg-blue-50');
+                            option.classList.remove('border-indigo-500', 'bg-indigo-500/10');
                             option.style.borderColor = '';
                             option.style.backgroundColor = '';
                             option.style.removeProperty('border-color');
@@ -371,31 +371,31 @@
 
                 if (selectedVehicles.length === 0) {
                     selectedVehiclesList.innerHTML =
-                        '<p class="col-span-3 text-gray-500 italic text-sm">No vehicles selected yet</p>';
+                        '<p class="col-span-3 text-slate-400 italic text-sm">No vehicles selected yet</p>';
                     return;
                 }
 
                 selectedVehicles.forEach((vehicle, index) => {
                     const vehicleElement = document.createElement('div');
                     vehicleElement.className =
-                        'bg-gray-50 border border-gray-200 rounded-lg p-3 flex justify-between items-center shadow-sm';
+                        'glass border border-white/20 rounded-lg p-3 flex justify-between items-center shadow-sm';
 
                     const colorDisplay = vehicle.color ? vehicle.color : 'Not specified';
                     const yearDisplay = vehicle.year ? vehicle.year : 'Not specified';
 
                     vehicleElement.innerHTML = `
                     <div class="flex-1">
-                        <div class="font-medium">${vehicle.brand} ${vehicle.model}</div>
-                        <div class="text-xs text-gray-600 mt-1">
+                        <div class="font-medium text-white">${vehicle.brand} ${vehicle.model}</div>
+                        <div class="text-xs text-slate-300 mt-1">
                             <span class="inline-block mr-2">
-                                <i class="fas fa-calendar-alt text-gray-400 mr-1"></i>${yearDisplay}
+                                <i class="fas fa-calendar-alt text-slate-400 mr-1"></i>${yearDisplay}
                             </span>
                             <span class="inline-block">
-                                <i class="fas fa-palette text-gray-400 mr-1"></i>${colorDisplay}
+                                <i class="fas fa-palette text-slate-400 mr-1"></i>${colorDisplay}
                             </span>
                         </div>
                     </div>
-                    <button class="remove-vehicle-btn text-red-500 hover:text-red-700 p-1" data-index="${index}">
+                    <button class="remove-vehicle-btn text-red-400 hover:text-red-300 p-1 transition-colors duration-200" data-index="${index}">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 `;
@@ -415,7 +415,7 @@
                             const vehicleOption = checkbox.closest('.vehicle-option');
                             
                             // Remove all selection styles completely
-                            vehicleOption.classList.remove('border-blue-500', 'bg-blue-50');
+                            vehicleOption.classList.remove('border-indigo-500', 'bg-indigo-500/10');
                             vehicleOption.style.borderColor = '';
                             vehicleOption.style.backgroundColor = '';
                             vehicleOption.style.removeProperty('border-color');
@@ -465,7 +465,7 @@
                         icon: 'error',
                         title: 'Missing Information',
                         text: 'Please enter both brand and model',
-                        confirmButtonColor: '#3b82f6'
+                        confirmButtonColor: '#6366f1'
                     });
                     return;
                 }
@@ -499,7 +499,7 @@
                         icon: 'info',
                         title: 'No Vehicles Selected',
                         text: 'No vehicle data to save',
-                        confirmButtonColor: '#3b82f6'
+                        confirmButtonColor: '#6366f1'
                     });
                     return;
                 }
@@ -521,14 +521,14 @@
                             icon: 'success',
                             title: 'Fleet Saved',
                             text: 'Vehicle information has been saved successfully',
-                            confirmButtonColor: '#3b82f6'
+                            confirmButtonColor: '#6366f1'
                         });
                     } else {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
                             text: data.message || 'There was an error saving the fleet data',
-                            confirmButtonColor: '#3b82f6'
+                            confirmButtonColor: '#6366f1'
                         });
                     }
                 })
@@ -538,7 +538,7 @@
                         icon: 'error',
                         title: 'Error',
                         text: 'There was an error saving the fleet data',
-                        confirmButtonColor: '#3b82f6'
+                        confirmButtonColor: '#6366f1'
                     });
                 });
             });
@@ -550,7 +550,7 @@
                     if (checkbox) {
                         checkbox.checked = true;
                         const vehicleOption = checkbox.closest('.vehicle-option');
-                        vehicleOption.classList.add('border-blue-500', 'bg-blue-50');
+                        vehicleOption.classList.add('border-indigo-500', 'bg-indigo-500/10');
                         
                         // Show the details
                         const details = vehicleOption.querySelector('.vehicle-details');
