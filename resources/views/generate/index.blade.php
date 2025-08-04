@@ -3,43 +3,43 @@
         @include('components.header', ['name' => 'Smart Assistant'])
     </x-slot>
 
-    <div class="py-12 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 min-h-screen">
+    <div class="min-h-screen main-bg py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white/80 backdrop-blur-sm overflow-hidden shadow-2xl sm:rounded-2xl border border-white/20 transition-all duration-500 hover:shadow-3xl">
-                <!-- Header mejorado -->
-                <div class="p-6 border-b bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white rounded-t-2xl relative overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 animate-pulse"></div>
+            <div class="glass-dark shadow-2xl rounded-2xl border border-white/15 backdrop-blur-xl overflow-hidden transition-all duration-500 hover:shadow-3xl">
+                <!-- Enhanced Header -->
+                <div class="p-6 border-b border-white/10 bg-gradient-to-r from-blue-600/20 via-indigo-600/20 to-purple-600/20 rounded-t-2xl relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-purple-400/10 animate-pulse"></div>
                     <div class="relative flex justify-between items-center">
                         <div class="flex items-center space-x-4">
                             <div class="relative">
-                                <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center animate-bounce">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                                <div class="w-12 h-12 rounded-2xl glass border border-white/20 flex items-center justify-center animate-bounce shadow-lg ring-2 ring-blue-500/30">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                                     </svg>
                                 </div>
                                 <div class="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full animate-ping"></div>
-                                <div class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full"></div>
+                                <div class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full ring-2 ring-green-500/30"></div>
                             </div>
                             <div>
-                                <h2 class="text-2xl font-bold tracking-tight">Smart Assistant</h2>
-                                <p class="text-blue-100 mt-1 font-light">Your virtual assistant with precise and personalized responses</p>
+                                <h2 class="text-2xl font-bold tracking-tight text-white">Smart Assistant</h2>
+                                <p class="text-slate-400 mt-1 font-light">Your virtual assistant with precise and personalized responses</p>
                             </div>
                         </div>
                         <div class="hidden md:block">
-                            <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-green-500/90 backdrop-blur-sm text-white shadow-lg">
-                                <span class="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
+                            <span class="inline-flex items-center px-4 py-2 rounded-2xl text-sm font-medium glass border border-green-500/30 text-green-300 shadow-lg backdrop-blur-xl">
+                                <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
                                 Online
                             </span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Selector de modelo mejorado -->
-                <div class="p-4 bg-gradient-to-r from-gray-50 to-blue-50/50 border-b border-gray-100">
+                <!-- Enhanced Model Selector -->
+                <div class="p-4 glass border-b border-white/10 backdrop-blur-xl">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-4">
-                            <label class="text-sm font-semibold text-gray-700 flex items-center">
-                                <svg class="w-4 h-4 mr-2 text-indigo-500" fill="currentColor" viewBox="0 0 20 20">
+                            <label class="text-sm font-semibold text-slate-300 flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                                 AI Model:
@@ -47,37 +47,39 @@
                             <div class="flex space-x-3">
                                 <label class="flex items-center cursor-pointer group">
                                     <input type="radio" name="ai_model" value="gpt" checked
-                                         class="w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 focus:ring-indigo-500 focus:ring-2 transition-all duration-200">
-                                    <span class="ml-2 text-sm text-gray-700 group-hover:text-indigo-600 transition-colors duration-200">GPT-4</span>
+                                         class="w-4 h-4 text-indigo-500 bg-transparent border-indigo-500/50 focus:ring-indigo-500/50 focus:ring-2 transition-all duration-200">
+                                    <span class="ml-2 text-sm text-slate-300 group-hover:text-indigo-400 transition-colors duration-200 font-medium">GPT-4</span>
                                 </label>
                                 <label class="flex items-center cursor-pointer group">
                                     <input type="radio" name="ai_model" value="perplexity"
-                                         class="w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 focus:ring-indigo-500 focus:ring-2 transition-all duration-200">
-                                    <span class="ml-2 text-sm text-gray-700 group-hover:text-indigo-600 transition-colors duration-200">Perplexity</span>
+                                         class="w-4 h-4 text-indigo-500 bg-transparent border-indigo-500/50 focus:ring-indigo-500/50 focus:ring-2 transition-all duration-200">
+                                    <span class="ml-2 text-sm text-slate-300 group-hover:text-indigo-400 transition-colors duration-200 font-medium">Perplexity</span>
                                 </label>
                             </div>
                         </div>
-                        <div class="text-xs text-gray-500 bg-white/60 px-3 py-1 rounded-full">
-                            <span id="message-count">0</span> messages
+                        <div class="glass px-3 py-1 rounded-xl border border-white/20 backdrop-blur-xl">
+                            <span class="text-xs text-slate-400">
+                                <span id="message-count" class="text-blue-400 font-semibold">0</span> messages
+                            </span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Chat messages con mejor diseño -->
-                <div id="chat-messages" class="h-[500px] overflow-y-auto p-6 space-y-6 bg-gradient-to-b from-white to-gray-50/30 custom-scrollbar">
+                <!-- Enhanced Chat Messages -->
+                <div id="chat-messages" class="h-[500px] overflow-y-auto p-6 space-y-6 glass backdrop-blur-xl custom-scrollbar">
                     <div class="flex justify-start mb-4 opacity-0 animate-fade-in-up" style="animation-delay: 0.2s">
                         <div class="flex items-start max-w-4xl">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white mr-3 flex-shrink-0 shadow-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white mr-3 flex-shrink-0 shadow-lg ring-2 ring-indigo-500/30">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
                             </div>
-                            <div class="px-5 py-4 rounded-2xl bg-white border border-gray-100 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-                                <p class="text-xs text-indigo-600 font-semibold mb-2 flex items-center">
+                            <div class="px-5 py-4 rounded-2xl glass border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-xl">
+                                <p class="text-xs text-indigo-400 font-semibold mb-2 flex items-center">
                                     <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
                                     Assistant
                                 </p>
-                                <div class="prose prose-sm max-w-none text-gray-700">
+                                <div class="prose prose-sm max-w-none text-slate-300">
                                     <p class="mb-0">Hello! I'm your virtual assistant. How can I help you today?</p>
                                 </div>
                             </div>
@@ -85,77 +87,77 @@
                     </div>
                 </div>
 
-                <!-- Input area mejorada -->
-                <div class="p-6 bg-gradient-to-r from-gray-50 to-blue-50/30 border-t border-gray-100 rounded-b-2xl">
+                <!-- Enhanced Input Area -->
+                <div class="p-6 glass border-t border-white/10 rounded-b-2xl backdrop-blur-xl">
                     <form id="chat-form" class="space-y-4">
                         @csrf
                         
-                        <!-- Área de archivos adjuntos mejorada -->
+                        <!-- Enhanced Attachments Area -->
                         <div id="attachments-area" class="hidden">
-                            <div class="bg-white/70 backdrop-blur-sm rounded-xl p-4 border border-gray-200 shadow-sm">
+                            <div class="glass rounded-2xl p-4 border border-white/20 shadow-lg backdrop-blur-xl">
                                 <div class="flex items-center justify-between mb-3">
-                                    <h4 class="text-sm font-semibold text-gray-700 flex items-center">
-                                        <svg class="w-4 h-4 mr-2 text-indigo-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <h4 class="text-sm font-semibold text-slate-300 flex items-center">
+                                        <svg class="w-4 h-4 mr-2 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                         </svg>
                                         Attached Files
                                     </h4>
-                                    <button type="button" onclick="clearAllFiles()" class="text-xs text-red-500 hover:text-red-700 transition-colors duration-200">
+                                    <button type="button" onclick="clearAllFiles()" class="text-xs text-red-400 hover:text-red-300 transition-colors duration-200 font-medium">
                                         Clear All
                                     </button>
                                 </div>
                                 <div class="flex flex-wrap gap-3" id="attachments-list">
-                                    <!-- Los archivos se mostrarán aquí -->
+                                    <!-- Files will be displayed here -->
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Input principal -->
+                        <!-- Enhanced Main Input -->
                         <div class="flex space-x-3">
                             <div class="flex-1 relative">
                                 <input type="text" id="message-input"
-                                    class="w-full p-4 pr-12 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300 shadow-sm hover:shadow-md bg-white/80 backdrop-blur-sm placeholder-gray-400"
+                                    class="w-full p-4 pr-12 glass border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all duration-300 shadow-lg hover:shadow-xl bg-transparent text-white placeholder-slate-400 backdrop-blur-xl"
                                     placeholder="Type your message here...">
                                 <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
-                                    <div id="char-counter" class="text-xs text-gray-400">0</div>
+                                    <div id="char-counter" class="text-xs text-slate-500">0</div>
                                 </div>
                             </div>
                             
-                            <!-- Botón para adjuntar archivos -->
+                            <!-- Enhanced Attach Button -->
                             <button type="button" id="attach-button"
-                                class="bg-gradient-to-r from-gray-500 to-gray-600 text-white px-4 py-4 rounded-xl hover:from-gray-600 hover:to-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 flex items-center group">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:scale-110 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                                class="glass border border-white/20 text-slate-300 px-4 py-4 rounded-2xl hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-500/50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center group backdrop-blur-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:scale-110 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
                                 </svg>
                             </button>
                             
-                            <!-- Botón de enviar -->
+                            <!-- Enhanced Send Button -->
                             <button type="submit" id="send-button"
-                                class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-4 rounded-xl hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 flex items-center group disabled:opacity-50 disabled:cursor-not-allowed">
-                                <span class="mr-2">Send</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-4 rounded-2xl hover:from-indigo-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center group disabled:opacity-50 disabled:cursor-not-allowed">
+                                <span class="mr-2 font-medium">Send</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                 </svg>
                             </button>
                         </div>
                         
-                        <!-- Input oculto para archivos -->
+                        <!-- Hidden File Input -->
                         <input type="file" id="file-input" multiple accept=".txt,.pdf,.doc,.docx,.jpg,.jpeg,.png,.gif,.mp3,.mp4,.zip" class="hidden">
                     </form>
                 </div>
             </div>
             
-            <!-- Footer informativo -->
+            <!-- Enhanced Footer -->
             <div class="mt-8 text-center">
-                <div class="inline-flex items-center space-x-4 bg-white/60 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg border border-white/20">
-                    <div class="flex items-center text-sm text-gray-600">
-                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <div class="inline-flex items-center space-x-4 glass rounded-2xl px-6 py-3 shadow-lg border border-white/20 backdrop-blur-xl">
+                    <div class="flex items-center text-sm text-slate-400">
+                        <svg class="w-4 h-4 mr-2 text-green-400" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
                         </svg>
                         Encrypted Data
                     </div>
-                    <div class="w-px h-4 bg-gray-300"></div>
-                    <a href="#" class="text-sm text-indigo-600 hover:text-indigo-800 transition-colors duration-200">Privacy Policy</a>
+                    <div class="w-px h-4 bg-white/20"></div>
+                    <a href="#" class="text-sm text-indigo-400 hover:text-indigo-300 transition-colors duration-200">Privacy Policy</a>
                 </div>
             </div>
         </div>
@@ -230,12 +232,13 @@
             animation: bounce-in 0.6s ease-out forwards;
         }
 
+        /* Custom Dark Scrollbar */
         .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
 
         .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f5f9;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
         }
 
@@ -254,7 +257,7 @@
 
         .file-preview:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
 
         .typing-dots {
@@ -285,6 +288,17 @@
                 opacity: 1;
             }
         }
+
+        /* Enhanced hover effects */
+        .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Drag and drop styles */
+        .drag-over {
+            background: rgba(99, 102, 241, 0.1) !important;
+            border: 2px dashed rgba(99, 102, 241, 0.5) !important;
+        }
     </style>
     @endpush
 
@@ -306,11 +320,18 @@
             let selectedFiles = [];
             let messageCounter = 1;
 
-            // Contador de caracteres
+            // Enhanced character counter
             messageInput.addEventListener('input', function() {
                 const length = this.value.length;
                 charCounter.textContent = length;
-                charCounter.className = length > 500 ? 'text-xs text-red-500' : 'text-xs text-gray-400';
+                charCounter.className = length > 500 ? 'text-xs text-red-400' : 'text-xs text-slate-500';
+                
+                // Add visual feedback for long messages
+                if (length > 500) {
+                    this.classList.add('border-red-500/50');
+                } else {
+                    this.classList.remove('border-red-500/50');
+                }
             });
 
             function getFileIcon(fileName) {
@@ -339,10 +360,10 @@
                 if (!message) return '';
                 
                 return message
-                    .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-900">$1</strong>')
-                    .replace(/\*(.*?)\*/g, '<em class="italic text-gray-700">$1</em>')
-                    .replace(/`(.*?)`/g, '<code class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded text-sm font-mono">$1</code>')
-                    .replace(/\[([^\]]+)\]$$([^)]+)$$/g, '<a href="$2" class="text-indigo-600 hover:text-indigo-800 underline transition-colors duration-200" target="_blank">$1</a>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-white">$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em class="italic text-slate-300">$1</em>')
+                    .replace(/`(.*?)`/g, '<code class="bg-indigo-500/20 text-indigo-300 px-2 py-1 rounded text-sm font-mono border border-indigo-500/30">$1</code>')
+                    .replace(/\[([^\]]+)\]$$([^)]+)$$/g, '<a href="$2" class="text-indigo-400 hover:text-indigo-300 underline transition-colors duration-200" target="_blank">$1</a>')
                     .replace(/\n/g, '<br>');
             }
 
@@ -356,7 +377,7 @@
                     messageDiv.className += ' animate-slide-in-right';
                     innerHtml = `
                         <div class="flex items-start max-w-4xl">
-                            <div class="px-5 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 order-2 ml-3">
+                            <div class="px-5 py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 order-2 ml-3 backdrop-blur-xl">
                                 <p class="text-xs text-indigo-200 font-semibold mb-2 flex items-center">
                                     <span class="w-2 h-2 bg-white rounded-full mr-2"></span>
                                     You
@@ -368,7 +389,7 @@
                                             <p class="text-xs text-indigo-200 mb-2 font-medium">📎 Attached files:</p>
                                             <div class="space-y-2">
                                                 ${attachments.map(file => `
-                                                    <div class="flex items-center bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2 text-sm">
+                                                    <div class="flex items-center glass rounded-lg px-3 py-2 text-sm border border-white/20">
                                                         <span class="mr-2">${getFileIcon(file.name)}</span>
                                                         <span class="flex-1 truncate">${file.name}</span>
                                                         <span class="text-xs text-indigo-200 ml-2">${formatFileSize(file.size)}</span>
@@ -379,9 +400,9 @@
                                     ` : ''}
                                 </div>
                             </div>
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center text-white order-1 flex-shrink-0 shadow-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-gray-500 to-gray-700 flex items-center justify-center text-white order-1 flex-shrink-0 shadow-lg ring-2 ring-gray-500/30">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                 </svg>
                             </div>
                         </div>
@@ -390,13 +411,13 @@
                     messageDiv.className += ' animate-bounce-in';
                     innerHtml = `
                         <div class="flex items-start max-w-4xl">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white mr-3 flex-shrink-0 shadow-lg animate-pulse">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white mr-3 flex-shrink-0 shadow-lg animate-pulse ring-2 ring-indigo-500/30">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
                             </div>
-                            <div class="px-5 py-4 rounded-2xl bg-white border border-gray-100 shadow-lg">
-                                <p class="text-xs text-indigo-600 font-semibold mb-2 flex items-center">
+                            <div class="px-5 py-4 rounded-2xl glass border border-white/20 shadow-lg backdrop-blur-xl">
+                                <p class="text-xs text-indigo-400 font-semibold mb-2 flex items-center">
                                     <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
                                     Assistant
                                 </p>
@@ -412,17 +433,17 @@
                     messageDiv.className += ' animate-slide-in-left';
                     innerHtml = `
                         <div class="flex items-start max-w-4xl">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white mr-3 flex-shrink-0 shadow-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white mr-3 flex-shrink-0 shadow-lg ring-2 ring-indigo-500/30">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
                             </div>
-                            <div class="px-5 py-4 rounded-2xl bg-white border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                                <p class="text-xs text-indigo-600 font-semibold mb-2 flex items-center">
+                            <div class="px-5 py-4 rounded-2xl glass border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-xl">
+                                <p class="text-xs text-indigo-400 font-semibold mb-2 flex items-center">
                                     <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
                                     Assistant
                                 </p>
-                                <div class="prose prose-sm max-w-none text-gray-700">
+                                <div class="prose prose-sm max-w-none text-slate-300">
                                     <div class="whitespace-pre-wrap">${formatMessage(message)}</div>
                                 </div>
                             </div>
@@ -438,7 +459,7 @@
                 
                 chatMessages.appendChild(messageDiv);
                 
-                // Animar la aparición
+                // Animate appearance
                 setTimeout(() => {
                     messageDiv.classList.remove('opacity-0');
                     messageDiv.classList.add('opacity-100');
@@ -452,13 +473,13 @@
                 if (selectedFiles.length > 0) {
                     attachmentsArea.classList.remove('hidden');
                     attachmentsList.innerHTML = selectedFiles.map((file, index) => `
-                        <div class="file-preview flex items-center bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 text-indigo-800 px-4 py-3 rounded-xl text-sm shadow-sm hover:shadow-md transition-all duration-300">
+                        <div class="file-preview flex items-center glass border border-indigo-500/30 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 text-indigo-300 px-4 py-3 rounded-2xl text-sm shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-xl">
                             <span class="text-lg mr-3">${getFileIcon(file.name)}</span>
                             <div class="flex-1 min-w-0">
-                                <p class="font-medium truncate">${file.name}</p>
-                                <p class="text-xs text-indigo-600">${formatFileSize(file.size)}</p>
+                                <p class="font-medium truncate text-white">${file.name}</p>
+                                <p class="text-xs text-indigo-400">${formatFileSize(file.size)}</p>
                             </div>
-                            <button type="button" onclick="removeFile(${index})" class="ml-3 text-indigo-500 hover:text-red-500 transition-colors duration-200 p-1 rounded-full hover:bg-red-50">
+                            <button type="button" onclick="removeFile(${index})" class="ml-3 text-indigo-400 hover:text-red-400 transition-colors duration-200 p-1 rounded-full hover:bg-red-500/10">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                 </svg>
@@ -473,11 +494,13 @@
             window.removeFile = function(index) {
                 selectedFiles.splice(index, 1);
                 updateAttachmentsDisplay();
+                showNotification('File removed! 🗑️', 'info');
             };
 
             window.clearAllFiles = function() {
                 selectedFiles = [];
                 updateAttachmentsDisplay();
+                showNotification('All files cleared! 🧹', 'info');
             };
 
             function sendMessage(event) {
@@ -488,7 +511,7 @@
                 const message = messageInput.value.trim();
                 if (!message && selectedFiles.length === 0) return;
 
-                // Deshabilitar botón de envío
+                // Disable send button with loading state
                 sendButton.disabled = true;
                 sendButton.innerHTML = `
                     <svg class="animate-spin h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24">
@@ -516,7 +539,7 @@
                 addMessage(message, true, false, currentFiles);
                 const typingIndicator = addMessage('', false, true);
 
-                // Actualizar contador de mensajes
+                // Update message counter
                 messageCount.textContent = messageCounter++;
 
                 fetch('{{ route('generate.chat') }}', {
@@ -533,29 +556,80 @@
                         typingIndicator.remove();
                         addMessage(data.response, false);
                         messageCount.textContent = messageCounter++;
+                        showNotification('Response received! ✨', 'success');
                     })
                     .catch(error => {
                         console.error('Error:', error);
                         typingIndicator.remove();
                         addMessage('Sorry, there was an error processing your message. Please try again.', false);
+                        showNotification('Error occurred! Please try again. ⚠️', 'error');
                     })
                     .finally(() => {
-                        // Rehabilitar botón de envío
+                        // Re-enable send button
                         sendButton.disabled = false;
                         sendButton.innerHTML = `
-                            <span class="mr-2">Send</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            <span class="mr-2 font-medium">Send</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                             </svg>
                         `;
                     });
+            }
+
+            // Enhanced notification system
+            function showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                const colors = {
+                    success: 'from-emerald-500 to-green-600 border-emerald-400',
+                    error: 'from-red-500 to-pink-600 border-red-400',
+                    info: 'from-blue-500 to-indigo-600 border-blue-400'
+                };
+                
+                notification.className = `fixed top-4 right-4 z-50 px-6 py-4 rounded-2xl shadow-2xl transform transition-all duration-500 translate-x-full bg-gradient-to-r ${colors[type]} text-white border-2 max-w-sm glass backdrop-blur-xl`;
+                
+                notification.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <div class="flex-shrink-0">
+                            ${type === 'success' ?
+                                 '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>' :
+                                type === 'error' ?
+                                '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>' :
+                                '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>'
+                            }
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-sm">${message}</p>
+                        </div>
+                        <button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-white/80 hover:text-white transition-colors duration-200 transform hover:scale-110">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.classList.remove('translate-x-full');
+                }, 100);
+                
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(100%)';
+                    notification.style.opacity = '0';
+                    setTimeout(() => {
+                        if (document.body.contains(notification)) {
+                            document.body.removeChild(notification);
+                        }
+                    }, 500);
+                }, 4000);
             }
 
             // Event listeners
             chatForm.addEventListener('submit', sendMessage);
             sendButton.addEventListener('click', sendMessage);
 
-            // Enviar con Enter
+            // Send with Enter
             messageInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -573,37 +647,34 @@
                 updateAttachmentsDisplay();
                 fileInput.value = '';
                 
-                // Mostrar notificación de archivos agregados
+                // Show notification for added files
                 if (files.length > 0) {
-                    const notification = document.createElement('div');
-                    notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 animate-bounce-in';
-                    notification.textContent = `${files.length} file(s) added`;
-                    document.body.appendChild(notification);
-                    
-                    setTimeout(() => {
-                        notification.remove();
-                    }, 3000);
+                    showNotification(`${files.length} file(s) added! 📎`, 'success');
                 }
             });
 
-            // Drag and drop
+            // Enhanced drag and drop
             chatMessages.addEventListener('dragover', (e) => {
                 e.preventDefault();
-                chatMessages.classList.add('bg-indigo-50', 'border-2', 'border-dashed', 'border-indigo-300');
+                chatMessages.classList.add('drag-over');
             });
 
             chatMessages.addEventListener('dragleave', (e) => {
                 e.preventDefault();
-                chatMessages.classList.remove('bg-indigo-50', 'border-2', 'border-dashed', 'border-indigo-300');
+                chatMessages.classList.remove('drag-over');
             });
 
             chatMessages.addEventListener('drop', (e) => {
                 e.preventDefault();
-                chatMessages.classList.remove('bg-indigo-50', 'border-2', 'border-dashed', 'border-indigo-300');
+                chatMessages.classList.remove('drag-over');
                 
                 const files = Array.from(e.dataTransfer.files);
                 selectedFiles = selectedFiles.concat(files);
                 updateAttachmentsDisplay();
+                
+                if (files.length > 0) {
+                    showNotification(`${files.length} file(s) dropped! 🎯`, 'success');
+                }
             });
 
             messageInput.focus();
