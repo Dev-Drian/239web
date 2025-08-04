@@ -2,7 +2,7 @@
 <div class="flex-1 overflow-y-auto" x-show="isSidebarOpen || !isMobileView">
     <!-- Chats Privados -->
     <div class="px-4 py-2">
-        <h2 class="sidebar-heading text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2"
+        <h2 class="sidebar-heading text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2"
             x-show="isSidebarOpen">Private Chats</h2>
         <div class="space-y-1">
             @foreach ($privateChats as $chat)
@@ -12,8 +12,8 @@
     </div>
 
     <!-- Chats Grupales -->
-    <div class="px-4 py-2 border-t border-gray-200">
-        <h2 class="sidebar-heading text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2"
+    <div class="px-4 py-2 border-t border-white/15">
+        <h2 class="sidebar-heading text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2"
             x-show="isSidebarOpen">Groups</h2>
         <div class="space-y-1">
             @foreach ($groupChats as $chat)
