@@ -451,4 +451,61 @@ Example format: <a href="https://maps.google.com/search?q=Louvre+Museum+Paris" t
 
         return "Error generating content with Perplexity.";
     }
+     public function generateNearbyCitiesAndAirports(string $city): ?array
+    {
+        try {
+            $prompt = "Provide a precise JSON response for {$city} with:
+                - List of 30 nearby cities within 30 miles
+                - List of local airports with names and IATA codes
+                - Only return valid, clean JSON
+                - No additional explanatory text
+
+                Example format:
+                {
+                    \"cities\": [\"City1\", \"City2\", ...],
+                    \"airports\": [
+                        {\"name\": \"Airport Name\", \"IATA_code\": \"XXX\"}
+                    ]
+                }";
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $this->openAiApiKey,
+                'Content-Type' => 'application/json',
+            ])->post($this->openAiUrl, [
+                'model' => 'gpt-4',
+                'messages' => [
+                    [
+                        'role' => 'system',
+                        'content' => 'You are a helpful assistant that provides accurate and structured data.',
+                    ],
+                    [
+                        'role' => 'user',
+                        'content' => $prompt,
+                    ],
+                ],
+                'temperature' => 0,
+                'max_tokens' => 800,
+            ]);
+
+            if ($response->successful()) {
+                $content = $response->json('choices.0.message.content');
+
+                // Clean up the response: Remove any leading or trailing non-JSON content
+                $json_start = strpos($content, '{');
+                $json_end = strrpos($content, '}');
+                if ($json_start !== false && $json_end !== false) {
+                    $clean_json = substr($content, $json_start, $json_end - $json_start + 1);
+                    return json_decode($clean_json, true);
+                } else {
+                    Log::error('Unable to parse JSON content', ['response_content' => $content]);
+                    return null;
+                }
+            }
+
+            Log::error('OpenAI API Error: ' . $response->body());
+        } catch (\Exception $e) {
+            Log::error('Connection Error (OpenAI): ' . $e->getMessage());
+        }
+
+        return null;
+    }
 }
