@@ -32,40 +32,44 @@ function initializeEditor() {
             
             // Agregar estilos CSS para mejorar la presentación del contenido HTML en el editor
             const editorStyles = `
-                .ck-content h1, .ck-content h2, .ck-content h3, .ck-content h4, .ck-content h5, .ck-content h6 {
-                    color: #1f2937;
+                .ck-editor__editable h1, .ck-editor__editable h2, .ck-editor__editable h3, 
+                .ck-editor__editable h4, .ck-editor__editable h5, .ck-editor__editable h6 {
+                    color: #f1f5f9 !important;
                     font-weight: 600;
                     margin-top: 1em;
                     margin-bottom: 0.5em;
                 }
-                .ck-content h1 { font-size: 2rem; }
-                .ck-content h2 { font-size: 1.5rem; }
-                .ck-content h3 { font-size: 1.25rem; }
-                .ck-content p {
+                .ck-editor__editable h1 { font-size: 2rem; }
+                .ck-editor__editable h2 { font-size: 1.5rem; }
+                .ck-editor__editable h3 { font-size: 1.25rem; }
+                .ck-editor__editable p {
                     margin-bottom: 1em;
                     line-height: 1.6;
-                    color: #374151;
+                    color: #e2e8f0 !important;
                 }
-                .ck-content a {
-                    color: #2563eb;
+                .ck-editor__editable a {
+                    color: #818cf8 !important;
                     text-decoration: underline;
                 }
-                .ck-content a:hover {
-                    color: #1d4ed8;
+                .ck-editor__editable a:hover {
+                    color: #a5b4fc !important;
                 }
-                .ck-content ul, .ck-content ol {
+                .ck-editor__editable ul, .ck-editor__editable ol {
                     margin-bottom: 1em;
                     padding-left: 1.5em;
+                    color: #e0e7ef !important;
                 }
-                .ck-content li {
+                .ck-editor__editable li {
                     margin-bottom: 0.5em;
+                    color: #e0e7ef !important;
                 }
-                .ck-content blockquote {
-                    border-left: 4px solid #e5e7eb;
+                .ck-editor__editable blockquote {
+                    border-left: 4px solid #6366f1 !important;
                     padding-left: 1em;
                     margin: 1em 0;
                     font-style: italic;
-                    color: #6b7280;
+                    color: #c7d2fe !important;
+                    background: rgba(99, 102, 241, 0.1) !important;
                 }
             `;
             
@@ -219,12 +223,12 @@ function setupBlogPreview() {
             return;
         }
 
-        // Build preview content with improved styles
+        // Build preview content with dark theme styles
         const previewHTML = `
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-            <h1 class="text-3xl font-bold mb-6 text-gray-900">${title}</h1>
+        <div class="bg-slate-800 p-6 rounded-lg shadow-lg">
+            <h1 class="text-3xl font-bold mb-6 text-white">${title}</h1>
             ${imageUrl ? `<img src="${imageUrl}" alt="Preview Image" class="w-full h-auto mb-6 rounded-lg shadow-md">` : ''}
-            <div class="prose prose-lg max-w-none">
+            <div id="previewContent">
                 ${content}
             </div>
         </div>
@@ -234,39 +238,7 @@ function setupBlogPreview() {
         previewContent.innerHTML = previewHTML;
         previewModal.classList.remove('hidden');
         
-        // Add CSS styles to improve HTML content presentation
-        const styleElement = document.createElement('style');
-        styleElement.textContent = `
-            .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-                color: #1f2937;
-                font-weight: 600;
-                margin-top: 1.5em;
-                margin-bottom: 0.5em;
-            }
-            .prose h1 { font-size: 2.25rem; }
-            .prose h2 { font-size: 1.875rem; }
-            .prose h3 { font-size: 1.5rem; }
-            .prose p {
-                margin-bottom: 1em;
-                line-height: 1.75;
-                color: #374151;
-            }
-            .prose a {
-                color: #2563eb;
-                text-decoration: underline;
-            }
-            .prose a:hover {
-                color: #1d4ed8;
-            }
-            .prose ul, .prose ol {
-                margin-bottom: 1em;
-                padding-left: 1.5em;
-            }
-            .prose li {
-                margin-bottom: 0.5em;
-            }
-        `;
-        document.head.appendChild(styleElement);
+
     });
 
     // Event handler for close button

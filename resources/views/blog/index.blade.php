@@ -1,52 +1,55 @@
     <x-app-layout>
         <x-slot name="header">
-            @include('components.header', ['name' => 'Blog'])
+            <div class="flex items-center space-x-4">
+                <h2 class="text-2xl font-bold text-white">Blog Management</h2>
+                <span class="text-sm text-slate-400 px-2 py-1 glass-dark rounded-full">Content Publishing System</span>
+            </div>
         </x-slot>
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <!-- Stats Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                <div class="bg-white overflow-hidden shadow-sm rounded-lg transition-all duration-300 hover:shadow-md">
+                <div class="glass-dark overflow-hidden shadow-sm rounded-lg transition-all duration-300 hover:shadow-md border border-white/15">
                     <div class="p-6 flex items-center">
-                        <div class="p-3 rounded-full bg-blue-100 mr-4">
-                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-3 rounded-full bg-indigo-500/20 mr-4">
+                            <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                         </div>
                         <div>
-                            <div class="text-sm font-medium text-gray-500">Total Clients</div>
-                            <div class="text-2xl font-semibold">{{ $clients->count() }}</div>
+                            <div class="text-sm font-medium text-slate-300">Total Clients</div>
+                            <div class="text-2xl font-semibold text-white">{{ $clients->count() }}</div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-white overflow-hidden shadow-sm rounded-lg transition-all duration-300 hover:shadow-md">
+                <div class="glass-dark overflow-hidden shadow-sm rounded-lg transition-all duration-300 hover:shadow-md border border-white/15">
                     <div class="p-6 flex items-center">
-                        <div class="p-3 rounded-full bg-green-100 mr-4">
-                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor"
+                        <div class="p-3 rounded-full bg-green-500/20 mr-4">
+                            <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
                         <div>
-                            <div class="text-sm font-medium text-gray-500">Active Clients</div>
-                            <div class="text-2xl font-semibold">{{ $clients->where('status', 'active')->count() }}</div>
+                            <div class="text-sm font-medium text-slate-300">Active Clients</div>
+                            <div class="text-2xl font-semibold text-white">{{ $clients->where('status', 'active')->count() }}</div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-white overflow-hidden shadow-sm rounded-lg transition-all duration-300 hover:shadow-md">
+                <div class="glass-dark overflow-hidden shadow-sm rounded-lg transition-all duration-300 hover:shadow-md border border-white/15">
                     <div class="p-6 flex items-center">
-                        <div class="p-3 rounded-full bg-purple-100 mr-4">
-                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor"
+                        <div class="p-3 rounded-full bg-purple-500/20 mr-4">
+                            <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                             </svg>
                         </div>
                         <div>
-                            <div class="text-sm font-medium text-gray-500">Blogs This Month</div>
-                            <div class="text-2xl font-semibold">0</div>
+                            <div class="text-sm font-medium text-slate-300">Blogs This Month</div>
+                            <div class="text-2xl font-semibold text-white">0</div>
                         </div>
                     </div>
                 </div>
@@ -54,25 +57,25 @@
 
             <!-- Main Content -->
             <div
-                class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-8 transition-all duration-300 hover:shadow-lg">
-                <div class="p-6 sm:px-8 bg-white border-b border-gray-200">
+                class="glass-dark overflow-hidden shadow-xl sm:rounded-lg mt-8 transition-all duration-300 hover:shadow-lg border border-white/15">
+                <div class="p-6 sm:px-8 glass-dark border-b border-white/15">
                     <!-- Filters and Search -->
                     <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <form method="GET" action="{{ route('blog.index') }}"
                             class="flex-1 flex flex-col sm:flex-row gap-3">
                             <div class="relative flex-1">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                    <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
                                 </div>
                                 <input type="text" name="search" placeholder="Search by name, email or ID..."
-                                    class="pl-10 w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300">
+                                    class="pl-10 w-full px-4 py-2.5 glass border border-white/20 rounded-lg bg-transparent text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all duration-300">
                             </div>
                             <button type="submit"
-                                class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5">
+                                class="px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-medium rounded-lg transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5">
                                 Search
                             </button>
                         </form>
@@ -82,14 +85,14 @@
                                 <div class="relative">
                                     <input type="checkbox" class="sr-only peer">
                                     <div
-                                        class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-blue-600 peer-focus:ring-2 peer-focus:ring-blue-300 transition-all duration-300">
+                                        class="w-11 h-6 bg-slate-600 rounded-full peer peer-checked:bg-indigo-500 peer-focus:ring-2 peer-focus:ring-indigo-500/50 transition-all duration-300">
                                     </div>
                                     <div
                                         class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full peer-checked:left-6 transition-all duration-300">
                                     </div>
                                 </div>
                                 <span
-                                    class="text-sm text-gray-600 group-hover:text-gray-800 transition-all duration-300">Show
+                                    class="text-sm text-slate-300 group-hover:text-white transition-all duration-300">Show
                                     inactive clients</span>
                             </label>
                         </div>
@@ -97,47 +100,47 @@
 
                     <!-- Client List -->
                     <div class="overflow-x-auto rounded-lg shadow">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+                        <table class="min-w-full divide-y divide-white/15">
+                            <thead class="glass-dark">
                                 <tr>
                                     <th scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
                                         Name</th>
                                     <th scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
                                         Website</th>
                                     <th scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
                                         Blog</th> <!-- Nueva columna -->
                                     <th scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
                                         Last Blog</th>
                                     <th scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
                                         Actions</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody class="glass-dark divide-y divide-white/15">
                                 @foreach ($clients as $client)
-                                    <tr class="hover:bg-blue-50 transition-colors duration-300">
+                                    <tr class="hover:bg-white/5 transition-colors duration-300">
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center">
                                                 <div
-                                                    class="flex-shrink-0 h-10 w-10 overflow-hidden rounded-full border-2 border-gray-200 bg-gray-100 transition-all duration-300 hover:border-blue-500">
+                                                    class="flex-shrink-0 h-10 w-10 overflow-hidden rounded-full border-2 border-white/20 bg-slate-700 transition-all duration-300 hover:border-indigo-500">
                                                     <img class="h-full w-full object-cover" src="{{ $client->avatar }}"
                                                         alt="{{ $client->name }}"
                                                         onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($client->name) }}&color=7F9CF5&background=EBF4FF'">
                                                 </div>
                                                 <div class="ml-4">
-                                                    <div class="text-sm font-semibold text-gray-900">
+                                                    <div class="text-sm font-semibold text-white">
                                                         {{ $client->name }}</div>
-                                                    <div class="text-sm text-gray-500">{{ $client->email }}</div>
+                                                    <div class="text-sm text-slate-300">{{ $client->email }}</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <a href="{{ $client->website }}" target="_blank"
-                                                class="text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-300 flex items-center gap-1">
+                                                class="text-indigo-400 hover:text-indigo-300 hover:underline transition-colors duration-300 flex items-center gap-1">
                                                 {{ $client->website }}
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
@@ -149,11 +152,11 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span id="blog-status-{{ $client->id }}"
-                                                class="text-sm text-gray-500">Checking...</span>
+                                                class="text-sm text-slate-300">Checking...</span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span
-                                                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 transition-all duration-300 hover:bg-green-200">
+                                                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-500/20 text-green-300 transition-all duration-300 hover:bg-green-500/30">
                                                 3 days ago
                                             </span>
                                         </td>
@@ -161,7 +164,7 @@
                                             <div class="flex space-x-1">
                                                 <form action="{{ route('blog.show', $client->highlevel_id) }}">
                                                     <button title="View Blog" type="submit"
-                                                        class="text-indigo-600 hover:text-indigo-900 transition-colors duration-300 p-2 rounded-full hover:bg-indigo-100">
+                                                        class="text-indigo-400 hover:text-indigo-300 transition-colors duration-300 p-2 rounded-full hover:bg-indigo-500/10">
                                                         <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                             viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -174,7 +177,7 @@
                                                     </button>
                                                 </form>
                                                 <button title="Select Link" onclick="fetchPages({{ $client }})"
-                                                    class="text-yellow-600 hover:text-yellow-900 transition-colors duration-300 p-2 rounded-full hover:bg-yellow-100">
+                                                    class="text-yellow-400 hover:text-yellow-300 transition-colors duration-300 p-2 rounded-full hover:bg-yellow-500/10">
                                                     <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -183,7 +186,7 @@
                                                     </svg>
                                                 </button>
                                                 {{-- <button title="Create New Blog"
-                                                    class="text-green-600 hover:text-green-900 transition-colors duration-300 p-2 rounded-full hover:bg-green-100">
+                                                    class="text-green-400 hover:text-green-300 transition-colors duration-300 p-2 rounded-full hover:bg-green-500/10">
                                                     <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -215,10 +218,10 @@
             class="fixed inset-0 z-50 overflow-y-auto hidden bg-black bg-opacity-50 transition-opacity duration-300">
             <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                 <div id="modalContent"
-                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full opacity-0 scale-95 duration-300">
+                    class="inline-block align-bottom glass-dark rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full opacity-0 scale-95 duration-300 border border-white/15">
                     <div class="absolute top-0 right-0 pt-4 pr-4">
                         <button type="button" onclick="closeModal()"
-                            class="text-gray-400 hover:text-gray-500 focus:outline-none">
+                            class="text-slate-400 hover:text-white focus:outline-none">
                             <span class="sr-only">Close</span>
                             <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -228,17 +231,17 @@
                         </button>
                     </div>
 
-                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
+                    <div class="glass-dark px-4 pt-5 pb-4 sm:p-6">
                         <div class="sm:flex sm:items-start">
                             <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
-                                <h3 class="text-lg leading-6 font-medium text-gray-900">Select Pages</h3>
+                                <h3 class="text-lg leading-6 font-medium text-white">Select Pages</h3>
                                 <div class="mt-4">
                                     <form id="pageForm">
 
                                         <div id="checkboxContainer" class="mt-2"></div>
                                         <div class="mt-5 sm:mt-6">
                                             <button type="submit"
-                                                class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm">
+                                                class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-base font-medium text-white hover:from-indigo-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
                                                 Save Selection
                                             </button>
                                         </div>
@@ -272,7 +275,7 @@
                 // Show loader while loading
                 checkboxContainer.innerHTML = `
         <div class="flex justify-center items-center py-10">
-            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-500"></div>
         </div>
     `;
 
@@ -331,26 +334,26 @@
                 const checkboxContainer = document.getElementById("checkboxContainer");
 
                 checkboxContainer.innerHTML = `
-        <div class="mb-4 sticky top-0 bg-white pt-2 pb-3 border-b">
+        <div class="mb-4 sticky top-0 glass-dark pt-2 pb-3 border-b border-white/15">
             <div class="relative">
                 <input type="text" id="searchPages" placeholder="Search pages..." 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    class="w-full px-4 py-2 glass border border-white/20 rounded-lg bg-transparent text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50"
                 >
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 absolute right-3 top-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 absolute right-3 top-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
             </div>
             <div class="flex justify-between mt-3">
-                <button type="button" id="selectAll" class="text-sm text-blue-600 hover:text-blue-800">
+                <button type="button" id="selectAll" class="text-sm text-indigo-400 hover:text-indigo-300">
                     Select all
                 </button>
-                <button type="button" id="deselectAll" class="text-sm text-blue-600 hover:text-blue-800">
+                <button type="button" id="deselectAll" class="text-sm text-indigo-400 hover:text-indigo-300">
                     Deselect all
                 </button>
             </div>
         </div>
         <div id="pagesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-60 overflow-y-auto pb-2"></div>
-        <div class="mt-3 text-right text-sm text-gray-600">
+        <div class="mt-3 text-right text-sm text-slate-300">
             <span id="pageCount">0</span> of ${data.length} pages selected
         </div>
     `;
@@ -363,16 +366,16 @@
                     const isSelected = selectedPageIds.includes(pageId);
 
                     const div = document.createElement("div");
-                    div.classList.add("flex", "items-center", "p-2", "hover:bg-gray-50", "rounded");
+                    div.classList.add("flex", "items-center", "p-2", "hover:bg-white/5", "rounded");
 
                     div.innerHTML = `
             <input type="checkbox" name="selectedPages[]" value="${page.ID}" 
                 id="page-${page.ID}" 
                 data-title="${page.title.toLowerCase()}" 
                 data-url="${page.permalink || ''}" 
-                class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                class="h-4 w-4 text-indigo-500 border-white/30 rounded focus:ring-indigo-500/50 bg-transparent"
                 ${isSelected ? 'checked' : ''}>
-            <label for="page-${page.ID}" class="ml-2 text-gray-700 text-sm cursor-pointer truncate">
+            <label for="page-${page.ID}" class="ml-2 text-slate-300 text-sm cursor-pointer truncate">
                 ${page.title}
             </label>
         `;
@@ -434,12 +437,12 @@
 
                 checkboxContainer.innerHTML = `
         <div class="text-center py-8">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
-            <p class="text-red-500 text-base font-medium">Error loading pages</p>
-            <p class="text-gray-600 text-sm mt-1">Please try again later</p>
-            <button type="button" id="retryButton" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            <p class="text-red-400 text-base font-medium">Error loading pages</p>
+            <p class="text-slate-300 text-sm mt-1">Please try again later</p>
+            <button type="button" id="retryButton" class="mt-4 px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-lg hover:from-indigo-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:ring-offset-2">
                 Retry
             </button>
         </div>
@@ -483,7 +486,7 @@
                             icon: 'warning',
                             title: 'No Pages Selected',
                             text: 'Please select at least one page.',
-                            confirmButtonColor: '#3B82F6',
+                            confirmButtonColor: '#6366f1',
                             timer: 3000,
                             timerProgressBar: true
                         });
@@ -567,7 +570,7 @@
                             icon: 'error',
                             title: 'Error',
                             text: 'Could not save the selected pages. Please try again.',
-                            confirmButtonColor: '#3B82F6'
+                            confirmButtonColor: '#6366f1'
                         });
 
                         // Reset button

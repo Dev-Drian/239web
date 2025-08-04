@@ -1,22 +1,22 @@
-<section class="bg-white shadow-sm rounded-lg overflow-hidden">
-    <div class="border-b border-gray-200 p-6">
-        <h2 class="text-xl font-semibold text-gray-800">Featured Image Generator</h2>
-        <p class="text-sm text-gray-500 mt-1">Create high-quality images for your blog post</p>
+<section class="glass-dark shadow-sm rounded-lg overflow-hidden">
+    <div class="border-b border-white/15 p-6">
+        <h2 class="text-xl font-semibold text-white">Featured Image Generator</h2>
+        <p class="text-sm text-slate-300 mt-1">Create high-quality images for your blog post</p>
     </div>
 
     <div class="p-6">
         <form id="imageForm" class="space-y-6">
             <div>
-                <label for="imgprompt" class="block text-sm font-medium text-gray-700 mb-2">Image Prompt:</label>
+                <label for="imgprompt" class="block text-sm font-medium text-slate-200 mb-2">Image Prompt:</label>
                 <textarea name="imgprompt" id="imgprompt" rows="2" placeholder="Describe the image you want to generate" required
-                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"> 2024 black mercedes benz S 500 in Manhattan</textarea>
+                    class="w-full px-4 py-3 glass border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-white placeholder-slate-400"> 2024 black mercedes benz S 500 in Manhattan</textarea>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                 <div>
-                    <label for="ai_type" class="block text-sm font-medium text-gray-700 mb-2">AI Model:</label>
+                    <label for="ai_type" class="block text-sm font-medium text-slate-200 mb-2">AI Model:</label>
                     <select id="ai_type" name="ai_type"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        class="w-full px-4 py-3 glass border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-white">
                         <option value="sd3">SD3 (Standard)</option>
                         <option value="core">Core (Enhanced)</option>
                         <option value="ultra">Ultra (Premium)</option>
@@ -24,10 +24,10 @@
                 </div>
 
                 <div>
-                    <label for="output_format" class="block text-sm font-medium text-gray-700 mb-2">Output
+                    <label for="output_format" class="block text-sm font-medium text-slate-200 mb-2">Output
                         Format:</label>
                     <select id="output_format" name="output_format"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        class="w-full px-4 py-3 glass border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-white">
                         <option value="jpeg">JPEG (Standard)</option>
                         <option value="png">PNG (Lossless)</option>
                         <option value="webp">WebP (Optimized)</option>
@@ -35,9 +35,9 @@
                 </div>
 
                 <div>
-                    <label for="image_ratio" class="block text-sm font-medium text-gray-700 mb-2">Aspect Ratio:</label>
+                    <label for="image_ratio" class="block text-sm font-medium text-slate-200 mb-2">Aspect Ratio:</label>
                     <select id="image_ratio" name="image_ratio"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        class="w-full px-4 py-3 glass border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-white">
                         <option value="16:9">16:9 (Landscape)</option>
                         <option value="1:1">1:1 (Square)</option>
                     </select>
@@ -47,7 +47,7 @@
 
             <div class="pt-2">
                 <button type="button" id="generateImageBtn"
-                    class="w-full py-4 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition duration-200 flex items-center justify-center font-medium text-base">
+                    class="w-full py-4 px-6 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white rounded-md transition duration-200 flex items-center justify-center font-medium text-base">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
                         fill="currentColor">
                         <path fill-rule="evenodd"

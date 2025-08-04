@@ -20,76 +20,281 @@
 
     <!-- Include Tailwind CSS via CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style type="text/tailwindcss">
+    <script type="text/tailwindcss">
         @theme {
             --color-clifford: #da373d;
         }
 
-        [type="text"],
-        input[type="email"],
-        input[type="password"],
-        input[type="url"],
-        select,
-        textarea {
-            width: 100%;
-            border-radius: 0.375rem;
-            border: 1px solid #d1d5db;
-            padding: 0.5rem 0.75rem;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            outline: none;
+        @layer base {
+            body {
+                @apply bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 min-h-screen;
+            }
         }
 
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="password"]:focus,
-        input[type="url"]:focus,
+        @layer components {
+            .glass {
+                @apply bg-white/10 backdrop-blur-md border border-white/20;
+            }
 
-        select:focus,
-        textarea:focus {
-            border-color: #818cf8;
-            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
-            outline: none;
+            .glass-dark {
+                @apply bg-slate-900/80 backdrop-blur-xl border border-white/10;
+            }
+
+            .btn-primary {
+                @apply inline-flex items-center px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold text-xs uppercase tracking-wider rounded-lg border-none shadow-lg transition-all duration-300 hover:from-indigo-600 hover:to-purple-600 hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/50;
+            }
+
+            .form-input-dark {
+                @apply w-full rounded-lg border border-white/20 bg-white/10 backdrop-blur-md text-white placeholder-slate-400 px-3 py-2 shadow-sm outline-none transition-all duration-200 focus:border-indigo-500/50 focus:ring-2 focus:ring-indigo-500/20 focus:bg-white/15;
+            }
+
+            .select2-dark .select2-selection--single {
+                @apply bg-white/10 border border-white/20 rounded-lg text-white;
+            }
+
+            .select2-dark .select2-selection--single .select2-selection__rendered {
+                @apply text-white;
+            }
+
+            .select2-dark .select2-selection--single .select2-selection__placeholder {
+                @apply text-slate-400;
+            }
+
+            .select2-dark .select2-dropdown {
+                @apply bg-slate-900/95 border border-white/20 backdrop-blur-md;
+            }
+
+            .select2-dark .select2-results__option {
+                @apply text-white;
+            }
+
+            .select2-dark .select2-results__option--highlighted[aria-selected] {
+                @apply bg-indigo-500/50;
+            }
+
+            .scrollbar-dark {
+                @apply scrollbar-thin scrollbar-track-slate-900/30 scrollbar-thumb-indigo-500/50 scrollbar-thumb-rounded-full hover:scrollbar-thumb-indigo-500/70;
+            }
         }
 
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.5rem 1rem;
-            background-color: #3b82f6;
-            color: white;
-            font-weight: 600;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            border-radius: 0.375rem;
-            border: none;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            transition: all 150ms ease-in-out;
+        @layer utilities {
+            .main-bg {
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            }
         }
-
-        .btn-primary:hover {
-            background-color: #2563eb;
-        }
-
-        .btn-primary:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
-        }
-    </style>
-
+    </script>
 
     <!-- Styles -->
     @livewireStyles
+    
+    <style>
+        /* Custom scrollbar - simple */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563eb;
+        }
+
+        /* Simple background */
+        .main-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        /* Clean glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Simple transitions */
+        .smooth {
+            transition: all 0.2s ease;
+        }
+        
+        /* Hover effects - minimal */
+        .hover-lift:hover {
+            transform: translateY(-1px);
+        }
+        
+        /* Select2 styling - clean */
+        .select2-container--default .select2-selection--single {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-radius: 8px !important;
+            height: 42px !important;
+        }
+        
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #e2e8f0 !important;
+            line-height: 40px !important;
+            padding-left: 12px !important;
+        }
+        
+        .select2-dropdown {
+            background: #1e293b !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-radius: 8px !important;
+        }
+        
+        .select2-results__option {
+            color: #e2e8f0 !important;
+            padding: 10px 12px !important;
+        }
+        
+        .select2-results__option--highlighted {
+            background: #3b82f6 !important;
+        }
+        
+        /* Button gradients - simple */
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+        }
+        
+        /* Card styling */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Fix for regular select elements */
+        select {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+            color: #e2e8f0 !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        }
+        
+        select option {
+            background-color: #1e293b !important;
+            color: #e2e8f0 !important;
+        }
+        
+        select:focus {
+            border-color: #6366f1 !important;
+            box-shadow: 0 0 0 1px #6366f1 !important;
+        }
+        
+        /* Ensure buttons work properly */
+        button {
+            cursor: pointer !important;
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed !important;
+        }
+    </style>
 </head>
 
-<body>
-    <div class="font-sans text-gray-900 antialiased">
+<body class="main-bg font-sans antialiased min-h-screen text-slate-100">
+    <div class="font-sans text-white antialiased">
         {{ $slot }}
     </div>
     @stack('js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/laravel-echo/1.15.3/echo.iife.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+    <script>
+        window.Pusher = Pusher;
+        window.Echo = new Echo({
+            broadcaster: 'pusher',
+            key: '5881b6482357e841e8dc',
+            cluster: 'us2',
+            forceTLS: true
+        });
+        
+        // Simple SweetAlert2 theme
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            background: '#1e293b',
+            color: '#e2e8f0',
+            iconColor: '#3b82f6'
+        });
+        
+        $(document).ready(function() {
+            
+            // Simple Select2 init
+            $('.select2').select2({
+                width: '100%',
+                placeholder: 'Select an option...'
+            });
+            
+            // Clean styling for elements
+            $('input, textarea, select').not('.select2-selection').addClass('bg-white/5 border-white/15 text-slate-100 placeholder-slate-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 smooth');
+            
+            // Fix select options color
+            $('select option').css({
+                'background-color': '#1e293b',
+                'color': '#e2e8f0'
+            });
+            
+            // Button styling
+            $('.btn-primary, .bg-blue-500, .bg-blue-600').removeClass('bg-blue-500 bg-blue-600').addClass('btn-primary smooth');
+            $('.btn-secondary').addClass('bg-white/10 border-white/20 text-white hover:bg-white/15 smooth');
+            
+            // Card styling
+            $('.bg-white').removeClass('bg-white').addClass('card smooth hover-lift');
+            
+            // Table styling
+            $('table').addClass('bg-white/5 rounded-lg overflow-hidden');
+            $('table thead').addClass('bg-white/10');
+            $('table th').addClass('text-slate-200 font-medium');
+            $('table td').addClass('text-slate-300 border-white/10');
+            
+            // Add smooth class to interactive elements
+            $('button, a').addClass('smooth');
+            
+            // Fix button functionality by ensuring proper event handling
+            $('button[type="submit"], button[type="button"]').off('click').on('click', function(e) {
+                // Allow default behavior for form submissions
+                if ($(this).attr('type') === 'submit') {
+                    return true;
+                }
+                // For other buttons, prevent default only if needed
+                if ($(this).hasClass('prevent-default')) {
+                    e.preventDefault();
+                }
+            });
+        });
+        
+        // Simple notification function
+        window.notify = function(type, message) {
+            Toast.fire({
+                icon: type,
+                title: message
+            });
+        };
+    </script>
 
     @livewireScripts
 </body>
