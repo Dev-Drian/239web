@@ -60,6 +60,6 @@ class DatabaseSeeder extends Seeder
         //     ])->assignRole($member['role']);
             
         // }
-        $this->call(RoleSeeder::class);
+        // $this->call(RoleSeeder::class);
     }
 }

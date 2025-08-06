@@ -50,6 +50,7 @@ class CitationController extends Controller
                 'website' => $request->website_url,
                 'address' => $request->address_line1,
                 'city' => $request->city,
+                'primary_city' => $request->primary_city ?? $request->city, // Usar primary_city si está disponible, sino usar city
                 'rol' => 'client', // Valor por defecto
             ]);
             $businessHours = explode("\n", $request->business_hours);

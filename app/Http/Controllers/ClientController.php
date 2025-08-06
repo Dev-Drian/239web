@@ -16,28 +16,34 @@ class ClientController extends Controller
     {
         $search = $request->input('search');
 
-        $clients = Client::query(); // Cambia "User" por tu modelo de cliente si es diferente
-
+        $clients = Client::query();
         if ($search) {
             $clients->where(function ($query) use ($search) {
                 $query->where('email', 'like', '%' . $search . '%')
                     ->orWhere('highlevel_id', 'like', '%' . $search . '%')
-                    ->orWhere('name', 'like', '%' . $search . '%'); // Nueva línea para buscar por nombre
-
+                    ->orWhere('name', 'like', '%' . $search . '%');
             });
         }
-        // dd($clients->get());
-
-        // Filtro por suscripciones
-        if ($request->filled('subscriptions')) {
-            $subscription = $request->input('subscriptions');
-            $clients->whereJsonContains('subscriptions', $subscription);
+        if ($request->filled('status_filter')) {
+            $clients->where('status', $request->status_filter);
         }
 
+        $clients->orderByRaw("status = 'active' DESC")
+            ->orderByRaw("CASE WHEN name IS NULL OR name = '' THEN 1 ELSE 0 END ASC")
+            ->orderBy('name', 'asc');
+
+        if ($request->filled('subscriptions')) {
+            $subscription = $request->input('subscriptions');
+            $clients->whereJsonContains('subscriptions', $subscription)
+                ->where('status', 'active');
+        }
         $clients = $clients->paginate(10);
-        // dd($clients);
+
         $this->load_client();
         $ids = $this->compareHighLevelIds();
+
+        return view('clients.index', compact('clients', 'ids'));
+
         return view('clients.index', compact('clients', 'ids'));
     }
 
@@ -46,15 +52,17 @@ class ClientController extends Controller
         $locations =  $this->fetchLocations();
 
         foreach ($locations as $location) {
-            $client = Client::firstOrNew(['highlevel_id' => $location['id']]);
-            $client->website = $location['website'] ?? '';
-            $client->address = $location['address'] ?? '';
-            $client->city = $location['city'] ?? '';
-            $client->email = $location['email'] ?? '';
-            $client->status = 'active' ?? ''; // Set default status
-            $client->name = $location['name'] ?? '';
-            $client->remote_page_id  = ' '; // Assuming remote_page_id is the same as highlevel_id
-            $client->save();
+            Client::firstOrCreate(
+                ['highlevel_id' => $location['id']], // condición de búsqueda
+                [
+                    'website' => $location['website'] ?? '',
+                    'address' => $location['address'] ?? '',
+                    'city' => $location['city'] ?? '',
+                    'email' => $location['email'] ?? '',
+                    'name' => $location['name'] ?? '',
+                    'remote_page_id' => ' ',
+                ]
+            );
         }
 
         return response()->json(['message' => 'Clients updated successfully']);
@@ -87,11 +95,12 @@ class ClientController extends Controller
 
     public function fetchLocations()
     {
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55X2lkIjoiZkpNRTdKM1dkN041OXg4UkxxRVUiLCJ2ZXJzaW9uIjoxLCJpYXQiOjE2NDIwOTgyMjYxMjYsInN1YiI6IndZTWVBNnR3cXR1T1pWWmtHWjZNIn0.GMKtDJadSGxW4gNLlcnjw8b51WYzc_TE_TFliWKmsjg'
-        ])->get('https://rest.gohighlevel.com/v1/locations/');
+        // $response = Http::withHeaders([
+        //     'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55X2lkIjoiZkpNRTdKM1dkN041OXg4UkxxRVUiLCJ2ZXJzaW9uIjoxLCJpYXQiOjE2NDIwOTgyMjYxMjYsInN1YiI6IndZTWVBNnR3cXR1T1pWWmtHWjZNIn0.GMKtDJadSGxW4gNLlcnjw8b51WYzc_TE_TFliWKmsjg'
+        // ])->get('https://rest.gohighlevel.com/v1/locations/');
+        $response['locations'] = [];
 
-        return  $response->json()['locations'];
+        return  $response['locations'];
     }
 
     public function compareHighLevelIds()
@@ -225,6 +234,7 @@ class ClientController extends Controller
             'clientCitationSubmissions',
         ])
             ->whereJsonContains('subscriptions', 'seo')
+            ->where('status', 'active')
             ->paginate(10);
         return view('components.client.seo-table', compact('clients'));
     }
@@ -241,6 +251,7 @@ class ClientController extends Controller
             'credits',
             'address',
             'city',
+            'primary_city',
             'extra_service',
             'airports',
         ]) + [

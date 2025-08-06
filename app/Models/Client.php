@@ -39,7 +39,7 @@ class Client extends Model
 
     public function blog()
     {
-        return $this->hasMany(Blog::class);
+        return $this->hasMany(Blog::class, 'client_id', 'id');
     }
 
 

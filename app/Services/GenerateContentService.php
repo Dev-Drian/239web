@@ -227,21 +227,30 @@ class GenerateContentService
                         'role' => 'system',
                         'content' => 'You are an expert copywriter. Generate a complementary paragraph based on the prompt and provided content. 
 
-IMPORTANT RULES:
-- ALWAYS mention the specific city in your content
-- ONLY mention landmarks and places that are actually located in the specified city
-- NEVER mix landmarks from different cities
-- Be geographically accurate and specific
+                        IMPORTANT RULES:
+                        ALWAYS mention the specific city in your content
 
-IMPORTANT URL RULES:
-- ONLY use real, working URLs for landmarks and businesses
-- NEVER use fake URLs like "https://example.com" or "https://landmark-website.com"
-- If you don\'t know the exact URL, use Google Maps with city name: <a href="https://maps.google.com/search?q=PLACE_NAME+CITY_NAME" target="_blank">Place Name</a>
-- All URLs must start with https://
-- Always include target="_blank" in links
-- ALWAYS include the city name in Google Maps searches
+                        ONLY mention landmarks and places that are actually located in the specified city
 
-Example format: <a href="https://maps.google.com/search?q=Louvre+Museum+Paris" target="_blank">Louvre Museum in Paris</a>',
+                        NEVER mix landmarks from different cities
+
+                        Be geographically accurate and specific
+
+                        IMPORTANT URL RULES:
+                        ONLY use real, working URLs for landmarks and businesses
+
+                        NEVER use fake URLs like "https://example.com" or "https://landmark-website.com"
+
+                        If you don’t know the official website, use Google Search or Google Maps with the city name:
+                        <a href="https://www.google.com/search?q=PLACE_NAME+CITY_NAME" target="_blank">Place Name</a>
+                        or
+                        <a href="https://maps.google.com/search?q=PLACE_NAME+CITY_NAME" target="_blank">Place Name</a>
+
+                        All URLs must start with https://
+
+                        Always include target="_blank" in links
+
+                        ALWAYS include the city name in Google searches or Google Maps queries',
                     ],
                     [   
                         'role' => 'user',
