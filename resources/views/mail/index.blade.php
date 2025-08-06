@@ -213,7 +213,7 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <img src="{{ asset('img/logo.jpeg') }}" alt="Company Logo" class="logo">
+            <img src="{{ asset('img/logo.png') }}" alt="Company Logo" class="logo">
             <h1>New Message in Your Chat</h1>
         </div>
         

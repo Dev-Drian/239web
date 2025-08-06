@@ -9,7 +9,7 @@
 
             <!-- Imagen a la derecha -->
             <div class="flex items-center">
-                <img src="{{ asset('img/logo.jpeg') }}" alt="Logo" class="w-52">
+                <img src="{{ asset('img/logo.png') }}" alt="Logo" class="w-52">
             </div>
         </div>
     </x-slot>

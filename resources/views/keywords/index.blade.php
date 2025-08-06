@@ -195,7 +195,7 @@
             const dataForSeoRoute = '{{ route('dataforseo.search-volume') }}';
             const saveResultsRoute = '{{ route('keyword.save') }}';
             const keywordHistoryRoute = '{{ route('keyword.history') }}';
-            const logoUrl = '{{ asset('img/logo.jpeg') }}';
+            const logoUrl = '{{ asset('img/logo.png') }}';
 
 
 

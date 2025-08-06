@@ -249,7 +249,7 @@
             const dataForSeoRoute = '{{ route('dataforseo.search_volume', $client->highlevel_id) }}';
             const saveResultsRoute = '{{ route('keyword.save',$client->highlevel_id) }}';
             const keywordHistoryRoute = '{{ route('keyword.history',$client->highlevel_id) }}';
-            const logoUrl = '{{ asset('img/logo.jpeg') }}';
+            const logoUrl = '{{ asset('img/logo.png') }}';
 
 
             // Variables de la aplicación

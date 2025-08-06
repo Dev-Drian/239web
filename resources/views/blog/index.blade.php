@@ -6,7 +6,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <!-- Stats Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                <div class="glass-dark overflow-hidden shadow-sm rounded-lg transition-all duration-300 hover:shadow-md border border-white/15">
+                <div
+                    class="glass-dark overflow-hidden shadow-sm rounded-lg transition-all duration-300 hover:shadow-md border border-white/15">
                     <div class="p-6 flex items-center">
                         <div class="p-3 rounded-full bg-indigo-500/20 mr-4">
                             <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -20,7 +21,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="glass-dark overflow-hidden shadow-sm rounded-lg transition-all duration-300 hover:shadow-md border border-white/15">
+                <div
+                    class="glass-dark overflow-hidden shadow-sm rounded-lg transition-all duration-300 hover:shadow-md border border-white/15">
                     <div class="p-6 flex items-center">
                         <div class="p-3 rounded-full bg-green-500/20 mr-4">
                             <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor"
@@ -31,11 +33,13 @@
                         </div>
                         <div>
                             <div class="text-sm font-medium text-slate-300">Active Clients</div>
-                            <div class="text-2xl font-semibold text-white">{{ $clients->where('status', 'active')->count() }}</div>
+                            <div class="text-2xl font-semibold text-white">
+                                {{ $clients->where('status', 'active')->count() }}</div>
                         </div>
                     </div>
                 </div>
-                <div class="glass-dark overflow-hidden shadow-sm rounded-lg transition-all duration-300 hover:shadow-md border border-white/15">
+                <div
+                    class="glass-dark overflow-hidden shadow-sm rounded-lg transition-all duration-300 hover:shadow-md border border-white/15">
                     <div class="p-6 flex items-center">
                         <div class="p-3 rounded-full bg-purple-500/20 mr-4">
                             <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor"
@@ -255,7 +259,7 @@
 
         <script>
             function fetchPages(client) {
-                const website = client.website;
+                const website = client.website?.replace(/\/$/, '');
                 const highlevelId = client.highlevel_id;
                 const selectedPages = client.selected_pages || [];
                 const checkboxContainer = document.getElementById("checkboxContainer");

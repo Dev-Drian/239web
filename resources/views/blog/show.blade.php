@@ -8,21 +8,24 @@
                 <span class="text-sm text-slate-400">Content Publishing System</span>
             </div>
         </div>
+
         <!-- Statistics Cards -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <x-stat-card iconColor="indigo" title="Total Posts" value="0" id="totalPosts" />
             <x-stat-card iconColor="green" title="Indexed" value="0" id="indexedPosts" />
             <x-stat-card iconColor="yellow" title="Pending" value="0" id="pendingPosts" />
         </div>
+
         <!-- Loading Spinner -->
-        <div id="loadingSpinner" class="flex justify-center my-8 ">
+        <div id="loadingSpinner" class="flex justify-center my-8">
             <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
         </div>
+
         <!-- Blog Posts Table -->
         <div x-data="{ open: false }"
-            class="glass-dark shadow-xl sm:rounded-lg mb-6 transition-all duration-300 hover:shadow-lg overflow-hidden border border-white/15">
+            class="glass-dark shadow-xl sm:rounded-xl mb-6 transition-all duration-300 hover:shadow-2xl overflow-hidden border border-white/15">
             <button @click="open = !open"
-                class="w-full text-left px-6 py-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold uppercase tracking-wider focus:outline-none flex items-center justify-between">
+                class="w-full text-left px-6 py-4 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-white font-semibold uppercase tracking-wider focus:outline-none flex items-center justify-between hover:from-indigo-500/30 hover:to-purple-500/30 transition-all duration-300">
                 <span>Show/Hide Blog Table</span>
                 <svg :class="{ 'rotate-180': open }" class="w-5 h-5 transition-transform duration-300"
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -33,7 +36,7 @@
                 x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
                 x-transition:leave="transition ease-in duration-300 transform"
                 x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90">
-                <div class="overflow-x-auto p-4 glass-dark rounded-b-lg shadow-inner">
+                <div class="overflow-x-auto p-4 glass-dark rounded-b-xl shadow-inner">
                     <table class="min-w-full divide-y divide-white/15">
                         <thead class="glass-dark">
                             <tr>
@@ -49,8 +52,9 @@
                 </div>
             </div>
         </div>
+
         <!-- Blog Topic Suggestions Component -->
-        <div class="glass-dark rounded-xl shadow-lg w-full h-full overflow-hidden border border-white/15">
+        <div class="glass-dark rounded-xl shadow-xl w-full h-full overflow-hidden border border-white/15">
             <!-- Header Section -->
             <div class="px-6 py-4 flex justify-between items-center bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border-b border-white/15">
                 <div>
@@ -99,10 +103,11 @@
                 <div id="suggestionsArea" class="space-y-4 divide-y divide-white/15"></div>
             </div>
         </div>
+
         <!-- Modal para enviar a index -->
         <div id="submitToIndexModal"
-            class="hidden fixed inset-0 bg-black bg-opacity-80 overflow-y-auto h-full w-full z-50 transition-opacity duration-300">
-            <div class="relative top-20 mx-auto p-6 border w-96 shadow-xl rounded-lg glass-dark border-white/15">
+            class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm overflow-y-auto h-full w-full z-50 transition-opacity duration-300">
+            <div class="relative top-20 mx-auto p-6 border w-96 shadow-2xl rounded-xl glass-dark border-white/15">
                 <!-- Modal Header -->
                 <div class="text-center mb-4">
                     <h3 class="text-xl leading-6 font-semibold text-white">Submit to Index</h3>
@@ -130,47 +135,12 @@
         </div>
     </div>
 
-    <!-- Modal para enviar a index -->
-    <div id="submitToIndexModal"
-        class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 overflow-y-auto h-full w-full z-50 transition-opacity duration-300">
-        <!-- Modal Container -->
-        <div
-            class="relative top-20 mx-auto p-6 border w-96 shadow-xl rounded-lg bg-white transform transition-all duration-300 ease-in-out">
-            <!-- Modal Header -->
-            <div class="text-center mb-4">
-                <h3 class="text-xl leading-6 font-semibold text-gray-900">Submit to Index</h3>
-                <p class="text-sm text-gray-600 mt-2">Enter the campaign name to submit the post for indexing.</p>
-            </div>
-
-            <!-- Modal Body -->
-            <div class="mt-5">
-                <label for="campaignName" class="block text-sm font-medium text-gray-700 mb-1">Campaign Name</label>
-                <input type="text" id="campaignName" placeholder="Enter Campaign Name"
-                    class="mt-1 p-3 border border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                    aria-label="Campaign Name">
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="mt-6 flex justify-end space-x-3">
-                <button onclick="closeModal()"
-                    class="px-4 py-2 bg-gray-100 text-gray-700 text-base font-medium rounded-lg shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors duration-200">
-                    Cancel
-                </button>
-                <button id="submitIndexBtn"
-                    class="px-4 py-2 bg-blue-600 text-white text-base font-medium rounded-lg shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200">
-                    Submit
-                </button>
-            </div>
-        </div>
-    </div>
-
-
     <script>
         // Variables globales para el blog
         window.website = @json($client->website ?? '').replace(/\/$/, '');
         window.city = @json($client->city ?? '');
         window.businessName = @json($client->name ?? '');
-        
+                
         // Manejar servicios correctamente - puede ser array, string JSON, o null
         let servicesData = @json($client->services ?? []);
         if (typeof servicesData === 'string') {
@@ -182,42 +152,34 @@
             }
         }
         window.services = Array.isArray(servicesData) ? servicesData : [];
-        
+                
         window.blog = @json($client->blog ?? []);
-
-
-
         const submitUrlRoute = "{{ route('blog.submitUrls', $client->highlevel_id) }}";
         const createRoute = "{{ route('blog.create', $client->highlevel_id) }}";
-
         // Rutas para GPT y Perplexity
         const gptEndpoint = "{{ route('generate-content.gpt') }}"; // Ruta para GPT
         const perplexityEndpoint = "{{ route('generate-content.perplexity') }}"; // para obtener sugerencias
-
-        // Función para abrir el modal con animación
     </script>
-
 
     <script>
         document.querySelectorAll('.ai-type-button').forEach(button => {
             button.addEventListener('click', function() {
                 // Limpiar todos los botones primero
                 document.querySelectorAll('.ai-type-button').forEach(btn => {
-                    btn.classList.remove('active', 'bg-blue-600', 'text-white', 'bg-white', 'text-gray-700');
+                    btn.classList.remove('active', 'bg-indigo-500', 'text-white', 'glass-dark', 'text-slate-300');
                 });
-                
-                // Aplicar el estilo azul al botón clickeado
-                this.classList.add('active', 'bg-blue-600', 'text-white');
-                
-                // Aplicar el estilo gris al otro botón
+                                
+                // Aplicar el estilo activo al botón clickeado
+                this.classList.add('active', 'bg-indigo-500', 'text-white');
+                                
+                // Aplicar el estilo inactivo al otro botón
                 if (this.id === 'gptButton') {
-                    document.getElementById('perplexityButton').classList.add('bg-white', 'text-gray-700');
+                    document.getElementById('perplexityButton').classList.add('glass-dark', 'text-slate-300');
                 } else {
-                    document.getElementById('gptButton').classList.add('bg-white', 'text-gray-700');
+                    document.getElementById('gptButton').classList.add('glass-dark', 'text-slate-300');
                 }
             });
         });
-
 
         // Función para alternar la visibilidad de los subtítulos
         function toggleSubtitles(index) {
@@ -267,20 +229,19 @@
             // Aquí puedes agregar la lógica para usar el tema seleccionado
         }
     </script>
+
     <!-- Script para manejar el modal y las sugerencias -->
     <script>
         // Variables globales
         let currentOpenTopicIndex = null;
         let topics = []; // Agregamos la definición de topics que faltaba
 
-
-
         // Función para abrir el modal de sugerencias
         function contentGenerate() {
             $('#suggestionsSpinner').show();
             $('#suggestionsArea').html('');
-            const validationErrors = [];
 
+            const validationErrors = [];
             if (!businessName) {
                 validationErrors.push("Business Name");
             }
@@ -319,8 +280,6 @@
                 return;
             }
 
-
-
             // Obtener el tipo de IA seleccionado
             const aiType = document.querySelector('.ai-type-button.active').textContent.trim().toLowerCase();
             console.log(aiType);
@@ -343,12 +302,12 @@
                 success: function(response) {
                     // Procesar la respuesta
                     console.log(response);
-                    
+                                        
                     processTopicsResponse(response); // Pasa la respuesta directamente
                 },
                 error: function(xhr, status, error) {
                     $('#suggestionsArea').html(`
-                <div class="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+                <div class="p-4 glass-dark border border-red-500/50 rounded-lg text-red-400">
                     <p class="font-medium">Error generating suggestions</p>
                     <p class="text-sm mt-1">${error || 'Please try again later'}</p>
                 </div>
@@ -363,7 +322,6 @@
         // Función para procesar la respuesta y extraer temas
         function processTopicsResponse(response) {
             topics = [];
-
             // Extraer el contenido de la respuesta
             const content = typeof response === 'object' && response.content ? response.content : response;
 
@@ -388,10 +346,10 @@
                     if (currentTopic) {
                         topics.push(currentTopic);
                     }
-                    
+                                        
                     // Verificar si el título está en la misma línea o en la siguiente
                     const titleInSameLine = line.replace('### ', '').replace(/^Topic \d+:\s*/, '');
-                    
+                                        
                     if (titleInSameLine.trim()) {
                         // El título está en la misma línea
                         currentTopic = {
@@ -438,81 +396,72 @@
 
         function renderTopicCards() {
             let html = '';
-
             if (topics.length === 0) {
-                html = `<div class="text-center py-8 text-gray-500">No topics generated yet</div>`;
+                html = `<div class="text-center py-8 text-slate-400">No topics generated yet</div>`;
             } else {
                 html = `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">`;
-
                 topics.forEach((topic, index) => {
                     html += `
-                    <div class="border-2 rounded-lg p-4 hover:shadow-md transition-all duration-300 bg-white">
+                    <div class="glass-dark border border-white/15 rounded-xl p-4 hover:shadow-lg transition-all duration-300">
                         <!-- Título del tema -->
                         <div class="flex justify-between items-center cursor-pointer" onclick="toggleSubtitles(${index})">
                             <input type="text" value="${escapeHtml(topic.title)}"
-                                class="font-medium text-gray-900 bg-transparent border-none focus:ring-0 w-full"
+                                class="font-medium text-white bg-transparent border-none focus:ring-0 w-full focus:outline-none"
                                 onchange="updateTopicTitle(${index}, this.value)">
-                            <svg id="icon-${index}" class="h-5 w-5 text-gray-500 transform transition-transform duration-300"
+                            <svg id="icon-${index}" class="h-5 w-5 text-slate-400 transform transition-transform duration-300"
                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </div>
-
                         <!-- Subtítulos -->
                         <div id="subtitles-${index}" class="mt-2 space-y-2 overflow-hidden transition-all duration-300 max-h-0">
                             ${topic.subtitles.map((subtitle, i) => `
-                                                                                                                                                                            <div class="flex items-center justify-between pl-4 group">
-                                                                                                                                                                                <input type="text" value="${escapeHtml(subtitle)}"
-                                                                                                                                                                                    class="text-sm text-gray-600 bg-transparent border-none focus:ring-0 w-full"
-                                                                                                                                                                                    onchange="updateSubtitle(${index}, ${i}, this.value)">
-                                                                                                                                                                                <button onclick="deleteSubtitle(${index}, ${i})"
-                                                                                                                                                                                    class="ml-2 text-red-600 hover:text-red-900 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                                                                                                                                                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                                                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                                                                                                                                                    </svg>
-                                                                                                                                                                                </button>
-                                                                                                                                                                            </div>
-                                                                                                                                                                        `).join('')}
-
+                                <div class="flex items-center justify-between pl-4 group">
+                                    <input type="text" value="${escapeHtml(subtitle)}"
+                                        class="text-sm text-slate-300 bg-transparent border-none focus:ring-0 w-full focus:outline-none"
+                                        onchange="updateSubtitle(${index}, ${i}, this.value)">
+                                    <button onclick="deleteSubtitle(${index}, ${i})"
+                                        class="ml-2 text-red-400 hover:text-red-300 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            `).join('')}
                             <!-- Botón para añadir subtítulo -->
                             <button onclick="addSubtitle(${index})"
-                                class="mt-2 text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center">
+                                class="mt-2 text-indigo-400 hover:text-indigo-300 text-sm font-medium flex items-center">
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                 </svg>
                                 Add Subtitle
                             </button>
                         </div>
-
                         <!-- Botones de acción -->
                         <div class="mt-4 flex flex-wrap gap-2">
                             <!-- Botón "Use Topic" -->
                             <button onclick="useTopic(${index})"
-                                class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-md transition-all duration-300 shadow-sm hover:shadow-md flex items-center">
+                                class="px-3 py-1.5 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white text-sm font-medium rounded-lg transition-all duration-300 shadow-sm hover:shadow-md flex items-center">
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                 </svg>
                                 Use Topic
                             </button>
-
                             <!-- Botón para eliminar el tema -->
                             <button onclick="deleteTopic(${index})"
-                                class="px-3 py-1.5 bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-md transition-all duration-300 shadow-sm hover:shadow-md ml-auto">
+                                class="px-3 py-1.5 glass-dark hover:bg-white/10 text-slate-300 text-sm font-medium rounded-lg transition-all duration-300 shadow-sm hover:shadow-md ml-auto">
                                 Delete
                             </button>
                         </div>
                     </div>`;
                 });
-
                 html += `</div>`;
             }
-
             document.getElementById('suggestionsArea').innerHTML = html;
         }
 
         function useTopic(index) {
             const topic = topics[index];
-
             // Limpiar el título y los subtítulos antes de enviarlos
             topic.title = cleanText(topic.title);
             topic.subtitles = topic.subtitles.map(subtitle => cleanText(subtitle));
@@ -598,7 +547,6 @@
             }
         });
 
-
         function escapeHtml(str) {
             return str.replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
@@ -609,7 +557,7 @@
 
         function cleanText(text) {
             if (!text) return '';
-            
+                        
             // Elimina números seguidos de un punto (ej: "1.", "2.", etc.)
             text = text.replace(/^\d+\.\s*/, ''); // Elimina el número y el punto al inicio
             // Elimina caracteres especiales como **
@@ -618,12 +566,12 @@
             text = text.trim();
             // Elimina espacios múltiples
             text = text.replace(/\s+/g, ' ');
-            
+                        
             console.log("Texto limpio:", text);
             return text;
         }
-        // Función para renderizar las tarjetas de temas
     </script>
+
     <script>
         // Asegurar que las variables estén disponibles antes de cargar blog.js
         if (typeof window.website === 'undefined') {
@@ -635,29 +583,42 @@
             window.blog = [];
         }
     </script>
+
     <script src="{{ asset('js/blog/blog.js') }}"></script>
 
     <style>
         /* Estilos personalizados para los botones de tipo AI */
         .ai-type-button.active {
-            background-color: #2563eb !important; /* bg-blue-600 */
+            background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
             color: white !important;
         }
-        
+                
         .ai-type-button.active:hover {
-            background-color: #1d4ed8 !important; /* bg-blue-700 */
+            background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
             color: white !important;
         }
-        
+                
         .ai-type-button:not(.active) {
-            background-color: white !important;
-            color: #374151 !important; /* text-gray-700 */
+            background: rgba(255, 255, 255, 0.05) !important;
+            color: #cbd5e1 !important;
         }
-        
+                
         .ai-type-button:not(.active):hover {
-            background-color: #f3f4f6 !important; /* bg-gray-100 */
-            color: #374151 !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* Glassmorphism styles */
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
         }
     </style>
-
 </x-guest-layout>
