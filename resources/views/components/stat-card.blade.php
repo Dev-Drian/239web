@@ -6,24 +6,23 @@
 ])
 
 @php
-    // Definir colores y clases basados en el ícono para tema oscuro
+    // Definir colores y clases basados en el ícono
     $iconClasses = [
-        'blue' => 'bg-blue-500/20 text-blue-400',
-        'indigo' => 'bg-indigo-500/20 text-indigo-400',
-        'green' => 'bg-green-500/20 text-green-400',
-        'purple' => 'bg-purple-500/20 text-purple-400',
-        'yellow' => 'bg-yellow-500/20 text-yellow-400',
+        'blue' => 'bg-blue-100 text-blue-600',
+        'green' => 'bg-green-100 text-green-600',
+        'purple' => 'bg-purple-100 text-purple-600',
+        'yellow' => 'bg-yellow-100 text-yellow-600',
     ];
 
-    $iconClass = $iconClasses[$iconColor] ?? 'bg-slate-500/20 text-slate-400'; // Default si no coincide
+    $iconClass = $iconClasses[$iconColor] ?? 'bg-gray-100 text-gray-600'; // Default si no coincide
 @endphp
 
-<div class="glass-dark overflow-hidden shadow-sm rounded-lg transition-all duration-300 hover:shadow-md border border-white/15">
+<div class="bg-white overflow-hidden shadow-sm rounded-lg transition-all duration-300 hover:shadow-md">
     <div class="p-4 flex items-center">
         <!-- Ícono -->
         <div class="p-3 rounded-full {{ $iconClass }} mr-4">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                @if ($iconColor === 'blue' || $iconColor === 'indigo')
+                @if ($iconColor === 'blue')
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                 @elseif ($iconColor === 'green')
@@ -41,8 +40,8 @@
 
         <!-- Título y Valor -->
         <div>
-            <div class="text-sm font-medium text-slate-300">{{ $title }}</div>
-            <div id="{{ $id }}" class="text-2xl font-semibold text-white">{{ $value }}</div>
+            <div class="text-sm font-medium text-gray-500">{{ $title }}</div>
+            <div id="{{ $id }}" class="text-2xl font-semibold">{{ $value }}</div>
         </div>
     </div>
 </div>  
