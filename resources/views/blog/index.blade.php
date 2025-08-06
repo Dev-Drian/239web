@@ -1,9 +1,6 @@
     <x-app-layout>
         <x-slot name="header">
-            <div class="flex items-center space-x-4">
-                <h2 class="text-2xl font-bold text-white">Blog Management</h2>
-                <span class="text-sm text-slate-400 px-2 py-1 glass-dark rounded-full">Content Publishing System</span>
-            </div>
+            @include('components.header', ['name' => 'Blog'])
         </x-slot>
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

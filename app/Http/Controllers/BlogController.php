@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\Client;
 use App\Services\GenerateContentService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -48,7 +50,7 @@ class BlogController extends Controller
     }
 
 
-    
+
 
 
 
@@ -92,7 +94,7 @@ class BlogController extends Controller
             if (!empty($clientData['services'])) {
                 $prompt .= "• Mention the company's expertise in {$clientData['services']}.\n";
             }
-            $prompt .= "\nExample structure:\n1. Introduction (make the introduction unique for each article by using a relevant anecdote, statistic, or recent event in {$clientData['city']} to set the context and introduce the topic)\n2. Subtitle 1: Key Aspect or Benefit\n   ◦ Detailed paragraph(s)\n3. Subtitle 2: Another Relevant Section\n   ◦ Detailed paragraph(s)\n   ◦ Bullet points or listicle if appropriate\n4. Subtitle 3: Additional Insights or Case Study\n   ◦ Detailed paragraph(s)\n5. Subtitle 4: Call to Action or Future Outlook\n   ◦ Detailed paragraph(s)";
+            $prompt .= "\nExample structure:\n1. Subtitle 1: Key Aspect or Benefit\n   ◦ Detailed paragraph(s)\n2. Subtitle 2: Another Relevant Section\n   ◦ Detailed paragraph(s)\n   ◦ Bullet points or listicle if appropriate\n3. Subtitle 3: Additional Insights or Case Study\n   ◦ Detailed paragraph(s)\n4. Subtitle 4: Call to Action or Future Outlook\n   ◦ Detailed paragraph(s)";
 
 
 
@@ -107,21 +109,21 @@ class BlogController extends Controller
             // 7. Limpiar contenido generado
             $generatedContent = str_replace(['```html', '```'], '', $generatedContent);
             $generatedContent = $this->removeTitleFromContent($topic['title'], $generatedContent);
-            
+
             // Log temporal para verificar el contenido
             Log::info('Generated content for blog', [
                 'topic' => $topic['title'],
                 'content_length' => strlen($generatedContent),
                 'content_preview' => substr($generatedContent, 0, 200) . '...'
             ]);
-            
+
             // 8. Almacenar en caché (30 minutos)
             Cache::put($cacheKey, [
                 'topic' => $topic,
                 'model' => $model,
                 'content' => $generatedContent
             ], now()->addMinutes(30));
-            
+
             // 9. Retornar vista con datos
             return view('blog.create', compact('client', 'topic', 'model', 'generatedContent'));
         } catch (\Exception $e) {
@@ -157,6 +159,84 @@ class BlogController extends Controller
         return response()->json(['message' => 'El blog ha sido indexado']);
     }
 
+    /**
+     * Procesa una imagen subida para el blog
+     */
+    public function uploadImage(Request $request, $id)
+    {
+        try {
+            $client = Client::where('highlevel_id', $id)->firstOrFail();
+            
+            // Validar request
+            $request->validate([
+                'uploaded_image' => 'nullable|file|mimes:jpeg,jpg,png,webp|max:5120',
+                'image_url' => 'nullable|url',
+            ]);
+
+            $imageUrl = null;
+
+            // Procesar archivo subido
+            if ($request->hasFile('uploaded_image')) {
+                $imageUrl = $this->processUploadedImage($request->file('uploaded_image'), $client->website);
+            }
+            // Procesar URL de imagen
+            elseif (!empty($request->input('image_url'))) {
+                $imageUrl = $this->validateAndProcessImageUrl($request->input('image_url'), $client->website);
+            }
+            else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No image provided'
+                ], 400);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Image processed successfully',
+                'data' => [
+                    'image_url' => $imageUrl
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error processing image: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error processing image: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Elimina una imagen procesada
+     */
+    public function deleteImage(Request $request, $id)
+    {
+        try {
+            $client = Client::where('highlevel_id', $id)->firstOrFail();
+            
+            $request->validate([
+                'image_url' => 'required|string',
+            ]);
+
+            $imageUrl = $request->input('image_url');
+            $deleted = $this->deleteImageFromServer($imageUrl);
+
+            return response()->json([
+                'success' => true,
+                'message' => $deleted ? 'Image deleted successfully' : 'Image not found on server',
+                'deleted' => $deleted
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error deleting image: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting image: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
 
 
     /**
@@ -164,7 +244,7 @@ class BlogController extends Controller
      */
     private function buildPrompt(array $topic): string
     {
-        $prompt = "Using the given title and subtitles, create an 800 to 1000 word comprehensive informative blog post in a conversational and engaging tone, using HTML formatting on the topic. Use proper HTML formatting such as <h1> for the title, <h2> for subheadings (do not put any numbers or symbols in front of the subheadings), and <p> for paragraphs. Write in the first person with fully detailed long in-depth paragraphs. Limit the use of bullet point lists or numbered lists. Do use the words: we, us, our. Do not add a conclusion. Do not use the word section, moreover, or furthermore. Remember you are a company offering your services and the article should appeal to your audience. Mention at the end a small paragraph about your company. Also create an intro at the beginning about the city or the service\n\n";
+        $prompt = "Using the given title and subtitles, create an 800 to 1000 word comprehensive informative blog post in a conversational and engaging tone, using HTML formatting on the topic. Use proper HTML formatting such as <h1> for the title, <h2> for subheadings (do not put any numbers or symbols in front of the subheadings), and <p> for paragraphs. Write in the first person with fully detailed long in-depth paragraphs. Limit the use of bullet point lists or numbered lists. Do use the words: we, us, our. Do not add a conclusion. Do not use the word section, moreover, or furthermore. Remember you are a company offering your services and the article should appeal to your audience. Mention at the end a small paragraph about your company. Do NOT create an intro at the beginning about the city or the service - start directly with the content\n\n";
         $prompt .= "<h1>" . $topic['title'] . "</h1>\n";
         foreach ($topic['subtitles'] as $subtitle) {
             if (!empty($subtitle)) {
@@ -176,7 +256,7 @@ class BlogController extends Controller
     public function store(Request $request, $id)
     {
         try {
-            // Validate request
+            $client = Client::where('highlevel_id', $id)->firstOrFail();
             $validatedData = $this->validateRequest($request);
 
             // Extract and format the title
@@ -186,20 +266,37 @@ class BlogController extends Controller
             Log::info('Processing blog post creation', [
                 'website' => $validatedData['website'],
                 'title' => $validatedData['title'],
-                'has_image' => !empty($validatedData['generated_image'])
+                'has_image' => !empty($validatedData['generated_image']),
+                'generated_image' => $validatedData['generated_image'] ?? 'none'
             ]);
 
             // Handle image upload if present
             $featuredImageId = null;
             $formattedImageUrl = null;
 
-            if (!empty($validatedData['generated_image'])) {
-                // Format image URL with the specific prefix from the old code
-                $formattedImageUrl = $this->formatImageUrl($validatedData['website'], $validatedData['generated_image']);
+            // Check for uploaded image first
+            if ($request->hasFile('uploaded_image')) {
+                $formattedImageUrl = $this->processUploadedImage($request->file('uploaded_image'), $validatedData['website']);
+                Log::info('Processed uploaded image', ['url' => $formattedImageUrl]);
+            }
+            // Check for image URL
+            elseif (!empty($validatedData['image_url'])) {
+                $formattedImageUrl = $this->validateAndProcessImageUrl($validatedData['image_url'], $validatedData['website']);
+                Log::info('Processed image URL', ['url' => $formattedImageUrl]);
+            }
+            // Check for processed image URL (from uploadImage endpoint)
+            elseif (!empty($validatedData['generated_image'])) {
+                // If it's already a full URL, use it directly
+                if (filter_var($validatedData['generated_image'], FILTER_VALIDATE_URL)) {
+                    $formattedImageUrl = $validatedData['generated_image'];
+                } else {
+                    $formattedImageUrl = $this->formatImageUrl($validatedData['website'], $validatedData['generated_image']);
+                }
+                Log::info('Using processed image URL', ['url' => $formattedImageUrl]);
+            }
 
-                Log::info('Formatted image URL', ['url' => $formattedImageUrl]);
-
-                // Upload image to WordPress
+            // Upload image to WordPress if we have one
+            if ($formattedImageUrl) {
                 $featuredImageId = $this->uploadImageToWordPress(
                     $validatedData['website'],
                     $formattedImageUrl
@@ -227,9 +324,15 @@ class BlogController extends Controller
             $permalink = $postResponse->json('permalink');
             $postId = $postResponse->json('post_id');
 
-            Log::info('WordPress post created', [
-                'post_id' => $postId,
-                'permalink' => $permalink
+            $blog = Blog::create([
+                'title' => $validatedData['title'],
+                'posts' => $postId,
+                'fbsent' => null,          // Llenar si es necesario más adelante
+                'prsent' => null,
+                'indexed' => null,
+                'img' => $formattedImageUrl,
+                'date_created' => Carbon::now(),
+                'client_id' => $client->id,
             ]);
 
 
@@ -264,6 +367,8 @@ class BlogController extends Controller
             'content' => 'required|string',
             'website' => 'required|url',
             'generated_image' => 'nullable|string',
+            'uploaded_image' => 'nullable|file|mimes:jpeg,jpg,png,webp|max:5120', // 5MB max
+            'image_url' => 'nullable|url',
             'schedule_date' => 'nullable|date',
             'post_status' => 'required|string|in:draft,publish,schedule',
             'categories' => 'nullable|array',
@@ -518,8 +623,8 @@ class BlogController extends Controller
     {
         // Nombre de la empresa
         $companyName = $client->name ?? 'Our Company';
-        // Ciudad
-        $city = $client->city ?? ($client->clientLocations->formatted_address ?? '');
+        // Ciudad principal para artículos (prioridad: primary_city > city > formatted_address)
+        $city = $client->primary_city ?? $client->city ?? ($client->clientLocations->formatted_address ?? '');
         // Servicios (puedes ajustar esto según tu modelo, aquí ejemplo genérico)
         $services = '';
         if ($client->clientDetails && !empty($client->clientDetails->full_name)) {
@@ -534,5 +639,117 @@ class BlogController extends Controller
             'city' => $city,
             'services' => $services,
         ];
+    }
+
+    /**
+     * Procesa una imagen subida por el usuario
+     */
+    private function processUploadedImage($file, $website)
+    {
+        try {
+            // Validar el archivo
+            if (!$file->isValid()) {
+                throw new \Exception('Invalid file upload');
+            }
+
+            // Generar nombre único para el archivo
+            $fileName = 'blog_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            
+            // Crear directorio si no existe
+            $uploadPath = public_path('uploads/blog-images');
+            if (!File::exists($uploadPath)) {
+                File::makeDirectory($uploadPath, 0755, true);
+            }
+
+            // Mover el archivo
+            $filePath = $uploadPath . '/' . $fileName;
+            $file->move($uploadPath, $fileName);
+
+            // Retornar URL pública
+            return url('uploads/blog-images/' . $fileName);
+        } catch (\Exception $e) {
+            Log::error('Error processing uploaded image: ' . $e->getMessage());
+            throw new \Exception('Failed to process uploaded image: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Elimina una imagen del servidor
+     */
+    private function deleteImageFromServer($imageUrl)
+    {
+        try {
+            // Extract file path from URL
+            $parsedUrl = parse_url($imageUrl);
+            if (isset($parsedUrl['path'])) {
+                $filePath = public_path($parsedUrl['path']);
+                if (File::exists($filePath)) {
+                    File::delete($filePath);
+                    Log::info('Image deleted from server', ['path' => $filePath]);
+                    return true;
+                }
+            }
+            return false;
+        } catch (\Exception $e) {
+            Log::error('Error deleting image: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Valida y procesa una URL de imagen
+     */
+    private function validateAndProcessImageUrl($imageUrl, $website)
+    {
+        try {
+            // Validar que la URL sea accesible
+            $ch = curl_init($imageUrl);
+            curl_setopt($ch, CURLOPT_NOBODY, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            $result = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if (!$result || $httpCode != 200) {
+                throw new \Exception('Image URL is not accessible: ' . $imageUrl . ' (HTTP Code: ' . $httpCode . ')');
+            }
+
+            // Descargar la imagen
+            $imageContent = file_get_contents($imageUrl);
+            if (!$imageContent) {
+                throw new \Exception('Failed to download image from URL');
+            }
+
+            // Determinar extensión del archivo
+            $extension = 'jpg'; // default
+            $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+            if (strpos($contentType, 'png') !== false) {
+                $extension = 'png';
+            } elseif (strpos($contentType, 'webp') !== false) {
+                $extension = 'webp';
+            }
+
+            // Generar nombre único
+            $fileName = 'blog_' . time() . '_' . uniqid() . '.' . $extension;
+            
+            // Crear directorio si no existe
+            $uploadPath = public_path('uploads/blog-images');
+            if (!File::exists($uploadPath)) {
+                File::makeDirectory($uploadPath, 0755, true);
+            }
+
+            // Guardar el archivo
+            $filePath = $uploadPath . '/' . $fileName;
+            file_put_contents($filePath, $imageContent);
+
+            // Retornar URL pública
+            return url('uploads/blog-images/' . $fileName);
+        } catch (\Exception $e) {
+            Log::error('Error processing image URL: ' . $e->getMessage());
+            throw new \Exception('Failed to process image URL: ' . $e->getMessage());
+        }
     }
 }
