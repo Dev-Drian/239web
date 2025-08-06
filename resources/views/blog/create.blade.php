@@ -2,43 +2,40 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-10 py-8">
         <!-- Header Component -->
         <x-blog-header />
-
+        
         <!-- Main Content -->
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
             <!-- Main Content Area (75%) -->
             <div class="lg:col-span-3 space-y-8">
                 <!-- Content Editor Component -->
                 <x-blog-content-editor :topic="$topic" :generatedContent="$generatedContent" />
-
+                
                 <!-- Image Generator Component -->
                 <x-blog-image-generator />
             </div>
-
+            
             <!-- Sidebar (25%) -->
             <div class="lg:col-span-1 space-y-8">
                 <!-- Image Preview Component -->
                 <x-blog-image-preview :client="$client" />
             </div>
-
         </div>
     </div>
-    <!-- Modal para la vista previa -->
-    <!-- Modal para la vista previa -->
-
 
     <!-- Modal para la vista previa -->
-    <div id="previewModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold">Blog Preview</h2>
-                <button id="closePreviewModal" class="text-gray-500 hover:text-gray-700">
-                    &times;
+    <div id="previewModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="glass-card w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6 animate-scale-in">
+            <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                <h2 class="text-2xl font-bold text-white">Blog Preview</h2>
+                <button id="closePreviewModal" class="text-slate-400 hover:text-white transition-colors duration-200 p-2 hover:bg-white/10 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
                 </button>
             </div>
-            <div id="previewContent"></div>
+            <div id="previewContent" class="prose prose-invert max-w-none"></div>
         </div>
     </div>
-
 
     @push('js')
         <script>
@@ -53,147 +50,155 @@
             const deleteImageRoute = "{{ route('blog.delete-image', $client->highlevel_id) }}";
             const showRoute = "{{ route('blog.show', $client->highlevel_id) }}";
             const city = @json($client->primary_city ?? $client->city);
-            
         </script>
 
-        <!-- Estilos CSS para mejorar la presentación del contenido HTML -->
+        <!-- Dark theme styles for content -->
         <style>
-            /* Estilos para el editor CKEditor */
+            /* Dark theme editor styles */
             .ck-content {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
                 line-height: 1.6;
-                color: #374151;
+                color: #e2e8f0;
+                background: transparent;
             }
-            
-            /* Estilos para las pestañas */
-            .tab-button {
-                transition: all 0.2s ease-in-out;
-            }
-            
-            .tab-button.active {
-                border-bottom-color: #3b82f6;
-                color: #2563eb;
-            }
-            
-            .tab-content {
-                transition: opacity 0.2s ease-in-out;
-            }
-            
+
             .ck-content h1, .ck-content h2, .ck-content h3, .ck-content h4, .ck-content h5, .ck-content h6 {
-                color: #1f2937;
+                color: #f1f5f9;
                 font-weight: 600;
                 margin-top: 1.5em;
                 margin-bottom: 0.75em;
             }
-            
-            .ck-content h1 { 
-                font-size: 2rem; 
-                border-bottom: 2px solid #e5e7eb;
+
+            .ck-content h1 {
+                font-size: 2rem;
+                border-bottom: 2px solid rgba(255, 255, 255, 0.1);
                 padding-bottom: 0.5em;
             }
-            
-            .ck-content h2 { 
-                font-size: 1.5rem; 
-                border-bottom: 1px solid #e5e7eb;
+
+            .ck-content h2 {
+                font-size: 1.5rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
                 padding-bottom: 0.25em;
             }
-            
-            .ck-content h3 { font-size: 1.25rem; }
-            
+
+            .ck-content h3 { 
+                font-size: 1.25rem; 
+            }
+
             .ck-content p {
                 margin-bottom: 1em;
                 line-height: 1.75;
+                color: #cbd5e1;
             }
-            
+
             .ck-content a {
-                color: #2563eb;
+                color: #60a5fa;
                 text-decoration: underline;
             }
-            
+
             .ck-content a:hover {
-                color: #1d4ed8;
+                color: #93c5fd;
             }
-            
+
             .ck-content ul, .ck-content ol {
                 margin-bottom: 1em;
                 padding-left: 1.5em;
             }
-            
+
             .ck-content li {
                 margin-bottom: 0.5em;
+                color: #cbd5e1;
             }
-            
+
             .ck-content blockquote {
-                border-left: 4px solid #e5e7eb;
+                border-left: 4px solid rgba(99, 102, 241, 0.5);
                 padding-left: 1em;
                 margin: 1.5em 0;
                 font-style: italic;
-                color: #6b7280;
-                background-color: #f9fafb;
+                color: #94a3b8;
+                background: rgba(255, 255, 255, 0.05);
                 padding: 1em;
-                border-radius: 0.375rem;
+                border-radius: 0.75rem;
+                backdrop-filter: blur(8px);
             }
-            
-            /* Estilos para la vista previa */
-            .prose {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                line-height: 1.6;
-                color: #374151;
+
+            /* Dark theme preview styles */
+            .prose-invert {
+                color: #e2e8f0;
             }
-            
-            .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-                color: #1f2937;
+
+            .prose-invert h1, .prose-invert h2, .prose-invert h3, .prose-invert h4, .prose-invert h5, .prose-invert h6 {
+                color: #f1f5f9;
                 font-weight: 600;
                 margin-top: 1.5em;
                 margin-bottom: 0.75em;
             }
-            
-            .prose h1 { 
-                font-size: 2.25rem; 
-                border-bottom: 2px solid #e5e7eb;
+
+            .prose-invert h1 {
+                font-size: 2.25rem;
+                border-bottom: 2px solid rgba(255, 255, 255, 0.1);
                 padding-bottom: 0.5em;
             }
-            
-            .prose h2 { 
-                font-size: 1.875rem; 
-                border-bottom: 1px solid #e5e7eb;
+
+            .prose-invert h2 {
+                font-size: 1.875rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
                 padding-bottom: 0.25em;
             }
-            
-            .prose h3 { font-size: 1.5rem; }
-            
-            .prose p {
+
+            .prose-invert h3 { 
+                font-size: 1.5rem; 
+            }
+
+            .prose-invert p {
                 margin-bottom: 1em;
                 line-height: 1.75;
+                color: #cbd5e1;
             }
-            
-            .prose a {
-                color: #2563eb;
+
+            .prose-invert a {
+                color: #60a5fa;
                 text-decoration: underline;
             }
-            
-            .prose a:hover {
-                color: #1d4ed8;
+
+            .prose-invert a:hover {
+                color: #93c5fd;
             }
-            
-            .prose ul, .prose ol {
+
+            .prose-invert ul, .prose-invert ol {
                 margin-bottom: 1em;
                 padding-left: 1.5em;
             }
-            
-            .prose li {
+
+            .prose-invert li {
                 margin-bottom: 0.5em;
+                color: #cbd5e1;
             }
-            
-            .prose blockquote {
-                border-left: 4px solid #e5e7eb;
+
+            .prose-invert blockquote {
+                border-left: 4px solid rgba(99, 102, 241, 0.5);
                 padding-left: 1em;
                 margin: 1.5em 0;
                 font-style: italic;
-                color: #6b7280;
-                background-color: #f9fafb;
+                color: #94a3b8;
+                background: rgba(255, 255, 255, 0.05);
                 padding: 1em;
-                border-radius: 0.375rem;
+                border-radius: 0.75rem;
+                backdrop-filter: blur(8px);
+            }
+
+            /* Tab styles */
+            .tab-button {
+                transition: all 0.3s ease-in-out;
+            }
+
+            .tab-button.active {
+                border-bottom-color: #6366f1;
+                color: #6366f1;
+            }
+
+            .tab-content {
+                transition: opacity 0.3s ease-in-out;
             }
         </style>
 
@@ -203,50 +208,39 @@
         <x-blog-editor />
         <x-blog-metadata />
 
-
-
-
         <script>
             function setupWordPressFetching() {
-
                 $.ajax({
                     url: website + '/wp-json/limo-blogs/v1/categories',
                     type: 'GET',
                     timeout: 10000,
                     success: function(data) {
                         const categoriesSelect = $('#categoriesSelect');
-
                         if (Array.isArray(data)) {
                             data.forEach(category => {
                                 categoriesSelect.append(
                                     `<option value="${category.id}">${category.name}</option>`
                                 );
                             });
-                            // showAlert('success', 'Categories loaded successfully');
                         } else {
                             console.error("Unexpected data format:", data);
-                            showAlert('warning', 'Unexpected data format when loading categories');
+                            showToast('Unexpected data format when loading categories', 'warning');
                         }
-
                         $('#loadingSpinner').addClass('hidden');
                     },
                     error: function(error) {
                         $('#loadingSpinner').addClass('hidden');
-                        showAlert('error', 'Error loading blog categories. Please try again later.');
+                        showToast('Error loading blog categories. Please try again later.', 'error');
                         console.error("Error fetching categories:", error);
                     }
                 });
-
-
             }
 
-            // Configuración del envío del formulario
             function setupFormSubmission() {
                 document.getElementById('contentForm').addEventListener('submit', function(event) {
                     event.preventDefault();
-
                     if (!editorInstance) {
-                        showAlert('error', 'Editor not initialized. Please refresh the page.');
+                        showToast('Editor not initialized. Please refresh the page.', 'error');
                         return;
                     }
 
@@ -275,9 +269,7 @@
                         .then(response => response.json())
                         .then(data => {
                             submitSpinner.classList.add('hidden');
-
                             const status = payload.post_status;
-
                             let alertConfig = {
                                 title: '',
                                 html: '',
@@ -291,23 +283,23 @@
                                     alertConfig = {
                                         title: 'Blog Published Successfully!',
                                         html: `
-                                                <p class="mb-4">Your blog post is now live.</p>
-                                                <a href="${data.data.permalink}" target="_blank" 
-                                                class="text-blue-600 hover:text-blue-800 underline">
-                                                View Blog Post
-                                                </a>
-                                            `,
+                                            <p class="mb-4 text-slate-300">Your blog post is now live.</p>
+                                            <a href="${data.data.permalink}" target="_blank"
+                                             class="text-indigo-400 hover:text-indigo-300 underline">
+                                            View Blog Post
+                                            </a>
+                                        `,
                                         icon: 'success',
                                         confirmButtonText: 'Done',
                                         showCancelButton: true,
                                         cancelButtonText: 'View All Posts',
-                                        cancelButtonColor: '#3085d6'
+                                        cancelButtonColor: '#6366f1'
                                     };
                                     break;
                                 case 'draft':
                                     alertConfig = {
                                         title: 'Draft Saved',
-                                        html: 'Your blog post has been saved as a draft',
+                                        html: '<p class="text-slate-300">Your blog post has been saved as a draft</p>',
                                         icon: 'info',
                                         confirmButtonText: 'OK'
                                     };
@@ -315,7 +307,7 @@
                                 case 'schedule':
                                     alertConfig = {
                                         title: 'Blog Scheduled',
-                                        html: `Post scheduled for publication on ${payload.schedule_date}`,
+                                        html: `<p class="text-slate-300">Post scheduled for publication on ${payload.schedule_date}</p>`,
                                         icon: 'success',
                                         confirmButtonText: 'OK'
                                     };
@@ -331,7 +323,6 @@
                         .catch(error => {
                             submitSpinner.classList.add('hidden');
                             console.error('Error:', error);
-
                             Swal.fire({
                                 title: 'Error!',
                                 text: 'An error occurred while creating the blog post.',
@@ -342,17 +333,14 @@
                 });
             }
         </script>
+
         <script>
             // Parse the selected pages from PHP to JavaScript
             const selectedPages = {!! json_encode(json_decode($client->selected_pages)) !!};
 
-            // Función para mostrar las páginas seleccionadas
             function displaySelectedPages(pages) {
-                // Contenedor principal con desplazamiento y tamaño fijo
                 const $pagesContainer = $('<div>')
-                    .addClass(
-                        'pages-container bg-gray-100 border border-gray-300 rounded-lg overflow-auto p-4'
-                    )
+                    .addClass('pages-container glass-dark border border-white/20 rounded-xl overflow-auto p-4 scrollbar-dark')
                     .css({
                         'height': '200px',
                         'width': '100%',
@@ -360,128 +348,89 @@
                         'margin': '0 auto'
                     });
 
-                // Crear lista ordenada
                 const $orderedList = $('<ol>')
                     .addClass('list-decimal list-inside space-y-2');
 
-                // Crear elementos de lista para cada página
                 pages.forEach(function(page) {
                     const $listItem = $('<li>')
-                        .addClass('text-gray-800 hover:text-blue-600 transition-all')
+                        .addClass('text-slate-300 hover:text-white transition-all duration-200')
                         .append(
                             $('<a>')
-                            .attr('href', '#') // Cambiar a # para evitar navegación
-                            .attr('data-page-url', page.url) // Almacenar la URL como atributo de datos
-                            .attr('data-page-title', page.title) // Almacenar el título como atributo de datos
-                            .addClass(
-                                'text-md font-medium break-words hover:underline page-link')
+                            .attr('href', '#')
+                            .attr('data-page-url', page.url)
+                            .attr('data-page-title', page.title)
+                            .addClass('text-md font-medium break-words hover:underline page-link hover:text-indigo-400')
                             .text(page.title)
                             .on('click', function(e) {
-                                e.preventDefault(); // Prevenir comportamiento predeterminado
-                                applyLinkToSelectedText($(this).attr('data-page-url'), $(
-                                    this).attr('data-page-title'));
+                                e.preventDefault();
+                                applyLinkToSelectedText($(this).attr('data-page-url'), $(this).attr('data-page-title'));
                             })
                         );
-
-                    // Añadir elemento de lista a la lista ordenada
                     $orderedList.append($listItem);
                 });
 
-                // Añadir lista ordenada al contenedor principal
                 $pagesContainer.append($orderedList);
-
-                // Limpiar contenedor existente y añadir uno nuevo
                 $('#select-container').html($pagesContainer);
-
-                // Agregar título explicativo al contenedor
                 $('#select-container').prepend(
                     $('<div>')
-                    .addClass('text-sm text-gray-600 mb-2 font-medium')
-                    .text(
-                        'Select text in the editor and click on a page to create a link:'
-                    )
+                    .addClass('text-sm text-slate-400 mb-3 font-medium')
+                    .text('Select text in the editor and click on a page to create a link:')
                 );
             }
 
-            // Función para aplicar enlace al texto seleccionado en el editor
             function applyLinkToSelectedText(url, pageTitle) {
-                // Verificar que el editor existe
                 if (!editorInstance) {
-                    showAlert('error', 'Editor not initialized. Please refresh the page.');
+                    showToast('Editor not initialized. Please refresh the page.', 'error');
                     return;
                 }
 
-                // Obtener selección actual del editor
                 const selection = editorInstance.model.document.selection;
-
-                // Verificar si hay texto seleccionado
                 if (selection.isCollapsed) {
-                    // Si no hay selección, mostrar alerta
-                    showAlert('warning', 'Please select some text in the editor first to create a link.');
+                    showToast('Please select some text in the editor first to create a link.', 'warning');
                     return;
                 }
 
-                // Crear modelo de enlace
                 editorInstance.execute('link', url, {
                     linkIsExternal: true,
                     linkIsDownloadable: false
                 });
 
-                // Mostrar mensaje de éxito
-                showAlert('success', `Link created to "${pageTitle}"`);
+                showToast(`Link created to "${pageTitle}"`, 'success');
             }
 
-            // Asegúrate de que el editor tenga estilos CSS para los enlaces
-            const editorStyles = `
-            .ck-content a {
-                color: blue;
-                text-decoration: underline;
-            }
-        `;
-
-            // Agregar estilos al editor
-            const styleElement = document.createElement('style');
-            styleElement.innerHTML = editorStyles;
-            document.head.appendChild(styleElement);
-
-            // Mostrar las páginas seleccionadas cuando el documento esté listo
             document.addEventListener('DOMContentLoaded', () => {
                 displaySelectedPages(selectedPages);
             });
         </script>
 
         <script>
-            // ui.js - Funcionalidad para elementos de interfaz de usuario
-
-            // Configuración de elementos fijos
             function setupStickyElements() {
-                // Ajuste de posición para asegurar que ambos elementos se muestren correctamente
                 const handleScroll = () => {
                     const scrollTop = $(window).scrollTop();
                     const blocksSectionHeight = $('#available-blocks-section').outerHeight();
                     const windowHeight = $(window).height();
 
-                    // Ajustar posición del segundo elemento para que siempre sea visible
-                    // sin superponerse con el primero
                     if (scrollTop + blocksSectionHeight + 20 > windowHeight) {
-                        $('#image-preview-section').css('top', Math.max(8, windowHeight - $('#image-preview-section')
-                            .outerHeight()));
+                        $('#image-preview-section').css('top', Math.max(8, windowHeight - $('#image-preview-section').outerHeight()));
                     } else {
                         $('#image-preview-section').css('top', 'calc(8rem + 170px)');
                     }
                 };
 
                 $(window).on('scroll resize', handleScroll);
-                handleScroll(); // Ejecutar al inicio
+                handleScroll();
             }
         </script>
     @endpush
 
-    <footer class="w-full text-center py-6 text-gray-500 text-sm border-t mt-8">
-        <p>
-            This site is protected by U.S. data protection laws. <br>
-            <a href="{{ route('privacy.policy') }}" class="text-blue-600 hover:underline">Privacy Policy</a> |
-            <a href="{{ route('terms.service') }}" class="text-blue-600 hover:underline">Terms of Service</a>
+    <footer class="w-full text-center py-8 text-slate-400 text-sm border-t border-white/10 mt-12 glass-dark">
+        <p class="mb-2">
+            This site is protected by U.S. data protection laws.
         </p>
+        <div class="flex justify-center space-x-4">
+            <a href="{{ route('privacy.policy') }}" class="text-indigo-400 hover:text-indigo-300 underline transition-colors duration-200">Privacy Policy</a>
+            <span class="text-slate-600">|</span>
+            <a href="{{ route('terms.service') }}" class="text-indigo-400 hover:text-indigo-300 underline transition-colors duration-200">Terms of Service</a>
+        </div>
     </footer>
 </x-guest-layout>

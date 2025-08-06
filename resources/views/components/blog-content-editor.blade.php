@@ -1,87 +1,95 @@
-<section class="bg-white shadow-sm rounded-lg overflow-hidden">
-    <div class="border-b border-gray-200 p-6">
-        <h2 class="text-xl font-semibold text-gray-800">Create New Blog Post</h2>
-        <p class="text-sm text-gray-500 mt-1">Fill in the details below to create your blog post</p>
+<section class="glass-card shadow-xl rounded-2xl overflow-hidden border border-white/10 animate-slide-up">
+    <div class="border-b border-white/10 p-6 bg-gradient-to-r from-indigo-500/10 to-purple-500/10">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                </svg>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold text-white">Create New Blog Post</h2>
+                <p class="text-sm text-slate-400 mt-1">Fill in the details below to create your blog post</p>
+            </div>
+        </div>
     </div>
-
+    
     <div class="p-6">
         <form id="contentForm">
             @csrf
             <!-- Title Field -->
             <div class="mb-6">
-                <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Post Title:</label>
+                <label for="title" class="form-label form-label-required">Post Title</label>
                 <input type="text" name="title" id="title" placeholder="Enter a compelling title"
                     value="{{ $topic['title'] ?? '' }}"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    class="form-input-dark">
             </div>
 
             <!-- Content Editor -->
             <div class="mb-8">
-                <label for="content" class="block text-sm font-medium text-gray-700 mb-2">Content:</label>
+                <label for="content" class="form-label form-label-required">Content</label>
                 <textarea name="content" id="editor" placeholder="Write your blog content here"
-                    class="min-h-[300px] w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    {{ $generatedContent ?? '' }}
-                </textarea>
+                    class="min-h-[400px] form-textarea-dark">{{ $generatedContent ?? '' }}</textarea>
             </div>
-            <!-- Publication Options -->
-            <div class="bg-gray-50 p-6 rounded-lg mb-8">
-                <h3 class="text-lg font-medium text-gray-800 mb-4">Publishing Options</h3>
 
+            <!-- Publication Options -->
+            <div class="glass-input p-6 rounded-xl mb-8 border border-white/10">
+                <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"></path>
+                    </svg>
+                    Publishing Options
+                </h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
-                        <label for="post_status" class="block text-sm font-medium text-gray-700 mb-2">Post
-                            Status:</label>
-                        <select name="post_status" id="post_status"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <label for="post_status" class="form-label">Post Status</label>
+                        <select name="post_status" id="post_status" class="form-select-dark">
                             <option value="draft">Draft</option>
                             <option value="publish">Publish</option>
                             <option value="schedule">Schedule</option>
                         </select>
                     </div>
-
                     <div>
-                        <label for="categoriesSelect"
-                            class="block text-sm font-medium text-gray-700 mb-2">Categories:</label>
-                        <select id="categoriesSelect"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <label for="categoriesSelect" class="form-label">Categories</label>
+                        <select id="categoriesSelect" class="form-select-dark">
                             <option value="">All Categories</option>
                         </select>
                     </div>
-
-
                 </div>
-
+                
                 <!-- Schedule Date (Hidden by default) -->
                 <div id="schedule_date_container" class="mt-6 hidden">
-                    <label for="schedule_date" class="block text-sm font-medium text-gray-700 mb-2">Schedule
-                        Publication:</label>
-                    <input type="datetime-local" name="schedule_date" id="schedule_date"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <label for="schedule_date" class="form-label">Schedule Publication</label>
+                    <input type="datetime-local" name="schedule_date" id="schedule_date" class="form-input-dark">
                 </div>
             </div>
 
             <!-- SEO Section -->
-            <div class="bg-gray-50 p-6 rounded-lg mb-8">
-                <div class="flex justify-between items-center mb-5">
-                    <h3 class="text-lg font-medium text-gray-800">SEO & Metadata</h3>
-                    <button type="button"
-                        id="generateAllMeta"class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+            <div class="glass-input p-6 rounded-xl mb-8 border border-white/10">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg font-semibold text-white flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                        </svg>
+                        SEO & Metadata
+                    </h3>
+                    <button type="button" id="generateAllMeta" 
+                        class="btn-secondary text-sm">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
                         Generate All
                     </button>
                 </div>
-
+                
                 <div class="space-y-6">
                     <!-- Meta Title -->
-                    <div class="flex flex-col space-y-2">
+                    <div class="space-y-2">
                         <div class="flex items-center justify-between">
-                            <label for="meta_title" class="block text-sm font-medium text-gray-700">Meta Title:</label>
+                            <label for="meta_title" class="form-label">Meta Title</label>
                             <button type="button" id="generateMetaTitle"
-                                class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-md transition duration-200 inline-flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                                        clip-rule="evenodd" />
+                                class="px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-400 text-xs rounded-lg transition-all duration-200 flex items-center border border-indigo-500/30">
+                                <svg class="h-3 w-3 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                                 </svg>
                                 Generate
                             </button>
@@ -89,32 +97,21 @@
                         <div class="relative">
                             <input type="text" name="meta_title" id="meta_title"
                                 placeholder="SEO optimized title (max 60 chars)" maxlength="60"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                class="form-input-dark">
                             <div id="titleSpinner" class="absolute right-3 top-3 hidden">
-                                <svg class="animate-spin h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10"
-                                        stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor"
-                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                                    </path>
-                                </svg>
+                                <div class="loading-spinner"></div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Meta Description -->
-                    <div class="flex flex-col space-y-2">
+                    <div class="space-y-2">
                         <div class="flex items-center justify-between">
-                            <label for="meta_description" class="block text-sm font-medium text-gray-700">Meta
-                                Description:</label>
+                            <label for="meta_description" class="form-label">Meta Description</label>
                             <button type="button" id="generateMetaDescription"
-                                class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-md transition duration-200 inline-flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                                        clip-rule="evenodd" />
+                                class="px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-400 text-xs rounded-lg transition-all duration-200 flex items-center border border-indigo-500/30">
+                                <svg class="h-3 w-3 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                                 </svg>
                                 Generate
                             </button>
@@ -122,32 +119,21 @@
                         <div class="relative">
                             <input type="text" name="meta_description" id="meta_description"
                                 placeholder="SEO optimized description (max 170 chars)" maxlength="170"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                class="form-input-dark">
                             <div id="descriptionSpinner" class="absolute right-3 top-3 hidden">
-                                <svg class="animate-spin h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10"
-                                        stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor"
-                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                                    </path>
-                                </svg>
+                                <div class="loading-spinner"></div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Extra Block -->
-                    <div class="flex flex-col space-y-2">
+                    <div class="space-y-2">
                         <div class="flex items-center justify-between">
-                            <label for="extra_block" class="block text-sm font-medium text-gray-700">Extra Content
-                                Block:</label>
+                            <label for="extra_block" class="form-label">Extra Content Block</label>
                             <button type="button" id="generateExtraBlock"
-                                class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-md transition duration-200 inline-flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                                        clip-rule="evenodd" />
+                                class="px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-400 text-xs rounded-lg transition-all duration-200 flex items-center border border-indigo-500/30">
+                                <svg class="h-3 w-3 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                                 </svg>
                                 Generate
                             </button>
@@ -155,16 +141,9 @@
                         <div class="relative">
                             <input type="text" name="extra_block" id="extra_block"
                                 placeholder="Additional content suggestion"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                class="form-input-dark">
                             <div id="extraBlockSpinner" class="absolute right-3 top-3 hidden">
-                                <svg class="animate-spin h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10"
-                                        stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor"
-                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                                    </path>
-                                </svg>
+                                <div class="loading-spinner"></div>
                             </div>
                         </div>
                     </div>
@@ -173,30 +152,20 @@
 
             <!-- Submit Button -->
             <div class="flex justify-end space-x-4">
-                <!-- Botón "Generar Vista Previa" -->
-                <button id="generatePreviewBtn" type="button"
-                    class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                <button id="generatePreviewBtn" type="button" class="btn-secondary">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                    </svg>
                     Generate Preview
                 </button>
-
-                <!-- Botón "Submit Blog Post" -->
-                <button type="submit"
-                    class="py-3 px-8 bg-green-600 hover:bg-green-700 text-white font-medium rounded-md transition duration-200 inline-flex items-center justify-center text-base">
-                    <div id="submitSpinner" class="hidden">
-                        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
-                            fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                            </path>
-                        </svg>
+                
+                <button type="submit" class="btn-primary">
+                    <div id="submitSpinner" class="hidden mr-2">
+                        <div class="loading-spinner"></div>
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
-                        fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                            clip-rule="evenodd" />
+                    <svg class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
                     </svg>
                     Submit Blog Post
                 </button>

@@ -1,4 +1,5 @@
 <script>
+    // Metadata generation functions - Usando funciones globales de utils
     function setupMetadataGeneration() {
         // DOM Elements con verificación
         const elements = {
@@ -47,12 +48,11 @@
             if (type === 'title') isGeneratingTitle = true;
             if (type === 'description') isGeneratingDescription = true;
 
-            // Mostrar spinner
+            // Mostrar spinner usando función global
             showSpinner(spinnerId);
 
             // Preparar el body de la petición
             let bodyContent;
-
             if (type === 'title') {
                 bodyContent = {
                     prompt: `Generate a concise SEO-friendly meta title (max 60 characters) for an article titled "${contentTitle.trim()}"${contentDescription ? ` with focus on: ${stripHtml(contentDescription).substring(0, 200)}` : ''}`
@@ -84,7 +84,6 @@
                 })
                 .then(data => {
                     console.log(`${type} response data:`, data);
-
                     if (data.success && data.content) {
                         let content = data.content;
 
@@ -111,12 +110,10 @@
                         const inputElement = document.getElementById(inputId);
                         if (inputElement) {
                             inputElement.value = content;
-
                             // Trigger change event para cualquier listener
                             inputElement.dispatchEvent(new Event('change', {
                                 bubbles: true
                             }));
-
                             showAlert('success',
                                 `${type === 'title' ? 'Meta title' : 'Meta description'} generated successfully!`
                                 );
@@ -146,10 +143,8 @@
         elements.generateMetaTitle.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-
             const contentTitle = elements.contentTitle?.value || '';
             const contentDescription = getEditorContent();
-
             generateMetaContent('title', 'meta_title', metaDataRoute, 'titleSpinner', contentTitle,
                 contentDescription);
         });
@@ -157,10 +152,8 @@
         elements.generateMetaDescription.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-
             const contentTitle = elements.contentTitle?.value || '';
             const contentDescription = getEditorContent();
-
             generateMetaContent('description', 'meta_description', metaDescripcionRoute, 'descriptionSpinner',
                 contentTitle, contentDescription);
         });
@@ -168,7 +161,6 @@
         elements.generateAllMeta.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-
             const contentTitle = elements.contentTitle?.value || '';
             const contentDescription = getEditorContent();
 
@@ -185,7 +177,6 @@
                     return new Promise(resolve => setTimeout(resolve, 1000));
                 })
                 .then(() => {
-                    // CORREGIDO: Usar metaDescripcionRoute en lugar de imageGeneratorRoute
                     return generateMetaContent('description', 'meta_description', metaDescripcionRoute,
                         'descriptionSpinner', contentTitle, contentDescription);
                 })
@@ -201,16 +192,13 @@
                 if (typeof editorInstance !== 'undefined' && editorInstance) {
                     return editorInstance.getData();
                 }
-
                 // Fallback: buscar en elementos comunes del editor
                 const editorElement = document.querySelector('.ck-content') ||
                     document.querySelector('[data-editor]') ||
                     document.getElementById('content');
-
                 if (editorElement) {
                     return editorElement.innerHTML || editorElement.value || '';
                 }
-
                 return '';
             } catch (error) {
                 console.warn('Error getting editor content:', error);
@@ -221,7 +209,6 @@
         // Función auxiliar para limpiar HTML
         function stripHtml(html) {
             if (!html) return '';
-
             try {
                 const tmp = document.createElement('div');
                 tmp.innerHTML = html;
@@ -232,72 +219,65 @@
             }
         }
 
-        // Función auxiliar para obtener CSRF token
-        function getCsrfToken() {
-            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ||
-                document.querySelector('input[name="_token"]')?.value;
-
-            if (!token) {
-                console.error('CSRF token not found');
-            }
-
-            return token;
-        }
-
-        // Funciones auxiliares para spinners y alertas (si no existen globalmente)
-        function showSpinner(spinnerId) {
-            const spinner = document.getElementById(spinnerId);
-            if (spinner) {
-                spinner.classList.remove('hidden');
-            }
-        }
-
-        function hideSpinner(spinnerId) {
-            const spinner = document.getElementById(spinnerId);
-            if (spinner) {
-                spinner.classList.add('hidden');
-            }
-        }
-
-        function showAlert(type, message) {
-            // Si existe una función global showAlert, usarla
-            if (typeof window.showAlert === 'function') {
-                window.showAlert(type, message);
-                return;
-            }
-
-            // Fallback simple
-            console.log(`${type.toUpperCase()}: ${message}`);
-
-            // Crear alerta visual simple si no existe
-            const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type} fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50`;
-            alertDiv.style.cssText = `
-            background-color: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#f59e0b'};
-            color: white;
-            max-width: 300px;
-        `;
-            alertDiv.textContent = message;
-
-            document.body.appendChild(alertDiv);
-
-            setTimeout(() => {
-                alertDiv.remove();
-            }, 5000);
-        }
-
         console.log('Metadata generation setup completed');
     }
 
-    // Inicializar cuando el DOM esté listo
-    document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(setupMetadataGeneration, 100);
-    });
+    // Schedule date handling
+    function setupScheduleHandling() {
+        const postStatusSelect = document.getElementById('post_status');
+        const scheduleDateContainer = document.getElementById('schedule_date_container');
+        const scheduleDateInput = document.getElementById('schedule_date');
 
-    // También inicializar si el DOM ya está cargado
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', setupMetadataGeneration);
-    } else {
-        setupMetadataGeneration();
+        if (postStatusSelect && scheduleDateContainer) {
+            postStatusSelect.addEventListener('change', function() {
+                if (this.value === 'schedule') {
+                    scheduleDateContainer.classList.remove('hidden');
+                    scheduleDateInput.required = true;
+
+                    // Set minimum date to current date
+                    const now = new Date();
+                    const minDate = now.toISOString().slice(0, 16);
+                    scheduleDateInput.min = minDate;
+
+                    // Set default to 1 hour from now
+                    now.setHours(now.getHours() + 1);
+                    const defaultDate = now.toISOString().slice(0, 16);
+                    scheduleDateInput.value = defaultDate;
+                } else {
+                    scheduleDateContainer.classList.add('hidden');
+                    scheduleDateInput.required = false;
+                    scheduleDateInput.value = '';
+                }
+            });
+        }
     }
+
+    // Categories handling
+    function setupCategoriesHandling() {
+        const categoriesSelect = document.getElementById('categoriesSelect');
+
+        if (categoriesSelect) {
+            // Initialize Select2 with dark theme
+            $(categoriesSelect).select2({
+                placeholder: 'Select categories...',
+                allowClear: true,
+                multiple: true,
+                theme: 'default',
+                dropdownCssClass: 'select2-dark',
+                selectionCssClass: 'select2-dark'
+            });
+
+            // Apply dark theme styles
+            $('.select2-container--default .select2-selection--multiple').addClass('form-select-dark');
+            $('.select2-container--default .select2-selection--multiple .select2-selection__choice').addClass(
+                'bg-indigo-500/20 text-indigo-300 border-indigo-500/30');
+        }
+    }
+
+    // Initialize all metadata functions
+    document.addEventListener('DOMContentLoaded', function() {
+        setupMetadataGeneration();
+        setupScheduleHandling();
+        setupCategoriesHandling();
+    });
 </script>
