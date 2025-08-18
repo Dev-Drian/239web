@@ -205,6 +205,7 @@ Route::prefix('239web')->group(function () {
     Route::post('/blog/{id}', [BlogController::class, 'store'])->name('blog.store');
     Route::post('/blog/upload-image/{id}', [BlogController::class, 'uploadImage'])->name('blog.upload-image');
     Route::delete('/blog/delete-image/{id}', [BlogController::class, 'deleteImage'])->name('blog.delete-image');
+    Route::post('/blog/single-article/{id}', [BlogController::class, 'createSingleArticle'])->name('blog.single-article');
 
     Route::get('/area/{id}', [AreaController::class, 'index'])->name('area.index');
 
