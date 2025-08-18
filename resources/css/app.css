@@ -61,4 +61,47 @@
         outline: none;
         box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
     }
+
+    /* Navigation Styles */
+    .glass {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .glass-dark {
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .beautiful-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(148, 163, 184, 0.3) transparent;
+    }
+
+    .beautiful-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .beautiful-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .beautiful-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(148, 163, 184, 0.3);
+        border-radius: 3px;
+    }
+
+    .beautiful-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgba(148, 163, 184, 0.5);
+    }
+
+    /* Mobile optimizations */
+    @media (max-width: 768px) {
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(25px);
+        }
+    }
 }

@@ -94,7 +94,19 @@ function setupExtraBlockGeneration() {
         }
 
         const content = editorInstance.getData();
-        showSpinner('extraBlockSpinner');
+        
+        // Show both loaders
+        const inputSpinner = document.getElementById('extraBlockSpinner');
+        const buttonSpinner = document.getElementById('extraBlockGenerateSpinner');
+        const buttonIcon = document.getElementById('extraBlockGenerateIcon');
+        const buttonText = document.getElementById('extraBlockGenerateText');
+        const button = document.getElementById('generateExtraBlock');
+        
+        if (inputSpinner) inputSpinner.classList.remove('hidden');
+        if (button) button.disabled = true;
+        if (buttonSpinner) buttonSpinner.classList.remove('hidden');
+        if (buttonIcon) buttonIcon.classList.add('hidden');
+        if (buttonText) buttonText.textContent = 'Generating...';
 
         // Generate a dynamic and varied prompt
         const dynamicPrompt = generateDynamicPrompt(content, city);
@@ -111,9 +123,15 @@ function setupExtraBlockGeneration() {
             })
             .then(response => response.json())
             .then(data => {
-                hideSpinner('extraBlockSpinner');
+                // Hide both loaders
+                if (inputSpinner) inputSpinner.classList.add('hidden');
+                if (button) button.disabled = false;
+                if (buttonSpinner) buttonSpinner.classList.add('hidden');
+                if (buttonIcon) buttonIcon.classList.remove('hidden');
+                if (buttonText) buttonText.textContent = 'Generate';
+                
                 if (data.content) {
-                console.log(data.content);
+                    console.log(data.content);
                     const currentContent = editorInstance.getData();
                     editorInstance.setData(currentContent + "\n\n" + data.content);
                     showAlert('success', 'Additional content generated successfully!');
@@ -123,7 +141,13 @@ function setupExtraBlockGeneration() {
             })
             .catch(error => {
                 console.error('Error:', error);
-                hideSpinner('extraBlockSpinner');
+                // Hide both loaders on error
+                if (inputSpinner) inputSpinner.classList.add('hidden');
+                if (button) button.disabled = false;
+                if (buttonSpinner) buttonSpinner.classList.add('hidden');
+                if (buttonIcon) buttonIcon.classList.remove('hidden');
+                if (buttonText) buttonText.textContent = 'Generate';
+                
                 showAlert('error', 'An error occurred while generating extra content');
             });
     });
@@ -206,6 +230,28 @@ function setupBlogPreview() {
     const previewContent = document.getElementById('previewContent');
     const closePreviewModal = document.getElementById('closePreviewModal');
 
+    function showPreviewLoader() {
+        const spinner = document.getElementById('previewSpinner');
+        const icon = document.getElementById('previewIcon');
+        const text = document.getElementById('previewText');
+        
+        generatePreviewBtn.disabled = true;
+        if (spinner) spinner.classList.remove('hidden');
+        if (icon) icon.classList.add('hidden');
+        if (text) text.textContent = 'Generating Preview...';
+    }
+
+    function hidePreviewLoader() {
+        const spinner = document.getElementById('previewSpinner');
+        const icon = document.getElementById('previewIcon');
+        const text = document.getElementById('previewText');
+        
+        generatePreviewBtn.disabled = false;
+        if (spinner) spinner.classList.add('hidden');
+        if (icon) icon.classList.remove('hidden');
+        if (text) text.textContent = 'Generate Preview';
+    }
+
     // Handle click on preview button
     generatePreviewBtn.addEventListener('click', function() {
         if (!editorInstance) {
@@ -223,22 +269,35 @@ function setupBlogPreview() {
             return;
         }
 
-        // Build preview content with dark theme styles
-        const previewHTML = `
-        <div class="bg-slate-800 p-6 rounded-lg shadow-lg">
-            <h1 class="text-3xl font-bold mb-6 text-white">${title}</h1>
-            ${imageUrl ? `<img src="${imageUrl}" alt="Preview Image" class="w-full h-auto mb-6 rounded-lg shadow-md">` : ''}
-            <div id="previewContent">
-                ${content}
-            </div>
-        </div>
-    `;
+        // Show loading state
+        showPreviewLoader();
 
-        // Show preview in modal
-        previewContent.innerHTML = previewHTML;
-        previewModal.classList.remove('hidden');
-        
+        // Simulate loading time for better UX
+        setTimeout(() => {
+            try {
+                // Build preview content with dark theme styles
+                const previewHTML = `
+                <div class="bg-slate-800 p-6 rounded-lg shadow-lg">
+                    <h1 class="text-3xl font-bold mb-6 text-white">${title}</h1>
+                    ${imageUrl ? `<img src="${imageUrl}" alt="Preview Image" class="w-full h-auto mb-6 rounded-lg shadow-md">` : ''}
+                    <div id="previewContent" class="prose prose-invert max-w-none">
+                        ${content}
+                    </div>
+                </div>
+            `;
 
+                // Show preview in modal
+                previewContent.innerHTML = previewHTML;
+                previewModal.classList.remove('hidden');
+                
+                showAlert('success', 'Preview generated successfully!');
+            } catch (error) {
+                console.error('Error generating preview:', error);
+                showAlert('error', 'Error generating preview. Please try again.');
+            } finally {
+                hidePreviewLoader();
+            }
+        }, 800); // Small delay to show loading animation
     });
 
     // Event handler for close button

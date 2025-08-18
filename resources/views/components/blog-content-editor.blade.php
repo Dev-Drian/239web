@@ -73,11 +73,11 @@
                         SEO & Metadata
                     </h3>
                     <button type="button" id="generateAllMeta" 
-                        class="btn-secondary text-sm">
-                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        class="px-4 py-2 bg-gradient-to-r from-purple-500/20 to-indigo-500/20 hover:from-purple-500/30 hover:to-indigo-500/30 text-purple-400 text-sm rounded-lg transition-all duration-200 flex items-center border border-purple-500/30 font-medium">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
-                        Generate All
+                        Generate All SEO
                     </button>
                 </div>
                 
@@ -88,18 +88,24 @@
                             <label for="meta_title" class="form-label">Meta Title</label>
                             <button type="button" id="generateMetaTitle"
                                 class="px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-400 text-xs rounded-lg transition-all duration-200 flex items-center border border-indigo-500/30">
-                                <svg class="h-3 w-3 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <div class="hidden mr-1" id="titleGenerateSpinner">
+                                    <div class="w-3 h-3 border border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
+                                </div>
+                                <svg class="h-3 w-3 mr-1" id="titleGenerateIcon" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                                 </svg>
-                                Generate
+                                <span id="titleGenerateText">Generate</span>
                             </button>
                         </div>
                         <div class="relative">
                             <input type="text" name="meta_title" id="meta_title"
                                 placeholder="SEO optimized title (max 60 chars)" maxlength="60"
-                                class="form-input-dark">
-                            <div id="titleSpinner" class="absolute right-3 top-3 hidden">
-                                <div class="loading-spinner"></div>
+                                class="form-input-dark pr-12">
+                            <div id="titleSpinner" class="absolute right-3 top-1/2 transform -translate-y-1/2 hidden">
+                                <div class="w-5 h-5 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
+                            </div>
+                            <div class="absolute bottom-1 right-3 text-xs text-slate-400">
+                                <span id="titleCharCount">0</span>/60
                             </div>
                         </div>
                     </div>
@@ -110,18 +116,24 @@
                             <label for="meta_description" class="form-label">Meta Description</label>
                             <button type="button" id="generateMetaDescription"
                                 class="px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-400 text-xs rounded-lg transition-all duration-200 flex items-center border border-indigo-500/30">
-                                <svg class="h-3 w-3 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <div class="hidden mr-1" id="descriptionGenerateSpinner">
+                                    <div class="w-3 h-3 border border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
+                                </div>
+                                <svg class="h-3 w-3 mr-1" id="descriptionGenerateIcon" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                                 </svg>
-                                Generate
+                                <span id="descriptionGenerateText">Generate</span>
                             </button>
                         </div>
                         <div class="relative">
                             <input type="text" name="meta_description" id="meta_description"
                                 placeholder="SEO optimized description (max 170 chars)" maxlength="170"
-                                class="form-input-dark">
-                            <div id="descriptionSpinner" class="absolute right-3 top-3 hidden">
-                                <div class="loading-spinner"></div>
+                                class="form-input-dark pr-12">
+                            <div id="descriptionSpinner" class="absolute right-3 top-1/2 transform -translate-y-1/2 hidden">
+                                <div class="w-5 h-5 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
+                            </div>
+                            <div class="absolute bottom-1 right-3 text-xs text-slate-400">
+                                <span id="descriptionCharCount">0</span>/170
                             </div>
                         </div>
                     </div>
@@ -132,18 +144,21 @@
                             <label for="extra_block" class="form-label">Extra Content Block</label>
                             <button type="button" id="generateExtraBlock"
                                 class="px-3 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-400 text-xs rounded-lg transition-all duration-200 flex items-center border border-indigo-500/30">
-                                <svg class="h-3 w-3 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <div class="hidden mr-1" id="extraBlockGenerateSpinner">
+                                    <div class="w-3 h-3 border border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
+                                </div>
+                                <svg class="h-3 w-3 mr-1" id="extraBlockGenerateIcon" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                                 </svg>
-                                Generate
+                                <span id="extraBlockGenerateText">Generate</span>
                             </button>
                         </div>
                         <div class="relative">
                             <input type="text" name="extra_block" id="extra_block"
                                 placeholder="Additional content suggestion"
-                                class="form-input-dark">
-                            <div id="extraBlockSpinner" class="absolute right-3 top-3 hidden">
-                                <div class="loading-spinner"></div>
+                                class="form-input-dark pr-12">
+                            <div id="extraBlockSpinner" class="absolute right-3 top-1/2 transform -translate-y-1/2 hidden">
+                                <div class="w-5 h-5 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
                             </div>
                         </div>
                     </div>
@@ -152,17 +167,22 @@
 
             <!-- Submit Button -->
             <div class="flex justify-end space-x-4">
-                <button id="generatePreviewBtn" type="button" class="btn-secondary">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button id="generatePreviewBtn" type="button" 
+                    class="px-6 py-3 bg-gradient-to-r from-slate-600/20 to-slate-500/20 hover:from-slate-600/30 hover:to-slate-500/30 text-slate-300 rounded-lg transition-all duration-200 flex items-center border border-slate-500/30 font-medium">
+                    <div class="hidden mr-2" id="previewSpinner">
+                        <div class="w-4 h-4 border-2 border-slate-300 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                    <svg class="w-4 h-4 mr-2" id="previewIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                     </svg>
-                    Generate Preview
+                    <span id="previewText">Generate Preview</span>
                 </button>
                 
-                <button type="submit" class="btn-primary">
+                <button type="submit" 
+                    class="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-lg transition-all duration-200 flex items-center font-medium shadow-lg hover:shadow-xl">
                     <div id="submitSpinner" class="hidden mr-2">
-                        <div class="loading-spinner"></div>
+                        <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                     </div>
                     <svg class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />

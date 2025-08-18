@@ -21,6 +21,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\GenerateController;
 use App\Http\Controllers\GoogleAuth2Controller;
+use App\Http\Controllers\ServiceController;
 use App\Models\Blog;
 use App\Models\Client;
 use App\Models\Task;
@@ -116,6 +117,12 @@ Route::prefix('239web')->group(function () {
             Route::put('/{user}', [UserController::class, 'update'])->name('users.update');
             Route::delete('/{user}', [UserController::class, 'destroy'])->name('users.destroy');
         });
+
+        
+        Route::get('/services', [ServiceController::class, 'index'])->name('service.index');
+        Route::post('/services/save', [ServiceController::class, 'save'])->name('service.save');
+        Route::post('/service/{id}/toggle-status', [\App\Http\Controllers\ServiceController::class, 'toggleStatus'])->name('service.toggleStatus');
+
 
         Route::get('/management-client', [ClientController::class, 'load_client'])->name('load-client');
 

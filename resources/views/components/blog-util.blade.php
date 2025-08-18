@@ -388,14 +388,10 @@
     // Variables globales compartidas
     let imageUrl = null;
 
-    // Initialize auto-save when DOM is ready
+    // Initialize when DOM is ready
     document.addEventListener('DOMContentLoaded', function() {
-        // Setup auto-save for content form
-        window.blogUtils.setupAutoSave('contentForm');
-
-        // Try to restore auto-saved data
-        setTimeout(() => {
-            window.blogUtils.restoreAutoSave('contentForm');
-        }, 1000);
+        // Auto-save functionality disabled
+        // window.blogUtils.setupAutoSave('contentForm');
+        // window.blogUtils.restoreAutoSave('contentForm');
     });
 </script>
