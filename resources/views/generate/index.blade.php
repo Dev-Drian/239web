@@ -123,13 +123,12 @@
                                 </div>
                             </div>
                             
-                            <!-- Enhanced Attach Button -->
-                            <button type="button" id="attach-button"
-                                class="glass border border-white/20 text-slate-300 px-4 py-4 rounded-2xl hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-500/50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center group backdrop-blur-xl">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:scale-110 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-                                </svg>
-                            </button>
+                                <!-- Enhanced Attach Button -->
+                                <button type="button" id="attach-button"
+                                    class="bg-gradient-to-r from-gray-600 to-gray-700 text-white px-5 py-5 rounded-2xl hover:from-gray-700 hover:to-gray-800 focus:outline-none focus:ring-3 focus:ring-gray-500/50 focus:ring-offset-2 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center group border border-gray-500/30">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:scale-110 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                                    </svg>
                             
                             <!-- Enhanced Send Button -->
                             <button type="submit" id="send-button"

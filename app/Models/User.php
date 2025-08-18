@@ -81,4 +81,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ImageUser::class);
     }
+    
+    public function keywordTracker()
+    {
+        return $this->hasOne(KeywordTracker::class);
+    }
 }

@@ -5,14 +5,18 @@ namespace App\Http\Controllers;
 use App\Livewire\Keywords\Keywords;
 use App\Models\Batche;
 use App\Models\BatchKeyword;
+use App\Models\KeywordTracker;
+use App\Models\KeywordTrackerItem;
 use App\Models\City;
 use App\Models\CityExcel;
 use App\Models\Client;
 use App\Services\ValueSerpService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class KeywordsController extends Controller
 {
@@ -81,6 +85,139 @@ class KeywordsController extends Controller
         return view('keywords.show', compact('client', 'batches', 'keywordsData'));
     }
 
+    // Save or update keyword tracker (config + keywords/items)
+    public function saveTracker(Request $request)
+    {
+        $validated = $request->validate([
+            'url' => 'required|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'device' => 'nullable|string|in:desktop,mobile',
+            'keywords' => 'nullable|array',
+            'keywords.*' => 'string|max:255',
+            'items' => 'nullable|array',
+            'items.*.keyword' => 'required_with:items|string|max:255',
+            'items.*.last_position' => 'nullable|string|max:255',
+            'items.*.previous_position' => 'nullable|string|max:255',
+            'items.*.accumulated' => 'nullable|string|max:255',
+            'items.*.searches' => 'nullable|integer',
+            'items.*.url' => 'nullable|string|max:2048',
+        ]);
+
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        $clientId = $user->client_id ?? null;
+
+        return DB::transaction(function () use ($validated, $user, $clientId) {
+            $tracker = KeywordTracker::updateOrCreate(
+                [
+                    'user_id' => $user->id,
+                ],
+                [
+                    'client_id' => $clientId,
+                    'url' => $validated['url'],
+                    'city' => $validated['city'] ?? null,
+                    'device' => $validated['device'] ?? null,
+                ]
+            );
+
+            $keywords = collect($validated['keywords'] ?? [])->filter()->map(fn ($k) => trim($k))->unique()->values();
+            $itemsInput = collect($validated['items'] ?? [])->keyBy(function ($item) {
+                return strtolower(trim($item['keyword'] ?? ''));
+            });
+
+            if ($keywords->isNotEmpty()) {
+                // Remove items not present in new keyword list
+                KeywordTrackerItem::where('keyword_tracker_id', $tracker->id)
+                    ->whereNotIn('keyword', $keywords)
+                    ->delete();
+
+                // Upsert each keyword
+                foreach ($keywords as $kw) {
+                    $key = strtolower($kw);
+                    $payload = [
+                        'keyword_tracker_id' => $tracker->id,
+                        'keyword' => $kw,
+                    ];
+
+                    if ($itemsInput->has($key)) {
+                        $extra = $itemsInput->get($key);
+                        $payload = array_merge($payload, [
+                            'last_position' => $extra['last_position'] ?? null,
+                            'previous_position' => $extra['previous_position'] ?? null,
+                            'accumulated' => $extra['accumulated'] ?? null,
+                            'searches' => $extra['searches'] ?? null,
+                            'url' => $extra['url'] ?? null,
+                            'last_tracked_at' => now(),
+                        ]);
+                    }
+
+                    KeywordTrackerItem::updateOrCreate(
+                        [
+                            'keyword_tracker_id' => $tracker->id,
+                            'keyword' => $kw,
+                        ],
+                        $payload
+                    );
+                }
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Tracker saved',
+                'tracker_id' => $tracker->id,
+            ]);
+        });
+    }
+
+    // Load current user's keyword tracker with items
+    public function getTracker()
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        $tracker = KeywordTracker::with(['items' => function ($q) {
+            $q->orderBy('created_at', 'asc');
+        }])->where('user_id', $user->id)->first();
+
+        if (!$tracker) {
+            return response()->json([
+                'success' => true,
+                'data' => null,
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'url' => $tracker->url,
+                'city' => $tracker->city,
+                'device' => $tracker->device,
+                'keywords' => $tracker->items->pluck('keyword')->values(),
+                'items' => $tracker->items->map(function ($item) {
+                    return [
+                        'keyword' => $item->keyword,
+                        'last_position' => $item->last_position,
+                        'previous_position' => $item->previous_position,
+                        'accumulated' => $item->accumulated,
+                        'searches' => $item->searches,
+                        'url' => $item->url,
+                        'last_tracked_at' => optional($item->last_tracked_at)->toDateTimeString(),
+                    ];
+                })->values(),
+            ],
+        ]);
+    }
     //service for value
     protected $valueSerpService;
 
@@ -239,11 +376,18 @@ class KeywordsController extends Controller
             $client = Client::where('highlevel_id', $id)->first();
 
             // Si tienes autenticación, filtrar por usuario
-            $results = BatchKeyword::where('client_id', $client->id)
+            $all = BatchKeyword::where('client_id', $client->id)
+                ->orderBy('date', 'desc')
                 ->orderBy('created_at', 'desc')
-                ->get()
-                ->unique('keyword');
-            if (!$results) {
+                ->get();
+
+            // Obtener la posición previa (segundo registro más reciente) por keyword
+            $grouped = $all->groupBy('keyword');
+            $previous = $grouped->map(function ($items) {
+                return $items->get(1); // índice 1 = segundo más reciente
+            })->filter()->values();
+
+            if ($previous->isEmpty()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'No se encontraron resultados'
@@ -252,7 +396,7 @@ class KeywordsController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data' => $results
+                'data' => $previous
             ]);
         } catch (\Exception $e) {
             return response()->json([

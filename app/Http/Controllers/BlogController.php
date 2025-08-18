@@ -38,7 +38,10 @@ class BlogController extends Controller
 
             });
         }
-        $clients = $clients->paginate(10);
+
+        $clients = $clients->whereJsonContains('subscriptions', 'seo')
+            ->where('status', 'active')
+            ->paginate(10);
         return view('blog.index', compact('clients'));
     }
 
@@ -87,28 +90,36 @@ class BlogController extends Controller
             // 5.1 Obtener datos dinámicos del cliente
             $clientData = $this->getClientDynamicData($client);
 
-            $prompt = $this->buildPrompt($topic) . "\n\nWrite a professional, first-person article from the perspective of {$clientData['company_name']} in {$clientData['city']}. The article must:\n• Be based on the selected blog topic.\n• Use clear, formal, and engaging language suitable for a business audience.\n• Be structured in paragraphs with appropriate subtitles (use H2 and H3 as needed).\n• Include at least one section with bullet points or listicle where relevant.\n• Mention the company name no more than twice in the entire article.\n• Be between 800 and 1500 words.\n• Avoid using words like \"moreover\" or \"conclusion.\"\n• Do not include a concluding section titled \"Conclusion.\"\n• Focus on promoting the company's strengths, expertise, and unique value in the first person (\"we,\" \"our,\" \"us\").\n• Ensure the article is original and does not copy content from external sources.\n• Format subtitles for clarity and impact.\n";
-            if (!empty($clientData['city'])) {
-                $prompt .= "• Include relevant information about {$clientData['city']} and the local market.\n";
+            // Check if this is a single article (topic has no subtitles)
+            $isSingleArticle = empty($topic['subtitles']);
+
+            if ($isSingleArticle) {
+                // For single articles, we'll use a placeholder content that will be replaced by JavaScript
+                $generatedContent = "<h1>{$topic['title']}</h1>\n<p>Content will be loaded from Single Article generation...</p>";
+            } else {
+                // Regular blog topic with subtitles
+                $prompt = $this->buildPrompt($topic) . "\n\nWrite a professional, first-person article from the perspective of {$clientData['company_name']} in {$clientData['city']}. The article must:\n• Be based on the selected blog topic.\n• Use clear, formal, and engaging language suitable for a business audience.\n• Be structured in paragraphs with appropriate subtitles (use H2 and H3 as needed).\n• Include at least one section with bullet points or listicle where relevant.\n• Mention the company name no more than twice in the entire article.\n• Be between 800 and 1500 words.\n• Avoid using words like \"moreover\" or \"conclusion.\"\n• Do not include a concluding section titled \"Conclusion.\"\n• Focus on promoting the company's strengths, expertise, and unique value in the first person (\"we,\" \"our,\" \"us\").\n• Ensure the article is original and does not copy content from external sources.\n• Format subtitles for clarity and impact.\n";
+                if (!empty($clientData['city'])) {
+                    $prompt .= "• Include relevant information about {$clientData['city']} and the local market.\n";
+                }
+                if (!empty($clientData['services'])) {
+                    $prompt .= "• Mention the company's expertise in {$clientData['services']}.\n";
+                }
+                $prompt .= "\nExample structure:\n1. Subtitle 1: Key Aspect or Benefit\n   ◦ Detailed paragraph(s)\n2. Subtitle 2: Another Relevant Section\n   ◦ Detailed paragraph(s)\n   ◦ Bullet points or listicle if appropriate\n3. Subtitle 3: Additional Insights or Case Study\n   ◦ Detailed paragraph(s)\n4. Subtitle 4: Call to Action or Future Outlook\n   ◦ Detailed paragraph(s)";
+
+                $systemContent = "You are an expert copywriter. Please follow the instructions in the prompt to generate the content.";
+
+                // 6. Generar contenido (parte más costosa)
+                $generatedContent = match ($model) {
+                    'gpt' => $this->contentService->generateContentGPT($systemContent, $prompt),
+                    'perplexity' => $this->contentService->generateContentPerplexity($systemContent, $prompt),
+                    default => $prompt
+                };
+
+                // 7. Limpiar contenido generado
+                $generatedContent = str_replace(['```html', '```'], '', $generatedContent);
+                $generatedContent = $this->removeTitleFromContent($topic['title'], $generatedContent);
             }
-            if (!empty($clientData['services'])) {
-                $prompt .= "• Mention the company's expertise in {$clientData['services']}.\n";
-            }
-            $prompt .= "\nExample structure:\n1. Subtitle 1: Key Aspect or Benefit\n   ◦ Detailed paragraph(s)\n2. Subtitle 2: Another Relevant Section\n   ◦ Detailed paragraph(s)\n   ◦ Bullet points or listicle if appropriate\n3. Subtitle 3: Additional Insights or Case Study\n   ◦ Detailed paragraph(s)\n4. Subtitle 4: Call to Action or Future Outlook\n   ◦ Detailed paragraph(s)";
-
-
-
-            $systemContent = "You are an expert copywriter. Please follow the instructions in the prompt to generate the content.";
-
-            // 6. Generar contenido (parte más costosa)
-            $generatedContent = match ($model) {
-                'gpt', 'perplexity' => $this->contentService->generateContentGPT($systemContent, $prompt),
-                default => $prompt
-            };
-
-            // 7. Limpiar contenido generado
-            $generatedContent = str_replace(['```html', '```'], '', $generatedContent);
-            $generatedContent = $this->removeTitleFromContent($topic['title'], $generatedContent);
 
             // Log temporal para verificar el contenido
             Log::info('Generated content for blog', [
@@ -130,6 +141,108 @@ class BlogController extends Controller
             // Manejo de errores
             Log::error("Error generating blog content: " . $e->getMessage());
             return back()->with('error', 'Error generating content. Please try again.');
+        }
+    }
+
+    public function createSingleArticle(Request $request, $id)
+    {
+        try {
+            // 1. Obtener el cliente
+            $client = Client::where('highlevel_id', $id)->firstOrFail();
+
+            // 2. Validar request
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'model' => 'required|string|in:gpt,perplexity'
+            ]);
+
+            $title = $request->input('title');
+            $model = $request->input('model');
+
+            // 3. Crear clave única para el caché
+            $cacheKey = 'single_article:' . $id . ':' . md5($title . $model);
+
+            // 4. Verificar caché
+            if (Cache::has($cacheKey)) {
+                $cachedData = Cache::get($cacheKey);
+                return response()->json([
+                    'success' => true,
+                    'content' => $cachedData['content']
+                ]);
+            }
+
+            // 5. Obtener datos dinámicos del cliente
+            $clientData = $this->getClientDynamicData($client);
+
+            // 6. Construir el prompt específico para Single Article
+            $prompt = "Write a professional, first-person article from the perspective of {$clientData['company_name']} in {$clientData['city']} about: {$title}. The article must:\n";
+            $prompt .= "• Be based on the selected blog topic.\n";
+            $prompt .= "• Use clear, formal, and engaging language suitable for a business audience.\n";
+            $prompt .= "• Be structured in paragraphs with appropriate subtitles (use H2 and H3 as needed).\n";
+            $prompt .= "• Include at least one section with bullet points or listicle where relevant.\n";
+            $prompt .= "• Mention the company name no more than twice in the entire article.\n";
+            $prompt .= "• Be between 800 and 1500 words.\n";
+            $prompt .= "• Avoid using words like \"moreover\" or \"conclusion.\"\n";
+            $prompt .= "• Do not include a concluding section titled \"Conclusion.\"\n";
+            $prompt .= "• Focus on promoting the company's strengths, expertise, and unique value in the first person (\"we,\" \"our,\" \"us\").\n";
+            $prompt .= "• Ensure the article is original and does not copy content from external sources.\n";
+            $prompt .= "• Format subtitles for clarity and impact.\n";
+            
+            if (!empty($clientData['city'])) {
+                $prompt .= "• Include relevant information about {$clientData['city']} and the local market.\n";
+            }
+            if (!empty($clientData['services'])) {
+                $prompt .= "• Mention the company's expertise in {$clientData['services']}.\n";
+            }
+            
+            $prompt .= "\nExample structure:\n";
+            $prompt .= "Introduction (set the context and introduce the topic)\n";
+            $prompt .= "Subtitle 1: Key Aspect or Benefit\n";
+            $prompt .= "Detailed paragraph(s)\n";
+            $prompt .= "Subtitle 2: Another Relevant Section\n";
+            $prompt .= "Detailed paragraph(s)\n";
+            $prompt .= "Bullet points or listicle if appropriate\n";
+            $prompt .= "Subtitle 3: Additional Insights or Case Study\n";
+            $prompt .= "Detailed paragraph(s)\n";
+            $prompt .= "Subtitle 4: Call to Action or Future Outlook\n";
+            $prompt .= "Detailed paragraph(s)\n";
+            $prompt .= "\nUse proper HTML formatting such as <h1> for the title, <h2> for subheadings, and <p> for paragraphs.";
+
+            $systemContent = "You are an expert copywriter. Please follow the instructions in the prompt to generate the content.";
+
+            // 7. Generar contenido
+            $generatedContent = match ($model) {
+                'gpt' => $this->contentService->generateContentGPT($systemContent, $prompt),
+                'perplexity' => $this->contentService->generateContentPerplexity($systemContent, $prompt),
+                default => $prompt
+            };
+
+            // 8. Limpiar contenido generado
+            $generatedContent = str_replace(['```html', '```'], '', $generatedContent);
+
+            // 9. Almacenar en caché (30 minutos)
+            Cache::put($cacheKey, [
+                'content' => $generatedContent
+            ], now()->addMinutes(30));
+
+            // 10. Log para verificar el contenido
+            Log::info('Generated single article content', [
+                'title' => $title,
+                'content_length' => strlen($generatedContent),
+                'content_preview' => substr($generatedContent, 0, 200) . '...'
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'content' => $generatedContent
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error("Error generating single article: " . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error generating article: ' . $e->getMessage()
+            ], 500);
         }
     }
     private function removeTitleFromContent($title, $content)
@@ -166,7 +279,7 @@ class BlogController extends Controller
     {
         try {
             $client = Client::where('highlevel_id', $id)->firstOrFail();
-            
+
             // Validar request
             $request->validate([
                 'uploaded_image' => 'nullable|file|mimes:jpeg,jpg,png,webp|max:5120',
@@ -182,8 +295,7 @@ class BlogController extends Controller
             // Procesar URL de imagen
             elseif (!empty($request->input('image_url'))) {
                 $imageUrl = $this->validateAndProcessImageUrl($request->input('image_url'), $client->website);
-            }
-            else {
+            } else {
                 return response()->json([
                     'success' => false,
                     'message' => 'No image provided'
@@ -197,7 +309,6 @@ class BlogController extends Controller
                     'image_url' => $imageUrl
                 ]
             ]);
-
         } catch (\Exception $e) {
             Log::error('Error processing image: ' . $e->getMessage());
             return response()->json([
@@ -214,7 +325,7 @@ class BlogController extends Controller
     {
         try {
             $client = Client::where('highlevel_id', $id)->firstOrFail();
-            
+
             $request->validate([
                 'image_url' => 'required|string',
             ]);
@@ -227,7 +338,6 @@ class BlogController extends Controller
                 'message' => $deleted ? 'Image deleted successfully' : 'Image not found on server',
                 'deleted' => $deleted
             ]);
-
         } catch (\Exception $e) {
             Log::error('Error deleting image: ' . $e->getMessage());
             return response()->json([
@@ -654,7 +764,7 @@ class BlogController extends Controller
 
             // Generar nombre único para el archivo
             $fileName = 'blog_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            
+
             // Crear directorio si no existe
             $uploadPath = public_path('uploads/blog-images');
             if (!File::exists($uploadPath)) {
@@ -734,7 +844,7 @@ class BlogController extends Controller
 
             // Generar nombre único
             $fileName = 'blog_' . time() . '_' . uniqid() . '.' . $extension;
-            
+
             // Crear directorio si no existe
             $uploadPath = public_path('uploads/blog-images');
             if (!File::exists($uploadPath)) {

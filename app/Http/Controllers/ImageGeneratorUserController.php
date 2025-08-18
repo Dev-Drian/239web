@@ -21,7 +21,7 @@ class ImageGeneratorUserController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $images = $user->imagesGenerated;
+        $images = $user->imagesGenerated->sortByDesc('created_at')->values()->toArray();
         return view('single.index', compact('images'));
     }
 

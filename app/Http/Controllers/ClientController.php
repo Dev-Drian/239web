@@ -37,7 +37,7 @@ class ClientController extends Controller
             $clients->whereJsonContains('subscriptions', $subscription)
                 ->where('status', 'active');
         }
-        $clients = $clients->paginate(10);
+        $clients = $clients->paginate(20);
 
         $this->load_client();
         $ids = $this->compareHighLevelIds();
@@ -61,6 +61,7 @@ class ClientController extends Controller
                     'email' => $location['email'] ?? '',
                     'name' => $location['name'] ?? '',
                     'remote_page_id' => ' ',
+                    'status' => 'active',
                 ]
             );
         }
@@ -95,12 +96,11 @@ class ClientController extends Controller
 
     public function fetchLocations()
     {
-        // $response = Http::withHeaders([
-        //     'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55X2lkIjoiZkpNRTdKM1dkN041OXg4UkxxRVUiLCJ2ZXJzaW9uIjoxLCJpYXQiOjE2NDIwOTgyMjYxMjYsInN1YiI6IndZTWVBNnR3cXR1T1pWWmtHWjZNIn0.GMKtDJadSGxW4gNLlcnjw8b51WYzc_TE_TFliWKmsjg'
-        // ])->get('https://rest.gohighlevel.com/v1/locations/');
-        $response['locations'] = [];
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55X2lkIjoiZkpNRTdKM1dkN041OXg4UkxxRVUiLCJ2ZXJzaW9uIjoxLCJpYXQiOjE2NDIwOTgyMjYxMjYsInN1YiI6IndZTWVBNnR3cXR1T1pWWmtHWjZNIn0.GMKtDJadSGxW4gNLlcnjw8b51WYzc_TE_TFliWKmsjg'
+        ])->get('https://rest.gohighlevel.com/v1/locations/');
 
-        return  $response['locations'];
+        return  $response->json()['locations'];
     }
 
     public function compareHighLevelIds()
@@ -235,7 +235,7 @@ class ClientController extends Controller
         ])
             ->whereJsonContains('subscriptions', 'seo')
             ->where('status', 'active')
-            ->paginate(10);
+            ->paginate(50);
         return view('components.client.seo-table', compact('clients'));
     }
 

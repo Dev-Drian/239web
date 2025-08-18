@@ -45,15 +45,17 @@ class GenerateContentService
                 'content' => $userContent,
             ];
     
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->openAiApiKey,
-                'Content-Type' => 'application/json',
-            ])->post($this->openAiUrl, [
-                'model' => 'gpt-4o-mini',
-                'messages' => $messages,
-                'max_tokens' => 2000,  // Aumentado para permitir artículos completos
-                'temperature' => 0.7,
-            ]);
+            $response = Http::timeout(120) // 2 minutos de timeout
+                ->retry(3, 1000) // Reintentar 3 veces con 1 segundo de espera
+                ->withHeaders([
+                    'Authorization' => 'Bearer ' . $this->openAiApiKey,
+                    'Content-Type' => 'application/json',
+                ])->post($this->openAiUrl, [
+                    'model' => 'gpt-4o-mini',
+                    'messages' => $messages,
+                    'max_tokens' => 2000,  // Aumentado para permitir artículos completos
+                    'temperature' => 0.7,
+                ]);
     
             if ($response->successful()) {
                 return $response->json('choices.0.message.content');
@@ -72,7 +74,7 @@ class GenerateContentService
     public function generateContentPerplexity(string $systemContent, string $userContent): ?string
     {
         try {
-            $response = Http::withHeaders([
+            $response = Http::timeout(120)->withHeaders([
                 'Authorization' => 'Bearer ' . $this->perplexityApiKey,
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -362,15 +364,17 @@ class GenerateContentService
             // Usar GPT-4o para soporte de vision
             $model = !empty($attachments) ? 'gpt-4o' : 'gpt-4o-mini';
     
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->openAiApiKey,
-                'Content-Type' => 'application/json',
-            ])->post($this->openAiUrl, [
-                'model' => $model,
-                'messages' => $messages,
-                'max_tokens' => 1800,
-                'temperature' => 0.7,
-            ]);
+            $response = Http::timeout(120) // 2 minutos de timeout
+                ->retry(3, 1000) // Reintentar 3 veces con 1 segundo de espera
+                ->withHeaders([
+                    'Authorization' => 'Bearer ' . $this->openAiApiKey,
+                    'Content-Type' => 'application/json',
+                ])->post($this->openAiUrl, [
+                    'model' => $model,
+                    'messages' => $messages,
+                    'max_tokens' => 1800,
+                    'temperature' => 0.7,
+                ]);
     
             if ($response->successful()) {
                 return $response->json('choices.0.message.content');
