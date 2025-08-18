@@ -4,20 +4,84 @@
         @include('components.header', ['name' => 'SEO Clients Dashboard'])
     </x-slot>
 
-    <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    @push('styles')
+    <style>
+        /* Dark theme background */
+        .main-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #1e293b 75%, #0f172a 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* Glass effect */
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.3);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Custom scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #6366f1, #8b5cf6);
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #4f46e5, #7c3aed);
+        }
+    </style>
+    @endpush
+
+    <div class="min-h-screen main-bg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
             <!-- Header Section -->
-            <div class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 rounded-2xl shadow-xl mb-8 p-6">
+            <div class="glass-dark rounded-2xl shadow-2xl mb-8 p-6 border border-white/15 backdrop-blur-xl">
                 <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                     <div>
                         <h1 class="text-white text-2xl lg:text-3xl font-bold mb-2">SEO Clients Overview</h1>
-                        <p class="text-blue-100 text-sm lg:text-base">Monitor and manage your clients' SEO performance
+                        <p class="text-slate-300 text-sm lg:text-base">Monitor and manage your clients' SEO performance
                         </p>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-3">
                         <a href="{{ route('client.index') }}"
-                            class="bg-white/20 backdrop-blur-sm text-white px-6 py-3 rounded-xl shadow-lg hover:bg-white/30 font-semibold transition-all duration-300 flex items-center gap-2 border border-white/20">
+                            class="bg-gradient-to-r from-indigo-500/80 to-purple-600/80 text-white px-6 py-3 rounded-xl shadow-lg hover:from-indigo-600/80 hover:to-purple-700/80 font-semibold transition-all duration-300 flex items-center gap-2 border border-indigo-500/30 backdrop-blur-xl">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -30,14 +94,14 @@
 
             <!-- Stats Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20">
+                <div class="glass-dark rounded-xl p-6 shadow-lg border border-white/20 backdrop-blur-xl">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-gray-600 text-sm font-medium">Total Clients</p>
-                            <p class="text-2xl font-bold text-gray-900">{{ $clients->count() }}</p>
+                            <p class="text-slate-300 text-sm font-medium">Total Clients</p>
+                            <p class="text-2xl font-bold text-white">{{ $clients->count() }}</p>
                         </div>
-                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center border border-blue-500/30">
+                            <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
@@ -45,16 +109,16 @@
                     </div>
                 </div>
 
-                <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20">
+                <div class="glass-dark rounded-xl p-6 shadow-lg border border-white/20 backdrop-blur-xl">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-gray-600 text-sm font-medium">With Social Media</p>
-                            <p class="text-2xl font-bold text-gray-900">
+                            <p class="text-slate-300 text-sm font-medium">With Social Media</p>
+                            <p class="text-2xl font-bold text-white">
                                 {{ $clients->filter(fn($c) => $c->clientSocialProfiles && $c->clientSocialProfiles->count() > 0)->count() }}
                             </p>
                         </div>
-                        <div class="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center">
-                            <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-12 h-12 bg-pink-500/20 rounded-xl flex items-center justify-center border border-pink-500/30">
+                            <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m-10 0a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2" />
                             </svg>
@@ -62,16 +126,16 @@
                     </div>
                 </div>
 
-                <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20">
+                <div class="glass-dark rounded-xl p-6 shadow-lg border border-white/20 backdrop-blur-xl">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-gray-600 text-sm font-medium">With Citations</p>
-                            <p class="text-2xl font-bold text-gray-900">
+                            <p class="text-slate-300 text-sm font-medium">With Citations</p>
+                            <p class="text-2xl font-bold text-white">
                                 {{ $clients->filter(fn($c) => $c->clientExtra && $c->clientExtra->citations)->count() }}
                             </p>
                         </div>
-                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor"
+                        <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center border border-green-500/30">
+                            <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -80,16 +144,16 @@
                     </div>
                 </div>
 
-                <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20">
+                <div class="glass-dark rounded-xl p-6 shadow-lg border border-white/20 backdrop-blur-xl">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-gray-600 text-sm font-medium">Recent Press Releases</p>
-                            <p class="text-2xl font-bold text-gray-900">
+                            <p class="text-slate-300 text-sm font-medium">Recent Press Releases</p>
+                            <p class="text-2xl font-bold text-white">
                                 {{ $clients->filter(fn($c) => $c->pressReleases && $c->pressReleases->count() > 0)->count() }}
                             </p>
                         </div>
-                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor"
+                        <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center border border-purple-500/30">
+                            <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 011 1v1m4 0h2a2 2 0 012 2v10a2 2 0 01-2 2H9a2 2 0 01-2-2V9a2 2 0 012-2h2m-4 9h.01M5 19h.01" />
@@ -100,14 +164,14 @@
             </div>
 
             <!-- Search -->
-            <div class="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 p-6 mb-8">
+            <div class="glass-dark rounded-xl shadow-lg border border-white/20 p-6 mb-8 backdrop-blur-xl">
                 <div class="flex flex-col gap-4 items-start justify-between">
                     <div class="flex-1 max-w-md">
                         <div class="relative">
                             <input type="text" id="searchInput" placeholder="Search clients..."
-                                class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-200">
+                                class="w-full pl-10 pr-4 py-3 glass border border-white/20 rounded-xl focus:ring-4 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all duration-200 text-white placeholder:text-slate-400">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -121,24 +185,23 @@
             <!-- Alert -->
             <div id="pressReleaseAlert" class="hidden mb-4"></div>
             <!-- Main Table -->
-            <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden">
+            <div class="glass-dark rounded-2xl shadow-xl border border-white/20 overflow-hidden backdrop-blur-xl">
                 <div class="overflow-x-auto">
                     <table class="min-w-full">
-                        <thead class="bg-gradient-to-r from-gray-50 to-blue-50">
+                        <thead class="glass border-b border-white/20">
                             <tr>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
-                                        <div class="flex items-center gap-2">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                            </svg>
-                                            Client
-                                        </div>
-                                    </th>
                                 <th
-                                    class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                    class="px-6 py-4 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                        Client
+                                    </div>
+                                </th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">
                                     <div class="flex items-center gap-2">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
@@ -149,7 +212,7 @@
                                     </div>
                                 </th>
                                 <th
-                                    class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                    class="px-6 py-4 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">
                                     <div class="flex items-center gap-2">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
@@ -160,7 +223,7 @@
                                     </div>
                                 </th>
                                 <th
-                                    class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                    class="px-6 py-4 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">
                                     <div class="flex items-center gap-2">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
@@ -171,22 +234,24 @@
                                     </div>
                                 </th>
                                 <th
-                                    class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                                    class="px-6 py-4 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">
                                     <div class="flex items-center gap-2">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                         </svg>
-                                        Citation Form
+                                    Action
                                     </div>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody id="clientsTableBody" class="divide-y divide-gray-100">
+                        <tbody id="clientsTableBody" class="divide-y divide-white/10">
                             @forelse ($clients as $client)
-                                <tr class="hover:bg-blue-50/50 transition-all duration-200 client-row"
-                                    data-client-name="{{ strtolower($client->name) }}">
+                                <tr class="hover:bg-white/5 transition-all duration-200 client-row"
+                                    data-client-name="{{ strtolower($client->name) }}"
+                                    data-website="{{ $client->website }}"
+                                    data-client-id="{{ $client->id }}">
                                     <!-- Client Name -->
                                     <td class="px-6 py-6">
                                         <div class="flex items-center gap-3">
@@ -195,9 +260,9 @@
                                                 {{ strtoupper(substr($client->name, 0, 2)) }}
                                             </div>
                                             <div>
-                                                <div class="font-semibold text-gray-900 text-lg">{{ $client->name }}
+                                                <div class="font-semibold text-white text-lg">{{ $client->name }}
                                                 </div>
-                                                <div class="text-sm text-gray-500">Client ID: #{{ $client->id }}
+                                                <div class="text-sm text-slate-400">Client ID: #{{ $client->id }}
                                                 </div>
                                             </div>
                                         </div>
@@ -330,7 +395,7 @@
                                                 </div>
                                             </a>
                                         @else
-                                            <div class="flex items-center gap-2 text-gray-400">
+                                            <div class="flex items-center gap-2 text-slate-400">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -343,13 +408,13 @@
                                         <div class="mt-3 flex items-center gap-1">
                                             <input type="date" name="press_release"
                                                 value="{{ $client->press_release }}" placeholder="Fecha"
-                                                class="press-release-input border border-gray-300 rounded-md px-2 py-1 text-xs focus:ring focus:ring-blue-200 w-32"
+                                                class="press-release-input glass border border-white/20 rounded-md px-2 py-1 text-xs focus:ring focus:ring-indigo-500/30 w-32 text-white"
                                                 data-client-id="{{ $client->id }}" />
                                             <button type="button"
-                                                class="press-release-update-btn bg-blue-600 text-white px-2 py-1 rounded-md hover:bg-blue-700 transition text-xs flex items-center gap-1"
+                                                class="press-release-update-btn bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-2 py-1 rounded-md hover:from-indigo-700 hover:to-purple-700 transition text-xs flex items-center gap-1"
                                                 data-client-id="{{ $client->id }}">
                                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                                Guardar
+                                                Save
                                             </button>
                                             <span class="press-release-update-status text-xs ml-2"></span>
                                         </div>
@@ -395,10 +460,10 @@
                                                         d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                                 </svg>
                                             </div>
-                                            <h3 class="text-lg font-semibold text-gray-900 mb-2">No clients found</h3>
+                                            <h3 class="text-lg font-semibold text-white mb-2">No clients found</h3>
                                             <p class="text-gray-500 mb-6">Get started by adding your first SEO client.
                                             </p>
-                                            <a href="{{ route('client.create') }}"
+                                            <a href="{{ route('client.index') }}"
                                                 class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 flex items-center gap-2">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
@@ -462,18 +527,18 @@
                     .then(data => {
                         btn.disabled = false;
                         if (data.success) {
-                            alertDiv.innerHTML = '<span class="inline-flex items-center px-4 py-2 rounded text-sm font-semibold bg-green-100 text-green-700 border border-green-200"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Saved successfully!</span>';
+                            alertDiv.innerHTML = '<span class="inline-flex items-center px-4 py-2 rounded text-sm font-semibold glass-dark text-green-300 border border-green-500/30 backdrop-blur-xl"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Saved successfully!</span>';
                             alertDiv.classList.remove('hidden');
                             setTimeout(() => { alertDiv.classList.add('hidden'); }, 2500);
                         } else {
-                            alertDiv.innerHTML = '<span class="inline-flex items-center px-4 py-2 rounded text-sm font-semibold bg-red-100 text-red-700 border border-red-200"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>Error saving!</span>';
+                            alertDiv.innerHTML = '<span class="inline-flex items-center px-4 py-2 rounded text-sm font-semibold glass-dark text-red-300 border border-red-500/30 backdrop-blur-xl"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>Error saving!</span>';
                             alertDiv.classList.remove('hidden');
                             setTimeout(() => { alertDiv.classList.add('hidden'); }, 2500);
                         }
                     })
                     .catch(() => {
                         btn.disabled = false;
-                        alertDiv.innerHTML = '<span class="inline-flex items-center px-4 py-2 rounded text-sm font-semibold bg-red-100 text-red-700 border border-red-200"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>Error saving!</span>';
+                        alertDiv.innerHTML = '<span class="inline-flex items-center px-4 py-2 rounded text-sm font-semibold glass-dark text-red-300 border border-red-500/30 backdrop-blur-xl"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>Error saving!</span>';
                         alertDiv.classList.remove('hidden');
                         setTimeout(() => { alertDiv.classList.add('hidden'); }, 2500);
                     });

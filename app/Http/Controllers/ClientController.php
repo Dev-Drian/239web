@@ -39,10 +39,12 @@ class ClientController extends Controller
         }
         $clients = $clients->paginate(20);
 
-        $this->load_client();
-        $ids = $this->compareHighLevelIds();
+        //$this->load_client();
+        $ids = [
 
-        return view('clients.index', compact('clients', 'ids'));
+            
+        ];
+
 
         return view('clients.index', compact('clients', 'ids'));
     }

@@ -66,25 +66,25 @@
             <div class="grid grid-cols-3 gap-3 mb-4">
                 <div class="glass-dark rounded-2xl p-3 shadow-lg border border-white/15 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-white/5 group cursor-pointer backdrop-blur-xl">
                     <div class="text-center">
-                        <div class="text-lg font-bold text-emerald-400 group-hover:text-emerald-300 transition-colors duration-300">{{ count($ids['new_ids']) }}</div>
+                        <div class="text-lg font-bold text-emerald-400 group-hover:text-emerald-300 transition-colors duration-300">{{ isset($ids['new_ids']) ? count($ids['new_ids']) : 0 }}</div>
                         <div class="text-xs text-slate-400 group-hover:text-slate-300 transition-colors duration-300">New</div>
                         <div class="w-full h-1 bg-slate-700 rounded-full mt-2 overflow-hidden">
-                            <div class="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full transform transition-all duration-1000 ease-out group-hover:scale-x-110" style="width: {{ count($ids['new_ids']) > 0 ? '100' : '0' }}%;"></div>
+                            <div class="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full transform transition-all duration-1000 ease-out group-hover:scale-x-110" style="width: {{ isset($ids['new_ids']) ? count($ids['new_ids']) : 0 }}%;"></div>
                         </div>
                     </div>
                 </div>
                 <div class="glass-dark rounded-2xl p-3 shadow-lg border border-white/15 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-white/5 group cursor-pointer backdrop-blur-xl">
                     <div class="text-center">
-                        <div class="text-lg font-bold text-red-400 group-hover:text-red-300 transition-colors duration-300">{{ count($ids['missing_ids']) }}</div>
+                        <div class="text-lg font-bold text-red-400 group-hover:text-red-300 transition-colors duration-300">{{ isset($ids['missing_ids']) ? count($ids['missing_ids']) : 0 }}</div>
                         <div class="text-xs text-slate-400 group-hover:text-slate-300 transition-colors duration-300">Missing</div>
                         <div class="w-full h-1 bg-slate-700 rounded-full mt-2 overflow-hidden">
-                            <div class="h-full bg-gradient-to-r from-red-400 to-red-500 rounded-full transform transition-all duration-1000 ease-out group-hover:scale-x-110" style="width: {{ count($ids['missing_ids']) > 0 ? '100' : '0' }}%;"></div>
+                            <div class="h-full bg-gradient-to-r from-red-400 to-red-500 rounded-full transform transition-all duration-1000 ease-out group-hover:scale-x-110" style="width: {{ isset($ids['missing_ids']) ? count($ids['missing_ids']) : 0 }}%;"></div>
                         </div>
                     </div>
                 </div>
                 <div class="glass-dark rounded-2xl p-3 shadow-lg border border-white/15 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-white/5 group cursor-pointer backdrop-blur-xl">
                     <div class="text-center">
-                        <div class="text-lg font-bold text-blue-400 group-hover:text-blue-300 transition-colors duration-300">{{ $ids['total_db_ids'] }}</div>
+                        <div class="text-lg font-bold text-blue-400 group-hover:text-blue-300 transition-colors duration-300">{{ isset($ids['total_db_ids']) ? $ids['total_db_ids'] : 0 }}</div>
                         <div class="text-xs text-slate-400 group-hover:text-slate-300 transition-colors duration-300">Total</div>
                         <div class="w-full h-1 bg-slate-700 rounded-full mt-2 overflow-hidden">
                             <div class="h-full bg-gradient-to-r from-blue-400 to-blue-500 rounded-full transform transition-all duration-1000 ease-out group-hover:scale-x-110" style="width: 100%;"></div>
