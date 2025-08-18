@@ -158,7 +158,18 @@ Route::prefix('239web')->group(function () {
 
 
         Route::get('/generate-content', [GenerateController::class, 'index'])->name('generate.index');
+          
+        // Prompt routes
+        Route::prefix('/prompts')->group(function () {
+            Route::get('/', [\App\Http\Controllers\PromptController::class, 'index'])->name('prompts.index');
+            Route::post('/', [\App\Http\Controllers\PromptController::class, 'store'])->name('prompts.store');
+            Route::get('/{id}', [\App\Http\Controllers\PromptController::class, 'show'])->name('prompts.show');
+            Route::put('/{id}', [\App\Http\Controllers\PromptController::class, 'update'])->name('prompts.update');
+            Route::delete('/{id}', [\App\Http\Controllers\PromptController::class, 'destroy'])->name('prompts.destroy');
+            Route::post('/{id}/toggle-favorite', [\App\Http\Controllers\PromptController::class, 'toggleFavorite'])->name('prompts.toggle-favorite');
+        });
     });
+    
 
 
     Route::prefix('campaigns')->group(function () {
