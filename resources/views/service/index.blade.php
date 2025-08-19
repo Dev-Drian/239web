@@ -3,7 +3,21 @@
         @include('components.header', ['name' => 'Services'])
     </x-slot>
 
-    <div class="min-h-screen bg-gradient-to-br from-gray-900                                                                <div class="service-toggle w-6 h-6 border-2 border-gray-600/50 rounded-lg flex items-center justify-center transition-all duration-300 group-hover/checkbox:scale-110 group-hover/checkbox:shadow-lg {{ $client->status == 'inactive' ? 'bg-red-600 border-red-600 shadow-red-500/30' : 'hover:border-red-400' }}">                                    <div class="service-toggle w-6 h-6 border-2 border-gray-600/50 rounded-lg flex items-center justify-center transition-all duration-300 group-hover/checkbox:scale-110 group-hover/checkbox:shadow-lg {{ in_array($service, $subscriptions) ? 'bg-' . $serviceColors[$service] . '-600 border-' . $serviceColors[$service] . '-600 shadow-' . $serviceColors[$service] . '-500/30' : 'hover:border-' . $serviceColors[$service] . '-400' }}">ia-slate-900 to-black py-8">
+    @php
+        // Define services and colors
+        $services = $service                                                    <div class="service-toggle w-6 h-6 border-2 border-gray-600/50 rounded-lg flex items-center justify-center transition-all duration-300 group-hover/checkbox:scale-110 group-hover/checkbox:shadow-lg {{ isset($client->{'is_' . $service . '_active'}) && $client->{'is_' . $service . '_active'} ? 'bg-' . $serviceColors[$service] . '-600 border-' . $serviceColors[$service] . '-600 shadow-' . $serviceColors[$service] . '-500/30' : 'hover:border-' . $serviceColors[$service] . '-400' }}">                                                   <div class="service-toggle w-6 h-6 border-2 border-gray-600/50 rounded-lg flex items-center justify-center transition-all duration-300 group-hover/checkbox:scale-110 group-hover/checkbox:shadow-lg {{ isset($client->{'is_' . $service . '_active'}) && $client->{'is_' . $service . '_active'} ? 'bg-' . $serviceColors[$service] . '-600 border-' . $serviceColors[$service] . '-600 shadow-' . $serviceColors[$service] . '-500/30' : 'hover:border-' . $serviceColors[$service] . '-400' }}"> ?? ['seo', 'ppc', 'website', 'hosting', 'newsletter', 'crm'];
+        $serviceColors = $serviceColors ?? [
+            'seo' => 'green',
+            'ppc' => 'blue', 
+            'website' => 'purple',
+            'hosting' => 'orange',
+            'newsletter' => 'pink',
+            'crm' => 'indigo'
+        ];
+        $subscriptions = $subscriptions ?? [];
+    @endphp
+
+    <div class="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Search and Filter Bar -->
             <div class="mb-6 bg-gray-800/40 backdrop-blur-lg rounded-xl shadow-2xl border border-gray-700/50 p-4">
@@ -172,14 +186,14 @@
                                                     <input
                                                         type="checkbox"
                                                         class="sr-only service-checkbox"
-                                                        data-client="{{ $client->id ?? $index }}"
+                                                        data-client="{{ $client->id }}"
                                                         data-service="{{ $service }}"
-                                                        name="subscriptions[{{ $client->id ?? $index }}][]"
+                                                        name="subscriptions[{{ $client->id }}][]"
                                                         value="{{ $service }}"
-                                                        {{ in_array($service, $subscriptions) ? 'checked' : '' }}
+                                                        {{ isset($client->{'is_' . $service . '_active'}) && $client->{'is_' . $service . '_active'} ? 'checked' : '' }}
                                                     >
                                                     <div class="service-toggle w-6 h-6 border-2 border-gray-300 rounded-lg flex items-center justify-center transition-all duration-300 group-hover/checkbox:scale-110 group-hover/checkbox:shadow-lg {{ in_array($service, $subscriptions) ? 'bg-' . $serviceColors[$service] . '-500 border-' . $serviceColors[$service] . '-500 shadow-' . $serviceColors[$service] . '-200' : 'hover:border-' . $serviceColors[$service] . '-300' }}">
-                                                        <svg class="w-4 h-4 text-white transition-all duration-200 {{ in_array($service, $subscriptions) ? 'scale-100' : 'scale-0' }}" fill="currentColor" viewBox="0 0 20 20">
+                                                        <svg class="w-4 h-4 text-white transition-all duration-200 {{ isset($client->{'is_' . $service . '_active'}) && $client->{'is_' . $service . '_active'} ? 'scale-100' : 'scale-0' }}" fill="currentColor" viewBox="0 0 20 20">
                                                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                                         </svg>
                                                     </div>
@@ -202,8 +216,21 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @endif
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="8" class="px-6 py-12 text-center">
+                                        <div class="flex flex-col items-center justify-center space-y-4">
+                                            <div class="w-16 h-16 bg-gray-700/40 rounded-full flex items-center justify-center">
+                                                <svg class="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 009.586 13H7"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="text-lg font-medium text-gray-300">No clients found</div>
+                                            <div class="text-sm text-gray-400">No clients match your current search criteria.</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
             </tbody>
         </table>
     </div>
